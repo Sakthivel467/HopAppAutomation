@@ -26,8 +26,7 @@ public class BaseTest {
     private static final String PLATFORM = System.getProperty("platform", "android");
 
     //Declaring all page objects as protected Variable
-    protected TestPage testPage;
-    protected SceondpAGE sceondpAGE;
+
     protected  ExtentTest test;
     protected OnboardingPage onboardingPage;
     protected SendMoneyPage sendMoneyPage;
@@ -78,8 +77,7 @@ public class BaseTest {
             System.out.println("IOSDriver is set");
         }
         //  Initializing all page objects once
-        testPage=new TestPage(driver);
-        sceondpAGE=new SceondpAGE(driver);
+
         onboardingPage=new OnboardingPage(driver);
         sendMoneyPage=new SendMoneyPage(driver);
         kycPage=new KycPage(driver);
