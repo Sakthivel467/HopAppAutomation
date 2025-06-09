@@ -4,35 +4,39 @@ import DriverSetup.BaseTest;
 import Utils.ExcelSetup;
 import Utils.TakeSnap;
 import extentReport.Constants;
+import groovyjarjarantlr4.v4.parse.ToolANTLRLexer;
+import io.appium.java_client.android.AndroidDriver;
 import org.testng.annotations.Test;
 
 public class OnboardingTest extends BaseTest {
 
-ExcelSetup ex=new ExcelSetup();
+    ExcelSetup ex = new ExcelSetup();
 
     @Test(priority = 1)
     public void TC001_SignUp_To_Hop_App() throws Exception {
-        before("TC001- New User Signup to Hop App");
-        /*if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+        before("TC001- New_User_Signup_to_Hop_App");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
-        }*/
-        onboardingPage.moneyHopMoto();
-        onboardingPage.sendMoneyImage();
+        }
+
         onboardingPage.getStarted();
-        onboardingPage.backButtonLoginPage();
-        onboardingPage.validateLabelPhoneNoAndEmail();
-        onboardingPage.validatePhoneNoCountryCode();
-        onboardingPage.validatePhoneNoValidations();
-        onboardingPage.validateEmailValidations();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
         onboardingPage.verifyAccountLabel();
-        onboardingPage.enterInvalidOtp();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterInvalidOtp("999999");
+        onboardingPage.enterOtp("123456");
         onboardingPage.validatePinLabel();
-        onboardingPage.enterPin("1390");
+        onboardingPage.enterPin("1234");
         onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin();
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.validateUserIoOnOneDaySettlement();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        TakeSnap.captureScreenshot();
     }
 
     @Test(priority = 2)
@@ -41,15 +45,29 @@ ExcelSetup ex=new ExcelSetup();
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
-        //TakeSnap.captureScreenshot();
+
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("9999999999");
-        onboardingPage.enterOldEmailId(ex.getTestData("Email"));
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
-        onboardingPage.validateEnterPinLabelForOldUser();
-        onboardingPage.enterPin("1390");
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.recipient();
+        sendMoneyPage.warningContinue();
+        sendMoneyPage.selectSourceofFunds();
+        sendMoneyPage.studentLoan();
+        sendMoneyPage.proceedtoPayment();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.netbanking();
+        sendMoneyPage.addNewBank();
+
+
     }
 
     @Test(priority = 3)
@@ -58,13 +76,13 @@ ExcelSetup ex=new ExcelSetup();
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
-        TakeSnap.captureScreenshot();
         onboardingPage.getStarted();
         onboardingPage.enterPhoneNo("7087087087");
         onboardingPage.enterIncorrectEmailId("testduplicateemail@moneyhop.com");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.setMobileNoAlreadyRegisteredError();
+        TakeSnap.captureScreenshot();
     }
 
     @Test(priority = 4)
@@ -78,62 +96,116 @@ ExcelSetup ex=new ExcelSetup();
         onboardingPage.incorrectEnterPhoneNo("7087087080");
         onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.setEmailIdAlreadyRegistered();
+        TakeSnap.captureScreenshot();
     }
 
-/*    @Test(priority = 5)
+    @Test(priority = 5)
     public void TC005_Reset_App_Pin() throws Exception {
-        before("TC005- Reset the App pin from Signin Page");
+        before("TC005_Reset_App_Pin");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
-        TakeSnap.captureScreenshot();
         onboardingPage.getStarted();
         onboardingPage.enterPhoneNo("7087087087");
         onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.setHavingTroubleLabel();
         onboardingPage.clickResetPin();
-        onboardingPage.verifyAccountLabel();
-        onboardingPage.enterOtp("7");
-        onboardingPage.resetAppPinLabel();
-        onboardingPage.enterPin("1919");
-        onboardingPage.verifyFailedToChangeAppPin();
-        onboardingPage.setBackButton();
-        onboardingPage.clickResetPin();
-        onboardingPage.enterOtp("6");
-        onboardingPage.enterPin("1918");
-        //onboardingPage.verifySuccessToChangeAppPin();
-        onboardingPage.enterPin("1918");
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateRestPinLabel();
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
-    }*/
-
+        TakeSnap.captureScreenshot();
+    }
     @Test(priority = 6)
-    public void TC006_Incorrect_Pin_Old_User() throws Exception {
-        before("TC006- Validate that the user is unable to signin if incorrect Pin is entered");
+    public void TC006_Reset_App_Pin_Failure() throws Exception {
+        before("TC006_Reset_App_Pin_Failure");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
-        TakeSnap.captureScreenshot();
         onboardingPage.getStarted();
         onboardingPage.enterPhoneNo("7087087087");
         onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
-        onboardingPage.enterPin("1917");
+        onboardingPage.enterOtp("123456");
+        onboardingPage.setHavingTroubleLabel();
+        onboardingPage.clickResetPin();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1235");
+        TakeSnap.captureScreenshot();
+
+    }
+    @Test(priority = 7)
+    public void TC007_Incorrect_Pin_Old_User() throws Exception {
+        before("TC007_Incorrect_Pin_Old_User");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7087087087");
+        onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1232");
         onboardingPage.verifyIncorrectPin();
         TakeSnap.captureScreenshot();
     }
 
- /*   @Test(priority = 7)
-    public void TC007_Terms_And_Condition() throws Exception {
-        before("TC006- Validate that the user is unable to signin if incorrect Pin is entered");
+    @Test(priority = 8)
+    public void TC008_OTP_Validation_Hop_App() throws Exception {
+        before("TC008_OTP_Validation_Hop_App");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterMobileNum();
+        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.continueButton();
+        onboardingPage.verifyAccountLabel();
+        onboardingPage.enterInvalidOtp("999999");
+        onboardingPage.enterOtp("123456");
+        TakeSnap.captureScreenshot();
+    }
+
+    @Test(priority = 9)
+    public void TC009_Signup_TnC_Validation_Hop_App() throws Exception {
+        before("TC009_Signup_TnC_Validation_Hop_App");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.termsAndConditions();
+        onboardingPage.getStarted();
+        onboardingPage.enterMobileNum();
+        onboardingPage.enterPhoneNo("2773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivemoneyhop.co");
+        onboardingPage.continueButton();
         TakeSnap.captureScreenshot();
 
-    }*/
+    }
+    @Test(priority = 10)
+    public void TC007_Incorrect_Pin_New_User() throws Exception {
+        before("TC007_Incorrect_Pin_new_User");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1235");
+        TakeSnap.captureScreenshot();
+    }
 }

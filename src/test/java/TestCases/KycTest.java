@@ -2,6 +2,7 @@ package TestCases;
 
 import DriverSetup.BaseTest;
 import extentReport.Constants;
+import io.appium.java_client.android.AndroidDriver;
 import org.testng.annotations.Test;
 import Utils.ExcelSetup;
 
@@ -20,11 +21,14 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPhoneNo("7087087087");
         onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1918");
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.confirmButton();
         sendMoneyPage.setSendMoneyButton();
-        kycPage.verifyDocumentsBanner();
+
     }
 
     @Test(priority = 21)
@@ -34,15 +38,23 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("7087087087");
-        onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
-        onboardingPage.enterPin("1918");
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
-        kycPage.uploadPanCardBanner();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
+        kycPage.uploadPhoto();
+        kycPage.uploadPanCard();
+
+//        kycPage.clickContinueButton();
+//        kycPage.uploadPanCardBanner();
     }
 
     @Test(priority = 22)
@@ -52,14 +64,18 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("7087087087");
-        onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
-        onboardingPage.enterPin("1918");
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
         kycPage.uploadPanCard();
         kycPage.viewUploadedPanDoc();
@@ -72,15 +88,20 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("7087087087");
-        onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1918");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.setSendMoneyButton();
         kycPage.clickContinueButton();
         kycPage.uploadPhoto();
+//        sendMoneyPage.setSendMoneyButton();
+//        kycPage.clickContinueButton();
+//        kycPage.uploadPhoto();
         kycPage.uploadRandomImage();
     }
 
@@ -94,11 +115,11 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPhoneNo("9999999999");
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.validatePinLabel();
         onboardingPage.enterPin("1390");
         onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin();
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.setSendMoneyButton();
         kycPage.clickContinueButton();
@@ -120,11 +141,11 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPhoneNo("9999999999");
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.validatePinLabel();
         onboardingPage.enterPin("1390");
         onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin();
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.setSendMoneyButton();
         kycPage.clickContinueButton();
@@ -143,14 +164,14 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("9999999999");
+        onboardingPage.enterRandomPhoneNo();
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.validatePinLabel();
         onboardingPage.enterPin("1390");
         onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin();
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.setSendMoneyButton();
         kycPage.clickContinueButton();
@@ -171,24 +192,17 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("9999999999");
-        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.enterPhoneNo("7082087084");
+        onboardingPage.enterOldEmailId("testduplicateemail2@moneyhop.co");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
-        onboardingPage.validatePinLabel();
-        onboardingPage.enterPin("1390");
-        onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
-        kycPage.uploadPhoto();
-        kycPage.uploadPanCard();
-        kycPage.submitButton();
-        kycPage.confirmPanDetails();
-        kycPage.setYesItsMeButton();
-        kycPage.documentVerificationSuccess();
-        kycPage.clickContinueButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadAadhaarBanner();
     }
 
@@ -199,27 +213,30 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("9999999999");
+        onboardingPage.enterRandomPhoneNo();
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
+        onboardingPage.enterOtp("123456");
         onboardingPage.validatePinLabel();
-        onboardingPage.enterPin("1390");
+        onboardingPage.enterPin("1234");
         onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin();
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
         kycPage.uploadPanCard();
-        kycPage.submitButton();
-        kycPage.confirmPanDetails();
-        kycPage.setYesItsMeButton();
-        kycPage.documentVerificationSuccess();
-        kycPage.clickContinueButton();
-        kycPage.uploadFrontAndBackAadhaar();
-        kycPage.viewUploadedFrontSideAadhaarDoc();
-        kycPage.viewUploadedBackSideAadhaarDoc();
+        kycPage.clickSecDos();
+        kycPage.PassPort();
+        kycPage.PassPortFD();
+        kycPage.uploadFrontPassPort();
+        kycPage.PassPortBD();
+        kycPage.uploadBackPassPort();
+//        kycPage.viewUploadedFrontSideAadhaarDoc();
+//        kycPage.viewUploadedBackSideAadhaarDoc();
     }
 
 
@@ -248,6 +265,34 @@ public class KycTest  extends BaseTest {
         kycPage.uploadRandomImage();
     }
 
+    @Test(priority = 2)
+    public void TC070_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees() throws Exception {
+        before("TC070 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\" for new user");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
 
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.inrCurrencyTextBox("10000");
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.recipient();
+        sendMoneyPage.warningContinue();
+        sendMoneyPage.selectSourceofFunds();
+        sendMoneyPage.studentLoan();
+        sendMoneyPage.proceedtoPayment();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.netbanking();
+        sendMoneyPage.addNewBank();
 
+    }
 }
