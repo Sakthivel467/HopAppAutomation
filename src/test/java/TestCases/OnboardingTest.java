@@ -60,11 +60,11 @@ public class OnboardingTest extends BaseTest {
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.recipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceofFunds();
-        sendMoneyPage.studentLoan();
-        sendMoneyPage.proceedtoPayment();
+        sendMoneyPage.selectSourceOfFunds();
+        sendMoneyPage.clickSourceOfFunds("student loan");
+        sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
-        sendMoneyPage.netbanking();
+        sendMoneyPage.selectPaymentMethod("netBanking");
         sendMoneyPage.addNewBank();
 
 

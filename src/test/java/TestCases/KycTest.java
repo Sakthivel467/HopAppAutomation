@@ -1,6 +1,7 @@
 package TestCases;
 
 import DriverSetup.BaseTest;
+import Utils.TakeSnap;
 import extentReport.Constants;
 import io.appium.java_client.android.AndroidDriver;
 import org.testng.annotations.Test;
@@ -25,14 +26,14 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPin("1918");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
         sendMoneyPage.confirmButton();
         sendMoneyPage.setSendMoneyButton();
 
     }
 
     @Test(priority = 21)
-    public void TC021_Label_Banner_Pan_Homepage() throws Exception {
+    public void TC022_Upload_Pan_Card() throws Exception {
         before("TC021 - Verify the Labels and Banners on the 'Upload PAN Card' Page");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -43,42 +44,16 @@ public class KycTest  extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
-        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("");
-        sendMoneyPage.confirmButton();
-        sendMoneyPage.setOnetimeVerificationButton();
-        onboardingPage.validateUserIsOnKYCDocsScreen();
-        kycPage.uploadPhoto();
-        kycPage.uploadPanCard();
-
-//        kycPage.clickContinueButton();
-//        kycPage.uploadPanCardBanner();
-    }
-
-    @Test(priority = 22)
-    public void TC022_Upload_Pan_Card() throws Exception {
-        before("TC022 - Upload the PAN Card and View the Uploaded Document");
-        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
-            onboardingPage.dismissButton();
-        }
-        onboardingPage.getStarted();
-        onboardingPage.enterRandomPhoneNo();
-        onboardingPage.enterEmailId("testkyc");
-        onboardingPage.continueButton();
-        onboardingPage.enterOtp("123456");
-        onboardingPage.enterPin("1234");
-        onboardingPage.enterConfirmPin("1234");
-        onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
         kycPage.uploadPanCard();
         kycPage.viewUploadedPanDoc();
+
     }
 
     @Test(priority = 23)
@@ -92,16 +67,15 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
-        onboardingPage.enterPin("1918");
-        onboardingPage.skipGuide();
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
-//        sendMoneyPage.setSendMoneyButton();
-//        kycPage.clickContinueButton();
-//        kycPage.uploadPhoto();
         kycPage.uploadRandomImage();
     }
 
@@ -207,7 +181,7 @@ public class KycTest  extends BaseTest {
     }
 
     @Test(priority = 28)
-    public void TC028_Upload_Aadhaar_Front_And_Back() throws Exception {
+    public void TC028_Upload_PassPort_Front_And_Back() throws Exception {
         before("TC028 - Upload the Aadhaar Card Front & Back and View the Uploaded Document");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -223,20 +197,26 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("");
+        sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
         sendMoneyPage.confirmButton();
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
+        kycPage.uploadPhoto();
+        kycPage.cancelButton();
         kycPage.uploadPhoto();
         kycPage.uploadPanCard();
         kycPage.clickSecDos();
         kycPage.PassPort();
         kycPage.PassPortFD();
+        kycPage.cancelButton();
+        kycPage.PassPortFD();
         kycPage.uploadFrontPassPort();
         kycPage.PassPortBD();
         kycPage.uploadBackPassPort();
-//        kycPage.viewUploadedFrontSideAadhaarDoc();
-//        kycPage.viewUploadedBackSideAadhaarDoc();
+        kycPage.signUpClick();
+        kycPage.drawSignature();
+        kycPage.signaturePadConfirm();
+        sendMoneyPage.selectRecipientType("institution");
     }
 
 
@@ -264,35 +244,5 @@ public class KycTest  extends BaseTest {
         kycPage.clickContinueButton();
         kycPage.uploadRandomImage();
     }
-
-    @Test(priority = 2)
-    public void TC070_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees() throws Exception {
-        before("TC070 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\" for new user");
-        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
-            onboardingPage.dismissButton();
-        }
-
-        onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("7773335550");
-        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
-        onboardingPage.continueButton();
-        onboardingPage.enterOtp("123456");
-        onboardingPage.validateEnterPinLabel();
-        onboardingPage.oldUserEnterPin("1234");
-        onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.inrCurrencyTextBox("10000");
-        sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
-        sendMoneyPage.confirmButton();
-        sendMoneyPage.setSendMoneyButton();
-        sendMoneyPage.recipient();
-        sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceofFunds();
-        sendMoneyPage.studentLoan();
-        sendMoneyPage.proceedtoPayment();
-        sendMoneyPage.completePayment();
-        sendMoneyPage.netbanking();
-        sendMoneyPage.addNewBank();
-
-    }
 }
+

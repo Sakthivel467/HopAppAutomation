@@ -8,6 +8,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -47,8 +48,9 @@ import static extentReport.ExtentReportManager.test;
          private WebElement minAmountErrorMessage;
          @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"INR Amount should be less than or equal to 20,00,000 INR\"]")
          private WebElement maxAmountErrorMessage;
-         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Select purpose of payment *\"]")
+         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Select purpose of payment *\"]")
          private WebElement SelectPurposeCode;
+         //android.view.ViewGroup[@content-desc="Select purpose of payment *"]
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Overseas Education - University Fees\"]")
         private WebElement purposeUniversityFees;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Overseas Education - Living Expenses\"]")
@@ -68,15 +70,32 @@ import static extentReport.ExtentReportManager.test;
          @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Continue \"]")
          private WebElement warningContinue;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Select Source of Funds\"]")
-        private WebElement selectSourceofFunds;
-        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Student Loan\"]")
+        //android.widget.TextView[@text="Select Source of Funds"]
+        private WebElement selectSourceOfFunds;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Salary or Wages']")
+        private WebElement salaryOrWages;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Student Loan']")
         private WebElement studentLoan;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Investments']")
+        private WebElement investments;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Personal Savings']")
+        private WebElement personalSavings;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Personal Wealth']")
+        private WebElement personalWealth;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Retirement Funds']")
+        private WebElement retirementFunds;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Business Owner/ Share Holder']")
+        private WebElement businessOwnerOrShareHolder;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Proceed to payment \"]")
         private WebElement proceedtoPayment;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Complete Payment \"]")
         private WebElement completePayment;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Netbanking\"]")
-        private WebElement Netbanking;
+        private WebElement paymentNetbanking;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"UPI\"]")
+        private WebElement paymentUPI;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Transfer via NEFT\"]")
+        private WebElement paymentNEFT;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Add New Bank\"]")
         private WebElement addNewBank;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Add new + \"]")
@@ -109,27 +128,30 @@ import static extentReport.ExtentReportManager.test;
         private WebElement placeholderTypeCurrency;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='All currencies']")
         private WebElement allCurrencies;
-        @AndroidFindBy(accessibility = "EUR, Euro")
+        @AndroidFindBy(xpath = "(//android.view.ViewGroup[@content-desc=\"HomeScreen_Exchange_Input_Country_Selection\"])[2]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
+        private WebElement selectCurrency;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Euro']")
         private WebElement euroCurrency;
-        @AndroidFindBy(accessibility = "GBP, British Pound Sterling")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='British Pound Sterling']")
         private WebElement gbpCurrency;
-        @AndroidFindBy(accessibility = "USD, United States Dollar")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='United States Dollar']")
         private WebElement usdCurrency;
-        @AndroidFindBy(accessibility = "AUD, Australian Dollar")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Australian Dollar']")
         private WebElement audCurrency;
-        @AndroidFindBy(accessibility = "CAD, Canadian Dollar")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Canadian Dollar']")
         private WebElement cadCurrency;
-        @AndroidFindBy(accessibility = "SGD, Singapore Dollar")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Singapore Dollar']")
         private WebElement sgdCurrency;
-        @AndroidFindBy(accessibility = "JPY, Japanese Yen")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Japanese Yen']")
         private WebElement jpyCurrency;
-        @AndroidFindBy(accessibility = "AED, United Arab Emirates Dirham")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='United Arab Emirates Dirham']")
         private WebElement aedCurrency;
-        @AndroidFindBy(accessibility = "NZD, New Zealand Dollar")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='New Zealand Dollar']")
         private WebElement nzdCurrency;
-        @AndroidFindBy(accessibility = "CHF, Swiss Franc")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Swiss Franc']")
         private WebElement chfCurrency;
-//        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Tax and transfer fee']")
+
+        //        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Tax and transfer fee']")
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Included in INR amount\"]")
         private WebElement taxAndTransferFee;
         @AndroidFindBy(xpath ="//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
@@ -166,6 +188,22 @@ import static extentReport.ExtentReportManager.test;
         private WebElement tcsTaxText;
         @AndroidFindBy(xpath ="//android.widget.TextView[@text=\"Total fees\"]/following-sibling::android.widget.TextView[1]\n")
         private WebElement totalFeesText;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Bank Details']")
+        private WebElement bankDetailsText;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='Continue ']")
+        private WebElement continueButton;
+        @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.EditText")
+        private WebElement accountUPIField;
+        @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.EditText")
+        private WebElement AccountNumberField;
+        @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[3]/android.widget.EditText")
+        private WebElement ifscCodeField;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='Verify ']")
+        private WebElement verifyButton;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Transaction Detail\"]")
+        private WebElement transactionScreen;
+
+
 
 
 
@@ -253,8 +291,9 @@ import static extentReport.ExtentReportManager.test;
                 default:
                     throw new IllegalArgumentException("Invalid currency name: " + currency);
             }
+            // Optional screenshot and wait
             TakeSnap.captureScreenshot();
-            Thread.sleep(1000); // Optional: Use WebDriverWait instead
+            Thread.sleep(1000);
         }
 
         public void minAmountValidation() {
@@ -552,13 +591,11 @@ import static extentReport.ExtentReportManager.test;
 //                    TakeSnap.captureScreenshot();
 //                }
 //            }
+
         public void expandTaxAndTransferFee() throws InterruptedException {
             Thread.sleep(1000);
             taxAndTransferFee.click();
             TakeSnap.captureScreenshot();
-            Thread.sleep(1000);
-
-
 
         }
         public void expandTaxAndTransferClose() throws InterruptedException {
@@ -734,179 +771,178 @@ import static extentReport.ExtentReportManager.test;
         }
         public void validateGST() {
             try {
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    wait.until(ExpectedConditions.visibilityOf(inrCurrencyTextbox));
-                    wait.until(ExpectedConditions.visibilityOf(checkGstAmount));
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                wait.until(ExpectedConditions.visibilityOf(inrCurrencyTextbox));
+                wait.until(ExpectedConditions.visibilityOf(checkGstAmount));
 
-                    // Extract raw UI values
-                    String youSendAmountRaw = inrCurrencyTextbox.getText();
-                    String gstAmountRaw = checkGstAmount.getText();
+                // Extract raw UI values
+                String youSendAmountRaw = inrCurrencyTextbox.getText();
+                String gstAmountRaw = checkGstAmount.getText();
 
-                    // Clean numeric values
-                    String youSendAmountClean = comFun.removeDelimiter(youSendAmountRaw);
-                    String gstAmountClean = String.valueOf(extractNumber(gstAmountRaw));
+                // Clean numeric values
+                String youSendAmountClean = comFun.removeDelimiter(youSendAmountRaw);
+                String gstAmountClean = String.valueOf(extractNumber(gstAmountRaw));
 
-                    double amount = Double.parseDouble(youSendAmountClean);
-                    BigDecimal actualGst = new BigDecimal(gstAmountClean).setScale(0, RoundingMode.UP);
-                    BigDecimal expectedGst;
+                double amount = Double.parseDouble(youSendAmountClean);
+                BigDecimal actualGst = new BigDecimal(gstAmountClean).setScale(0, RoundingMode.UP);
+                BigDecimal expectedGst;
 
-                    // GST calculation logic based on amount range
-                    if (amount <= 25000) {
-                        expectedGst = new BigDecimal(45);
-                        validateGstCondition(expectedGst, actualGst, "Amount ≤ 25,000");
-                    } else if (amount <= 80000) {
-                        expectedGst = gstFrom(amount - 0);
-                        validateGstCondition(expectedGst, actualGst, "Amount between 25,001 – 80,000");
-                    } else if (amount <= 100000) {
-                        expectedGst = gstFrom(amount - 250);
-                        validateGstCondition(expectedGst, actualGst, "Amount between 80,001 – 1,00,000");
-                    } else if (amount <= 200000) {
-                        expectedGst = gstFrom(1000 + ((amount - 250 - 100000) * 5 / 1000));
-                        validateGstCondition(expectedGst, actualGst, "Amount between 1L – 2L");
-                    } else if (amount <= 400000) {
-                        expectedGst = gstFrom(1000 + ((amount - 350 - 100000) * 5 / 1000));
-                        validateGstCondition(expectedGst, actualGst, "Amount between 2L – 4L");
-                    } else if (amount <= 600000) {
-                        expectedGst = gstFrom(1000 + ((amount - 750 - 100000) * 5 / 1000));
-                        validateGstCondition(expectedGst, actualGst, "Amount between 4L – 6L");
-                    } else if (amount <= 1000000) {
-                        expectedGst = gstFrom(1000 + ((amount - 1000 - 100000) * 5 / 1000));
-                        validateGstCondition(expectedGst, actualGst, "Amount between 6L – 10L");
-                    } else {
-                        expectedGst = gstFrom(5500 + ((amount - 1250 - 1000000) * 0.001));
-                        validateGstCondition(expectedGst, actualGst, "Amount > 10L");
-                    }
+                // GST calculation logic based on amount range
+                if (amount <= 25000) {
+                    expectedGst = new BigDecimal(45);
+                    validateGstCondition(expectedGst, actualGst, "Amount ≤ 25,000");
+                } else if (amount <= 80000) {
+                    expectedGst = gstFrom(amount - 0);
+                    validateGstCondition(expectedGst, actualGst, "Amount between 25,001 – 80,000");
+                } else if (amount <= 100000) {
+                    expectedGst = gstFrom(amount - 250);
+                    validateGstCondition(expectedGst, actualGst, "Amount between 80,001 – 1,00,000");
+                } else if (amount <= 200000) {
+                    expectedGst = gstFrom(1000 + ((amount - 250 - 100000) * 5 / 1000));
+                    validateGstCondition(expectedGst, actualGst, "Amount between 1L – 2L");
+                } else if (amount <= 400000) {
+                    expectedGst = gstFrom(1000 + ((amount - 350 - 100000) * 5 / 1000));
+                    validateGstCondition(expectedGst, actualGst, "Amount between 2L – 4L");
+                } else if (amount <= 600000) {
+                    expectedGst = gstFrom(1000 + ((amount - 750 - 100000) * 5 / 1000));
+                    validateGstCondition(expectedGst, actualGst, "Amount between 4L – 6L");
+                } else if (amount <= 1000000) {
+                    expectedGst = gstFrom(1000 + ((amount - 1000 - 100000) * 5 / 1000));
+                    validateGstCondition(expectedGst, actualGst, "Amount between 6L – 10L");
+                } else {
+                    expectedGst = gstFrom(5500 + ((amount - 1250 - 1000000) * 0.001));
+                    validateGstCondition(expectedGst, actualGst, "Amount > 10L");
+                }
 
-                    // Print values to terminal
-                    System.out.println("  Amount entered: " + amount);
-                    System.out.println(" GST displayed (UI): " + gstAmountRaw);
-                    System.out.println(" GST extracted: " + actualGst);
-                    System.out.println(" GST expected: " + expectedGst);
+                // Print values to terminal
+                System.out.println("  Amount entered: " + amount);
+                System.out.println(" GST displayed (UI): " + gstAmountRaw);
+                System.out.println(" GST extracted: " + actualGst);
+                System.out.println(" GST expected: " + expectedGst);
 
-                    TakeSnap.captureScreenshot();
+                TakeSnap.captureScreenshot();
 
-                } catch (Exception e) {
-                    test.get().log(Status.FAIL, "Exception occurred while validating GST: " + e.getMessage());
-                    e.printStackTrace();
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Exception occurred while validating GST: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+            public void selectMethod() throws InterruptedException {
+            Thread.sleep(2000);
+            String youSendAmount = comFun.removeDelimiter(inrCurrencyTextbox.getText());
+            String gstAmount = String.valueOf(extractNumber(checkGstAmount.getText()));
+
+            // Convenience Fees
+            double conFeeMinAmount = 0;
+            double conFeeAmountRange1 = 250;
+            double conFeeAmountRange2 = 350;
+            double conFeeAmountRange3 = 750;
+            double conFeeAmountRange4 = 1000;
+            double conFeeAmountRange5 = 1250;
+
+            int expectedGstAmountOption_1 = 45; //If Amount is Less than 25000
+            double expectedGstAmountOption_2 = twoDecimalValues((((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeMinAmount))) * 0.18) / 100) * 100) / 100; //If Amount is in Range of 25000 to 80000
+            double expectedGstAmountOption_3 = twoDecimalValues((((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange1))) * 0.18) / 100) * 100) / 100; //If Amount is in Range of 80000 to 100000
+
+            double expectedGstAmountOption_4 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange1)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 100000 to 200000
+
+            double expectedGstAmountOption_5 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange2)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 200000 to 400000
+
+            double expectedGstAmountOption_6 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange3)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 400000 to 600000
+
+            double expectedGstAmountOption_7 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange4)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 600000 to 1000000
+            double expectedGstAmountOption_8 = twoDecimalValues((5500 + ((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange5)) - 1000000) * 0.001)) * 0.18 * 100) / 100;//If Amount is greater than 1000000
+
+            BigDecimal condition_2 = new BigDecimal(expectedGstAmountOption_2);
+            BigDecimal condition_3 = new BigDecimal(expectedGstAmountOption_3);
+            BigDecimal condition_4 = new BigDecimal(expectedGstAmountOption_4);
+            BigDecimal condition_5 = new BigDecimal(expectedGstAmountOption_5);
+            BigDecimal condition_6 = new BigDecimal(expectedGstAmountOption_6);
+            BigDecimal condition_7 = new BigDecimal(expectedGstAmountOption_7);
+            BigDecimal condition_8 = new BigDecimal(expectedGstAmountOption_8);
+            BigDecimal defaultCondition = new BigDecimal(gstAmount);
+
+            condition_2 = condition_2.setScale(0, RoundingMode.UP);
+            condition_3 = condition_3.setScale(0, RoundingMode.UP);
+            condition_4 = condition_4.setScale(0, RoundingMode.UP);
+            condition_5 = condition_5.setScale(0, RoundingMode.UP);
+            condition_6 = condition_6.setScale(0, RoundingMode.UP);
+            condition_7 = condition_7.setScale(0, RoundingMode.UP);
+            condition_8 = condition_8.setScale(0, RoundingMode.UP);
+            defaultCondition = defaultCondition.setScale(0, RoundingMode.UP);
+
+            if (Integer.parseInt(youSendAmount) <= 25000) {
+                if ((String.valueOf(expectedGstAmountOption_1)).contains(gstAmount)) {
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is less than 25000 so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is less than 25000 but the GST Amount is not as expected: " + gstAmount);
                 }
             }
 
+            if (Double.parseDouble(youSendAmount) > 25000 && Double.parseDouble(youSendAmount) <= 80000) {
 
-            //        public void validateGST() throws InterruptedException {
-//            Thread.sleep(2000);
-//            String youSendAmount = comFun.removeDelimiter(inrCurrencyTextbox.getText());
-//            String gstAmount = String.valueOf(extractNumber(checkGstAmount.getText()));
-//
-//            // Convenience Fees
-//            double conFeeMinAmount = 0;
-//            double conFeeAmountRange1 = 250;
-//            double conFeeAmountRange2 = 350;
-//            double conFeeAmountRange3 = 750;
-//            double conFeeAmountRange4 = 1000;
-//            double conFeeAmountRange5 = 1250;
-//
-//            int expectedGstAmountOption_1 = 45; //If Amount is Less than 25000
-//            double expectedGstAmountOption_2 = twoDecimalValues((((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeMinAmount))) * 0.18) / 100) * 100) / 100; //If Amount is in Range of 25000 to 80000
-//            double expectedGstAmountOption_3 = twoDecimalValues((((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange1))) * 0.18) / 100) * 100) / 100; //If Amount is in Range of 80000 to 100000
-//
-//            double expectedGstAmountOption_4 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange1)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 100000 to 200000
-//
-//            double expectedGstAmountOption_5 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange2)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 200000 to 400000
-//
-//            double expectedGstAmountOption_6 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange3)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 400000 to 600000
-//
-//            double expectedGstAmountOption_7 = twoDecimalValues((1000 + (((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange4)) - 100000) * 5) / 1000)) * 0.18 * 100) / 100; //If Amount is in Range of 600000 to 1000000
-//            double expectedGstAmountOption_8 = twoDecimalValues((5500 + ((Double.parseDouble(youSendAmount) - Double.parseDouble(String.valueOf(conFeeAmountRange5)) - 1000000) * 0.001)) * 0.18 * 100) / 100;//If Amount is greater than 1000000
-//
-//            BigDecimal condition_2 = new BigDecimal(expectedGstAmountOption_2);
-//            BigDecimal condition_3 = new BigDecimal(expectedGstAmountOption_3);
-//            BigDecimal condition_4 = new BigDecimal(expectedGstAmountOption_4);
-//            BigDecimal condition_5 = new BigDecimal(expectedGstAmountOption_5);
-//            BigDecimal condition_6 = new BigDecimal(expectedGstAmountOption_6);
-//            BigDecimal condition_7 = new BigDecimal(expectedGstAmountOption_7);
-//            BigDecimal condition_8 = new BigDecimal(expectedGstAmountOption_8);
-//            BigDecimal defaultCondition = new BigDecimal(gstAmount);
-//
-//            condition_2 = condition_2.setScale(0, RoundingMode.UP);
-//            condition_3 = condition_3.setScale(0, RoundingMode.UP);
-//            condition_4 = condition_4.setScale(0, RoundingMode.UP);
-//            condition_5 = condition_5.setScale(0, RoundingMode.UP);
-//            condition_6 = condition_6.setScale(0, RoundingMode.UP);
-//            condition_7 = condition_7.setScale(0, RoundingMode.UP);
-//            condition_8 = condition_8.setScale(0, RoundingMode.UP);
-//            defaultCondition = defaultCondition.setScale(0, RoundingMode.UP);
-//
-//            if (Integer.parseInt(youSendAmount) <= 25000) {
-//                if ((String.valueOf(expectedGstAmountOption_1)).contains(gstAmount)) {
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is less than 25000 so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is less than 25000 but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 25000 && Double.parseDouble(youSendAmount) <= 80000) {
-//
-//                if (condition_2.equals(defaultCondition)) {
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of  25000 to 80000 so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is in the range of 25000 to 80000 but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 80000 && Double.parseDouble(youSendAmount) <= 100000) {
-//
-//                if (condition_3.equals(defaultCondition)) {
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of  80000 to 1 Lakh so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is in the range of 80000 to 1 Lakh but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 100000 && Double.parseDouble(youSendAmount) <= 200000) {
-//                if (condition_4.equals(defaultCondition)) {
-//
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 1 Lakh to 2 Lakh so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is in the range of 1 Lakh to 2 Lakh but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 200000 && Double.parseDouble(youSendAmount) <= 400000) {
-//                if (condition_5.equals(defaultCondition)) {
-//
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 2 Lakh to 4 Lakh so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is in the range of 2 Lakh to 4 Lakh but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 400000 && Double.parseDouble(youSendAmount) <= 600000) {
-//                if (condition_6.equals(defaultCondition)) {
-//
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 4 Lakh to 6 Lakh so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is in the range of 4 Lakh to 6 Lakh but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 600000 && Double.parseDouble(youSendAmount) <= 1000000) {
-//                if (condition_7.equals(defaultCondition)) {
-//
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 6 Lakh to 10 Lakh so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is in the range of 6 Lakh to 10 Lakh but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//
-//            if (Double.parseDouble(youSendAmount) > 1000000) {
-//                if (condition_8.equals(defaultCondition)) {
-//                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is greater than 10 Lakh so the GST will be: " + gstAmount);
-//                } else {
-//                    test.get().log(Status.FAIL, "The Amount is greater than 10 Lakh but the GST Amount is not as expected: " + gstAmount);
-//                }
-//            }
-//            TakeSnap.captureScreenshot();
-//        }
+                if (condition_2.equals(defaultCondition)) {
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of  25000 to 80000 so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is in the range of 25000 to 80000 but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+
+            if (Double.parseDouble(youSendAmount) > 80000 && Double.parseDouble(youSendAmount) <= 100000) {
+
+                if (condition_3.equals(defaultCondition)) {
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of  80000 to 1 Lakh so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is in the range of 80000 to 1 Lakh but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+
+            if (Double.parseDouble(youSendAmount) > 100000 && Double.parseDouble(youSendAmount) <= 200000) {
+                if (condition_4.equals(defaultCondition)) {
+
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 1 Lakh to 2 Lakh so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is in the range of 1 Lakh to 2 Lakh but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+
+            if (Double.parseDouble(youSendAmount) > 200000 && Double.parseDouble(youSendAmount) <= 400000) {
+                if (condition_5.equals(defaultCondition)) {
+
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 2 Lakh to 4 Lakh so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is in the range of 2 Lakh to 4 Lakh but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+
+            if (Double.parseDouble(youSendAmount) > 400000 && Double.parseDouble(youSendAmount) <= 600000) {
+                if (condition_6.equals(defaultCondition)) {
+
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 4 Lakh to 6 Lakh so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is in the range of 4 Lakh to 6 Lakh but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+
+            if (Double.parseDouble(youSendAmount) > 600000 && Double.parseDouble(youSendAmount) <= 1000000) {
+                if (condition_7.equals(defaultCondition)) {
+
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is in range of 6 Lakh to 10 Lakh so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is in the range of 6 Lakh to 10 Lakh but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+
+            if (Double.parseDouble(youSendAmount) > 1000000) {
+                if (condition_8.equals(defaultCondition)) {
+                    test.get().log(Status.PASS, "Successful Validation Message: The Amount is greater than 10 Lakh so the GST will be: " + gstAmount);
+                } else {
+                    test.get().log(Status.FAIL, "The Amount is greater than 10 Lakh but the GST Amount is not as expected: " + gstAmount);
+                }
+            }
+            TakeSnap.captureScreenshot();
+        }
+
         public void selectPurposeCode()  {
             SelectPurposeCode.click();
         }
@@ -946,34 +982,80 @@ import static extentReport.ExtentReportManager.test;
         }
         public void recipient() throws InterruptedException{
             Thread.sleep(300);
-            TakeSnap.captureScreenshot();
             recipient.click();
+            TakeSnap.captureScreenshot();
         }
         public void warningContinue() throws InterruptedException{
             warningContinue.click();
             Thread.sleep(1000);
         }
-        public void selectSourceofFunds() throws InterruptedException{
-            selectSourceofFunds.click();
+        public void selectSourceOfFunds() throws InterruptedException{
+            selectSourceOfFunds.click();
             Thread.sleep(1000);
+            TakeSnap.captureScreenshot();
         }
-        public void studentLoan() throws InterruptedException{
-            studentLoan.click();
-            Thread.sleep(1000);
+        public void clickSourceOfFunds(String source) throws InterruptedException {
+            switch (source.toLowerCase()) {
+                case "salary or wages":
+                    salaryOrWages.click();
+                    break;
+                case "student loan":
+                    studentLoan.click();
+                    break;
+                case "investments":
+                    investments.click();
+                    break;
+                case "personal savings":
+                    personalSavings.click();
+                    break;
+                case "personal wealth":
+                    personalWealth.click();
+                    break;
+                case "retirement funds":
+                    retirementFunds.click();
+                    break;
+                case "business owner/ share holder":
+                case "business owner/share holder": // to support minor variations
+                    businessOwnerOrShareHolder.click();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid source of funds: " + source);
+            }
+            TakeSnap.captureScreenshot(); // Optional: for logging purposes
+            Thread.sleep(1000); // Optional: replace with WebDriverWait for better stability
         }
-        public void proceedtoPayment() throws InterruptedException{
+
+        public void proceedToPayment() throws InterruptedException{
             proceedtoPayment.click();
             Thread.sleep(1000);
         }
 
         public void completePayment() throws InterruptedException{
+            TakeSnap.captureScreenshot();
             completePayment.click();
             Thread.sleep(1000);
         }
-        public void netbanking() throws InterruptedException{
-            Netbanking.click();
-            Thread.sleep(1000);
+        public void selectPaymentMethod(String method) throws InterruptedException {
+            TakeSnap.captureScreenshot();
+            switch (method.toLowerCase()) {
+                case "upi":
+                    paymentUPI.click();
+                    break;
+                case "netBanking":
+                    paymentNetbanking.click();
+                    break;
+                case "transfer via neft":
+                case "neft": // supporting both full and short form
+                    paymentNEFT.click();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid payment method: " + method);
+            }
+            TakeSnap.captureScreenshot(); // Optional: capture screen for log/debug
+            Thread.sleep(1000); // Consider replacing with WebDriverWait for better stability
         }
+
+
         public void addNewBank() throws InterruptedException{
             addNewBank.click();
             Thread.sleep(1000);
@@ -988,6 +1070,11 @@ import static extentReport.ExtentReportManager.test;
             clickRelationshipsType.click();
             Thread.sleep(1000);
         }
+        public void clickselectCurrency() throws InterruptedException{
+            selectCurrency.click();
+            Thread.sleep(1000);
+        }
+
 
         public void recipientName(String name) throws Exception {
             recipientName.sendKeys(name);
@@ -1121,6 +1208,32 @@ import static extentReport.ExtentReportManager.test;
             // Assert with tolerance for rounding
             Assert.assertEquals(calculatedTotal, expectedTotal, 0.05, "Total fee mismatch!");
             TakeSnap.captureScreenshot();
+        }
+        public void validateBankDetailsAndClickContinue() {
+            if (bankDetailsText.isDisplayed() && bankDetailsText.getText().equals("Bank Details")) {
+                System.out.println("Bank Details text is displayed correctly.");
+            } else {
+                throw new AssertionError("Bank Details text is not displayed or incorrect.");
+            }
+
+            // Click on the "Continue" button
+            continueButton.click();
+            System.out.println("Clicked on Continue button.");
+        }
+        public void enterAccountDetailsAndClickVerify(String upi, String AccountNumber, String ifscCode) {
+            // Enter Account Number
+            TakeSnap.captureScreenshot();
+            accountUPIField.sendKeys(upi);
+            // Confirm Account Number
+            ifscCodeField.sendKeys(ifscCode);
+            // Enter IFSC Code
+            AccountNumberField.sendKeys(AccountNumber);
+            // Click on Verify button
+            verifyButton.click();
+        }
+        public void transactionScreen(){
+            Assert.assertTrue(transactionScreen.isDisplayed());
+            test.get().log(Status.PASS,"Label: '"+transactionScreen.getText()+"' is displayed correctly");
         }
 
     }

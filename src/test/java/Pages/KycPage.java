@@ -8,30 +8,37 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import Utils.CommonFunctions;
 import Utils.ExcelSetup;
 import Utils.TakeSnap;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import static extentReport.ExtentReportManager.test;
 
-public class KycPage  {
+public class KycPage {
     private final AppiumDriver driver;
 
     public KycPage(AppiumDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(30)), this);
     }
+
     CommonFunctions comFun = new CommonFunctions();
 
     @AndroidFindBy(xpath = "//android.view.View[@text=\"Verify your documents\"]")
@@ -136,7 +143,7 @@ public class KycPage  {
     private WebElement passPortBD;
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='Aadhaar card']/com.horcrux.svg.SvgView[1]/com.horcrux.svg.GroupView/com.horcrux.svg.RectView")
     private WebElement aadhaarLogo;
-//    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Aadhaar card']")
+    //    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Aadhaar card']")
     @AndroidFindBy(xpath = "    /android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[10]/android.view.ViewGroup/android.view.ViewGroup\n")
     private WebElement aadhaarLabel;
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='Aadhaar card']/com.horcrux.svg.SvgView[2]/com.horcrux.svg.GroupView/com.horcrux.svg.PathView")
@@ -185,22 +192,42 @@ public class KycPage  {
     private WebElement uploadBackSideButton;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Aadhaar verification']")
     private WebElement aadhaarVerificationLabel;
+    @AndroidFindBy(xpath = "//android.webkit.WebView")
+    private WebElement signaturePad;
+    @AndroidFindBy(xpath = "    //android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[31]/android.view.ViewGroup/android.view.ViewGroup\n")
+    private WebElement signUPClick;
+    @AndroidFindBy(xpath = " //android.view.ViewGroup[@content-desc=\"Submit \"]")
+    private WebElement signaturePadConform;
+    @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Cancel\"]")
+    private WebElement cancelButton;
 
-    public void clickContinueButton(){
+
+
+    public void clickContinueButton() {
         continueButton.click();
     }
+    public void signUpClick() {
+        signUPClick.click();
+    }
+    public void signaturePadConfirm() throws InterruptedException{
+        signaturePadConform.click();
+        Thread.sleep(4000);
+    }
+    public void cancelButton() throws InterruptedException {
+        cancelButton.click();
+    }
 
-    public void verifyDocumentsBanner(){
+    public void verifyDocumentsBanner() {
         comFun.wait(verifyDocLabel);
         TakeSnap.captureScreenshot();
         Assert.assertTrue(verifyDocLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+verifyDocLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + verifyDocLabel.getText() + "' is displayed correctly");
 
 //        Assert.assertTrue(docUsageLabel.isDisplayed());
 //        test.get().log(Status.PASS,"Label: '"+docUsageLabel.getText()+"' is displayed correctly");
 
         //Assert.assertTrue(kycBanner.isDisplayed());
-       // test.get().log(Status.PASS,"Info: Banner is displayed correctly");
+        // test.get().log(Status.PASS,"Info: Banner is displayed correctly");
 
 //        Assert.assertTrue(beforeYouStartLabel.isDisplayed());
 //        test.get().log(Status.PASS,"Label: '"+beforeYouStartLabel.getText()+"' is displayed correctly");
@@ -219,38 +246,39 @@ public class KycPage  {
 
     }
 
-    public void uploadPanCardBanner(){
+    public void uploadPanCardBanner() {
         comFun.wait(panDescriptionLabel);
         TakeSnap.captureScreenshot();
         Assert.assertTrue(uploadPanLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+uploadPanLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + uploadPanLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(panDescriptionLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+panDescriptionLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + panDescriptionLabel.getText() + "' is displayed correctly");
 
 //        Assert.assertTrue(panBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Pan Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Pan Banner is displayed correctly");
 
         Assert.assertTrue(panFirstLabelBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Pan First Label Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Pan First Label Banner is displayed correctly");
 
         Assert.assertTrue(panFirstLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+panFirstLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + panFirstLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(panSecondLabelBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Pan Second Label Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Pan Second Label Banner is displayed correctly");
 
         Assert.assertTrue(panSecondLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+panSecondLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + panSecondLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(panThirdLabelBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Pan Third Label Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Pan Third Label Banner is displayed correctly");
 
         Assert.assertTrue(panThirdLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+panThirdLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + panThirdLabel.getText() + "' is displayed correctly");
     }
 
-    public void uploadPhoto(){
+    public void uploadPhoto() throws InterruptedException{
+        Thread.sleep(2000);
         uploadPhotoButton.click();
     }
 
@@ -258,43 +286,43 @@ public class KycPage  {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         TakeSnap.captureScreenshot();
 
-            // Load PanCard.jpg from resources (classpath-safe)
-            URL resource = getClass().getClassLoader().getResource("Pancard.jpg");
-            if (resource == null) {
-                throw new FileNotFoundException("Pancard.jpg not found in resources!");
-            }
-            File file = new File(resource.getFile());
-
-            // Push file to Android device (simulator or real device)
-            if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
-                AndroidDriver driver1 = (AndroidDriver) driver;
-
-                // 🧹 Step 1: Delete existing file if present
-                try {
-                    driver1.executeScript("mobile: shell", Map.of(
-                            "command", "rm",
-                            "args", List.of("/sdcard/Download/Pancard.jpg")
-                    ));
-                    System.out.println("Old file deleted from simulator.");
-                } catch (Exception e) {
-                    System.out.println("No existing file to delete or deletion failed. Proceeding anyway.");
-                }
-
-                // Step 2: Push the fresh file
-                driver1.pushFile("/sdcard/Download/Pancard.jpg", file);
-            }
-
-            //Step 3: Upload from UI
-            uploadPanCardOption.click();
-
-            // Optional Screenshot
-            TakeSnap.captureScreenshot();
-
-            // Step 4: Confirm Upload
-            panConfirm.click();
-
-            TakeSnap.captureScreenshot();
+        // Load PanCard.jpg from resources (classpath-safe)
+        URL resource = getClass().getClassLoader().getResource("Pancard.jpg");
+        if (resource == null) {
+            throw new FileNotFoundException("Pancard.jpg not found in resources!");
         }
+        File file = new File(resource.getFile());
+
+        // Push file to Android device (simulator or real device)
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
+            AndroidDriver driver1 = (AndroidDriver) driver;
+
+            // 🧹 Step 1: Delete existing file if present
+            try {
+                driver1.executeScript("mobile: shell", Map.of(
+                        "command", "rm",
+                        "args", List.of("/sdcard/Download/Pancard.jpg")
+                ));
+                System.out.println("Old file deleted from simulator.");
+            } catch (Exception e) {
+                System.out.println("No existing file to delete or deletion failed. Proceeding anyway.");
+            }
+
+            // Step 2: Push the fresh file
+            driver1.pushFile("/sdcard/Download/Pancard.jpg", file);
+        }
+
+        //Step 3: Upload from UI
+        uploadPanCardOption.click();
+
+        // Optional Screenshot
+        TakeSnap.captureScreenshot();
+
+        // Step 4: Confirm Upload
+        panConfirm.click();
+
+        TakeSnap.captureScreenshot();
+    }
 
 //        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 //        TakeSnap.captureScreenshot();
@@ -320,24 +348,25 @@ public class KycPage  {
 //        TakeSnap.captureScreenshot();
 
 
-        // Wait for the file picker and select the pushed file
+    // Wait for the file picker and select the pushed file
 //        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 //        WebElement fileToSelect = driver.findElement(By.xpath("(//android.widget.ImageView[@resource-id='com.google.android.providers.media.module:id/icon_thumbnail'])[1]"));
 //        comFun.wait(fileToSelect); // Optional custom wait
 //        TakeSnap.captureScreenshot();
 //        fileToSelect.click();
 
-        // Wait for the front side of the PAN card to upload
+    // Wait for the front side of the PAN card to upload
 //        comFun.wait(frontSideUploaded); // Custom wait again
 //        TakeSnap.captureScreenshot();
 //              Oldlogic
 //        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 //        TakeSnap.captureScreenshot();
-////        Assert.assertTrue(uploadPanLabel.isDisplayed());
-////        test.get().log(Status.PASS,"Label: '"+uploadPanLabel.getText()+"' is displayed correctly");
-////
-////        Assert.assertTrue(uploadPanDescription.isDisplayed());
-////        test.get().log(Status.PASS,"Label: '"+uploadPanDescription.getText()+"' is displayed correctly");
+
+    /// /        Assert.assertTrue(uploadPanLabel.isDisplayed());
+    /// /        test.get().log(Status.PASS,"Label: '"+uploadPanLabel.getText()+"' is displayed correctly");
+    /// /
+    /// /        Assert.assertTrue(uploadPanDescription.isDisplayed());
+    /// /        test.get().log(Status.PASS,"Label: '"+uploadPanDescription.getText()+"' is displayed correctly");
 //
 //
 //        //Push Pancard image to Android simulator
@@ -357,9 +386,7 @@ public class KycPage  {
 //         fileToSelect.click();
 //         comFun.wait(frontSideUploaded);
 //         TakeSnap.captureScreenshot();
-
-
-    public void viewUploadedPanDoc(){
+    public void viewUploadedPanDoc() {
         viewUploadedDocButton.click();
 
 //        Assert.assertTrue(viewUploadedDocButton.isDisplayed());
@@ -379,30 +406,33 @@ public class KycPage  {
 //        TakeSnap.captureScreenshot();
     }
 
-    public void uploadRandomImage() throws IOException {
-        //Push Random image to Android simulator
+    public void uploadRandomImage() throws IOException, InterruptedException{
+        // Set implicit wait
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         TakeSnap.captureScreenshot();
 
-        // Load Pancard.jpg from resources (classpath-safe)
-        URL resource = getClass().getClassLoader().getResource("test.jpg");
+        // Load test.jpg from resources (classpath-safe)
+        URL resource = getClass().getClassLoader().getResource("test1.jpg");
         if (resource == null) {
-            throw new FileNotFoundException("test.jpg not found in resources!");
+            throw new FileNotFoundException("test1.jpg not found in resources!");
         }
+
         File file = new File(resource.getFile());
 
-        // Push file to Android device (simulator or real device)
+        // Push file to Android device
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
-            AndroidDriver driver1 = (AndroidDriver) driver;
-            driver1.pushFile("/sdcard/Download/test.jpg", file);
+            AndroidDriver androidDriver = (AndroidDriver) driver;
+            androidDriver.pushFile("/sdcard/Download/test1.jpg", file);
         }
 
-        // Open file picker in app
+        // Trigger file picker (assumes UI element is present and ready)
         uploadPanCardOption.click();
 
-        // click confirm button
-        panConfirm.click();
+        // Click confirm/continue after selecting the file
+//        panConfirm.click();
+        Thread.sleep(2000);
         TakeSnap.captureScreenshot();
+    }
 
 //        File file = new File("src/main/resources/test1.jpg");
 //        if(Constants.PLATFORM_NAME.equals("Android")){
@@ -424,7 +454,7 @@ public class KycPage  {
 //
 //        TakeSnap.captureScreenshot();
 
-    }
+
     public void submitButton(){
         submitButton.click();
     }
@@ -478,13 +508,16 @@ public class KycPage  {
     public void clickSecDos(){
         clickSec.click();
     }
-    public void PassPort(){
+    public void PassPort() throws InterruptedException{
+        Thread.sleep(2000);
         passPort.click();
     }
-    public void PassPortFD(){
+    public void PassPortFD() throws InterruptedException{
+        Thread.sleep(2000);
         passPortFD.click();
     }
-    public void PassPortBD(){
+    public void PassPortBD() throws InterruptedException{
+        Thread.sleep(2000);
         passPortBD.click();
     }
 
@@ -772,9 +805,27 @@ public class KycPage  {
         test.get().log(Status.INFO,"Info: User is able to view Back side of the Uploaded Aadhaar");
     }
 
-    public void downloadFrontSideOfAadhaarCard(){
-        comFun.removeDelimiter(String.valueOf(verifyButton));
+    public void drawSignature()  throws InterruptedException{
+           // Get element location and size
+            org.openqa.selenium.Point location = signaturePad.getLocation();
+            Dimension size = signaturePad.getSize();
+
+            int startX = (int) (location.getX() + size.getWidth() / 4);
+             int startY = (int) (location.getY() + size.getHeight() / 2);
+            int endX = startX + 200;
+            int endY = startY + 100;
+
+            PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+            Sequence drawPath = new Sequence(finger, 1);
+
+            drawPath.addAction(finger.createPointerMove(Duration.ofMillis(0), PointerInput.Origin.viewport(), startX, startY));
+            drawPath.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+            drawPath.addAction(finger.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), endX, endY));
+            drawPath.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+            driver.perform(Collections.singletonList(drawPath));
+    }
 
     }
 
-}
+

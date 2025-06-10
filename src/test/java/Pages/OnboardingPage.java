@@ -559,6 +559,7 @@ public class OnboardingPage  {
         Assert.assertTrue(pinLabel.isDisplayed());
         test.get().log(Status.PASS,"Label: '"+pinLabel.getText()+"' is displayed correctly");
     }
+
     public void validateRestPinLabel(){
         Assert.assertTrue(restPinLabel.isDisplayed());
         test.get().log(Status.PASS,"Label: '"+pinLabel.getText()+"' is displayed correctly");
