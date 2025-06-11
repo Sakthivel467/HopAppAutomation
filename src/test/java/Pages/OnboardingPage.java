@@ -210,6 +210,15 @@ public class OnboardingPage  {
     private WebElement restPinLabel;
     @FindBy(xpath = " //android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
     private WebElement restConfirmPinLabel;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='IBAN']")
+    private WebElement ibanLabel;
+    @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='RecipientAccount_SWIFT_IBAN_Input']")
+    private WebElement ibanInput;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Verify']")
+    private WebElement ibnVerifyButton;
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='RecipientAccount1_Continue_Button']")
+    private WebElement ibaContinueButton;
+
 
 
     public void dismissButton() throws Exception {
@@ -755,6 +764,28 @@ public void oldUserEnterPin(String pin){
     public void verifyIncorrectPin(){
         Assert.assertTrue(incorrectPin.isDisplayed());
         test.get().log(Status.PASS,"Success Message: '"+incorrectPin.getText()+"' is displayed correctly");
+    }
+
+    public void enterIbanAndProceed(String iban) throws InterruptedException {
+        // Validate "IBAN" label is displayed
+        if (!ibanLabel.isDisplayed()) {
+            throw new IllegalStateException("IBAN label is not visible!");
+        }
+
+        // Enter IBAN
+        ibanInput.sendKeys(iban);
+
+        // Hide keyboard if visible
+        driver.network();
+
+        // Click Verify
+        ibnVerifyButton.click();
+
+        // Optional: Wait for verification to complete
+        Thread.sleep(2000);
+
+        // Click Continue
+        ibaContinueButton.click();
     }
 
 }

@@ -194,7 +194,7 @@ public class OnboardingTest extends BaseTest {
 
     }
     @Test(priority = 10)
-    public void TC007_Incorrect_Pin_New_User() throws Exception {
+    public void TC010_Incorrect_Pin_New_User() throws Exception {
         before("TC007_Incorrect_Pin_new_User");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();

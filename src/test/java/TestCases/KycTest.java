@@ -217,6 +217,18 @@ public class KycTest  extends BaseTest {
         kycPage.drawSignature();
         kycPage.signaturePadConfirm();
         sendMoneyPage.selectRecipientType("institution");
+        sendMoneyPage.enterRecipientDetailsAndContinue(
+                "John Doe",                  // NameRecipient
+                "Test",           // addNewRecipient
+                "560001",                    // pinCode
+                "Bangalore",                 // city
+                "Karnataka",                 // state
+                "India",                     // country
+                "9876543210",                // phone
+                "john.doe@example.com"       // email
+        );
+        onboardingPage.enterIbanAndProceed("AE660200000037211307001");
+
     }
 
 

@@ -102,10 +102,6 @@ import static extentReport.ExtentReportManager.test;
         private WebElement addNewRecipient;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Relationship*\"]")
         private WebElement clickRelationshipsType;
-        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"AddRecipient_Recipient_Name\"]")
-        private WebElement recipientName;
-        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"AddRecipient_Address\"]")
-        private WebElement recipientAddress;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Daughter\"]")
         private WebElement relationshipsType;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Brother\"]")
@@ -202,6 +198,37 @@ import static extentReport.ExtentReportManager.test;
         private WebElement verifyButton;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Transaction Detail\"]")
         private WebElement transactionScreen;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"AddRecipient_Recipient_Name\"]")
+        private WebElement recipientName;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"AddRecipient_Address\"]")
+        private WebElement recipientAddress;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_Pincode']")
+        private WebElement pinCodeField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_City']")
+        private WebElement cityField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_State']")
+        private WebElement stateField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_Country']")
+        private WebElement countryField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@resource-id='AddRecipient_PhoneNumber']")
+        private WebElement phoneField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_Email']")
+        private WebElement emailField;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='AddRecipient_Continue']")
+        private WebElement accContinueButton;
+        // Page Object Locators
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='RecipientAccount_SWIFT_IBAN_Input']")
+        private WebElement swiftIbanField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='RecipientAccount1_Bank_Account']")
+        private WebElement bankAccountField;
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='RecipientAccount1_Confirm_Bank_Account']")
+        private WebElement confirmBankAccountField;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Verify']")
+        private WebElement accVerifyButton;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='RecipientAccount1_Continue_Button']")
+        private WebElement nextContinueButton;
+
+
 
 
 
@@ -1234,6 +1261,46 @@ import static extentReport.ExtentReportManager.test;
         public void transactionScreen(){
             Assert.assertTrue(transactionScreen.isDisplayed());
             test.get().log(Status.PASS,"Label: '"+transactionScreen.getText()+"' is displayed correctly");
+        }
+
+        public void enterRecipientDetailsAndContinue(String nameRecipient, String addNewRecipient, String pinCode, String city, String state, String country, String phone, String email) throws InterruptedException {
+            // Fill all fields
+            recipientName.sendKeys(nameRecipient);
+            recipientAddress.sendKeys(addNewRecipient);
+            pinCodeField.sendKeys(pinCode);
+            cityField.sendKeys(city);
+            stateField.sendKeys(state);
+            countryField.sendKeys(country);
+            phoneField.sendKeys(phone);
+            emailField.sendKeys(email);
+
+            // Hide keyboard
+            driver.network();
+
+            // Take screenshot
+            TakeSnap.captureScreenshot();
+
+            // Click Continue
+            continueButton.click();
+        }
+
+        public void enterRecipientBankDetailsAndContinue(String swiftIban, String accountNumber, String confirmAccountNumber) throws InterruptedException {
+            swiftIbanField.sendKeys(swiftIban);
+            bankAccountField.sendKeys(accountNumber);
+            confirmBankAccountField.sendKeys(confirmAccountNumber);
+
+            // Optionally hide keyboard
+            driver.network();
+
+            // Click Verify
+            accVerifyButton.click();
+            Thread.sleep(1000); // Optional wait after verification
+
+            // Take screenshot (if needed)
+            TakeSnap.captureScreenshot();
+
+            // Click Continue
+            nextContinueButton.click();
         }
 
     }
