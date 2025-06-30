@@ -7,6 +7,7 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -69,8 +70,10 @@ public class OnboardingPage  {
       @AndroidFindBy(xpath = "//android.widget.TextView[@text='Email*']")
       @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Email\"]")
     private WebElement emailPlaceholder;
-    @AndroidFindBy(xpath = "   //android.widget.TextView[@text=\"Verify your account\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Verify your account\"]")
     private WebElement verifyAccountTxt;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"FX fees\"]")
+    private WebElement PrimeUse;
     @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"VerifyOtp_Header_Text\"]")
     //android.widget.TextView[@text='Enter the OTP sent to your phone number']
     private WebElement enterOtpTxt;
@@ -237,12 +240,39 @@ public class OnboardingPage  {
         test.get().log(Status.PASS,"Send money Image is displayed on the Hop App");
         TakeSnap.captureScreenshot();
     }
+    public void clickSvgOrGetStartedButton() {
+        String primaryXPath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView[1]";
+        String fallbackXPath = "//android.view.ViewGroup[@content-desc='IntroScreen_Get_Started_Button']";
+
+        try {
+            WebElement primaryElement = driver.findElement(By.xpath(primaryXPath));
+            if (primaryElement.isDisplayed()) {
+                primaryElement.click();
+                System.out.println("Clicked on primary SVG element.");
+                return;
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Primary SVG not found. Trying fallback.");
+        }
+
+        // Fallback click
+        try {
+            WebElement fallbackElement = driver.findElement(By.xpath(fallbackXPath));
+            if (fallbackElement.isDisplayed()) {
+                fallbackElement.click();
+                System.out.println("Clicked on fallback Get Started button.");
+            }
+        } catch (NoSuchElementException e) {
+            throw new RuntimeException("Neither SVG nor Get Started button found.");
+        }
+    }
+
 
     public void getStarted() throws InterruptedException {
-        getStarted.click();
+        Thread.sleep(1000);
+        TakeSnap.captureScreenshot();
+         getStarted.click();
 //        test.get().log(Status.PASS,"User has clicked on Get Started Button");
-////        Thread.sleep(1000);
-////        TakeSnap.captureScreenshot();
     }
     public void termsAndConditions() throws InterruptedException {
         termsAndConditions.click();
@@ -498,13 +528,17 @@ public class OnboardingPage  {
 //            test.get().log(Status.PASS, "User clicked the Continue Button");
 //        }
     }
-
+    //android.widget.TextView[@text="FX fees"]
     public void verifyAccountLabel(){
         Assert.assertTrue(verifyAccountTxt.isDisplayed());
         test.get().log(Status.PASS,"Label: '"+verifyAccountTxt.getText()+"' is displayed correctly");
 
         Assert.assertTrue(enterOtpTxt.isDisplayed());
         test.get().log(Status.PASS,"Label: '"+ enterOtpTxt.getText()+"' is displayed correctly");
+    }
+    public void validatePrimeUser() {
+        Assert.assertTrue(PrimeUse.isDisplayed());
+        test.get().log(Status.PASS, "Label: '" + PrimeUse.getText() + "' is displayed correctly");
     }
 
     public void enterInvalidOtp(String number) throws InterruptedException{
@@ -548,15 +582,14 @@ public class OnboardingPage  {
 
     public void enterOtp(String otp) throws InterruptedException {
           // Tap on the first OTP box to activate input
+            TakeSnap.captureScreenshot();
             otpBox.click();
 
             // Enter OTP digits one-by-one
             for (char digit : otp.toCharArray()) {
                 ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.valueOf("DIGIT_" + digit)));
             }
-
-            TakeSnap.captureScreenshot();
-        }
+    }
 //        Thread.sleep(2000);
 ////        otpBox.click();
 //        otpBox.sendKeys("1");
@@ -695,7 +728,7 @@ public void oldUserEnterPin(String pin){
     public void validateUserIoOnSendMoneyScreen() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOf(sendMoneyLabel));
-//        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
+        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();
         test.get().log(Status.PASS,"Label: Send Money Page is displayed correctly");
@@ -787,5 +820,13 @@ public void oldUserEnterPin(String pin){
         // Click Continue
         ibaContinueButton.click();
     }
+    public void clickBackButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement backButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//android.view.ViewGroup[@content-desc='TransactionDetail_Header_Text']/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView")
+        ));
+        backButton.click();
+    }
+
 
 }

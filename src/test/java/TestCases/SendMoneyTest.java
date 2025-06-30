@@ -17,12 +17,14 @@ public class SendMoneyTest extends BaseTest {
         }
 
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("6667778880");
-        onboardingPage.enterOldEmailId("sakthivel+880@moneyhop.co");
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterOldEmailId("sakthivel+330@moneyhop.co");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.inrCurrencyTextBox("4999");
         sendMoneyPage.minAmountValidation();
         sendMoneyPage.inrCurrencyTextBox("3000000");
@@ -193,6 +195,68 @@ public class SendMoneyTest extends BaseTest {
 
     }
 
+    @Test(priority = 18)
+    public void TC019_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees_without_TCS_ApplyCouponCode() throws Exception {
+        before("TC014 - Validate Tax & Transfer Fee and Total Amount Calculations");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.selectCurrencyByName("cad");
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.toggleSwitch();
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.warningContinue();
+        sendMoneyPage.applyCouponCode("ASHISH500");
+        sendMoneyPage.selectSourceOfFunds("salary or wages");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.transactionScreen();
+        TakeSnap.captureScreenshot();
+
+    }
+    @Test(priority = 18)
+    public void TC019_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_without_TCS_ApplyCouponCoin() throws Exception {
+        before("TC014 - Validate Tax & Transfer Fee and Total Amount Calculations");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.selectCurrencyByName("chf");
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        sendMoneyPage.toggleSwitch();
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.warningContinue();
+        sendMoneyPage.redeemHopCoins("200");
+        sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.transactionScreen();
+        TakeSnap.captureScreenshot();
+
+    }
+
+
     @Test(priority = 19)
     public void TC019_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees_with_TCS() throws Exception {
         before("TC070 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\" for new user");
@@ -215,10 +279,9 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("10000");
         sendMoneyPage.setSendMoneyButton();
-        sendMoneyPage.recipient();
+        sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceOfFunds();
-        sendMoneyPage.clickSourceOfFunds("salary or wages");
+        sendMoneyPage.selectSourceOfFunds("salary or wages");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("upi");
@@ -249,10 +312,9 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("100000");
         sendMoneyPage.setSendMoneyButton();
-        sendMoneyPage.recipient();
+        sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceOfFunds();
-        sendMoneyPage.clickSourceOfFunds("investments");
+        sendMoneyPage.selectSourceOfFunds("investments");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("upi");
@@ -261,7 +323,7 @@ public class SendMoneyTest extends BaseTest {
 
     }
     @Test(priority = 21)
-    public void TC021_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Family_Maintenance_with_TCS() throws Exception {
+    public void TC021_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Family_Maintenance() throws Exception {
         before("TC070 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\" for new user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -282,10 +344,9 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("80000");
         sendMoneyPage.setSendMoneyButton();
-        sendMoneyPage.recipient();
+        sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceOfFunds();
-        sendMoneyPage.clickSourceOfFunds("personal savings");
+        sendMoneyPage.selectSourceOfFunds("personal savings");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -295,7 +356,7 @@ public class SendMoneyTest extends BaseTest {
 
     }
     @Test(priority = 22)
-    public void TC022_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation_with_TCS() throws Exception {
+    public void TC022_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation() throws Exception {
         before("TC070 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\" for new user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -310,16 +371,15 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.clickselectCurrency();
-        sendMoneyPage.selectCurrencyByName("cad");
+        sendMoneyPage.selectCurrencyByName("nzd");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("850000");
         sendMoneyPage.setSendMoneyButton();
-        sendMoneyPage.recipient();
+        sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceOfFunds();
-        sendMoneyPage.clickSourceOfFunds("personal savings");
+        sendMoneyPage.selectSourceOfFunds("personal savings");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -329,3 +389,4 @@ public class SendMoneyTest extends BaseTest {
 
     }
 }
+

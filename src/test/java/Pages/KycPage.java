@@ -471,21 +471,27 @@ public class KycPage {
         TakeSnap.captureScreenshot();
     }
     public void editPanDetails() throws InterruptedException {
+        // Click the edit button
         editDetailsButton.click();
-        test.get().log(Status.PASS,"User clicked on No, Edit Details Button");
+        test.get().log(Status.PASS, "User clicked on 'No, Edit Details' button");
 
+        // Enter incorrect PAN number and verify error
         panNoTextbox.clear();
-        panNoTextbox.sendKeys("IXQPS2345G");
-        test.get().log(Status.INFO,"User entered incorrect Pan no.");
+        panNoTextbox.sendKeys("IXQPS23450G");
+        test.get().log(Status.INFO, "User entered incorrect PAN number");
+
         verifyButton.click();
-        Thread.sleep(2000);
+        // It's better to use WebDriverWait instead of Thread.sleep
+        Thread.sleep(2000);  // Consider replacing with explicit wait for error element
+
         TakeSnap.captureScreenshot();
-        test.get().log(Status.PASS, "Error: Invalid Pan Error is displayed correctly");
+        test.get().log(Status.PASS, "Error message for invalid PAN is displayed");
 
-
+        // Enter correct PAN number and verify
         panNoTextbox.clear();
         panNoTextbox.sendKeys("IXQPS1780A");
-        test.get().log(Status.INFO,"User entered correct Pan no.");
+        test.get().log(Status.INFO, "User entered correct PAN number");
+
         TakeSnap.captureScreenshot();
         verifyButton.click();
     }
@@ -824,6 +830,33 @@ public class KycPage {
             drawPath.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
             driver.perform(Collections.singletonList(drawPath));
+    }
+    public void passPortUploadRandomImage() throws IOException, InterruptedException{
+        // Set implicit wait
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        TakeSnap.captureScreenshot();
+
+        // Load test.jpg from resources (classpath-safe)
+        URL resource = getClass().getClassLoader().getResource("test1.jpg");
+        if (resource == null) {
+            throw new FileNotFoundException("test1.jpg not found in resources!");
+        }
+
+        File file = new File(resource.getFile());
+
+        // Push file to Android device
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
+            AndroidDriver androidDriver = (AndroidDriver) driver;
+            androidDriver.pushFile("/sdcard/Download/test1.jpg", file);
+        }
+
+        // Trigger file picker (assumes UI element is present and ready)
+        uploadPanCardOption.click();
+
+        // Click confirm/continue after selecting the file
+//        panConfirm.click();
+        Thread.sleep(2000);
+        TakeSnap.captureScreenshot();
     }
 
     }

@@ -19,7 +19,7 @@ public class OnboardingTest extends BaseTest {
             onboardingPage.dismissButton();
         }
 
-        onboardingPage.getStarted();
+        onboardingPage.clickSvgOrGetStartedButton();
         onboardingPage.enterRandomPhoneNo();
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
@@ -58,10 +58,9 @@ public class OnboardingTest extends BaseTest {
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
         sendMoneyPage.setSendMoneyButton();
-        sendMoneyPage.recipient();
+        sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceOfFunds();
-        sendMoneyPage.clickSourceOfFunds("student loan");
+        sendMoneyPage.selectSourceOfFunds("student loan");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("netBanking");

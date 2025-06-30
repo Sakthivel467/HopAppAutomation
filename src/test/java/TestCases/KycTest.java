@@ -86,21 +86,19 @@ public class KycTest  extends BaseTest {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("9999999999");
+        onboardingPage.enterRandomPhoneNo();
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
-        onboardingPage.validatePinLabel();
-        onboardingPage.enterPin("1390");
-        onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin("1234");
+        onboardingPage.enterPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
         kycPage.uploadPanCard();
-        kycPage.submitButton();
-        kycPage.confirmPanDetails();
         kycPage.editPanDetails();
         kycPage.documentVerificationSuccess();
     }
@@ -217,44 +215,37 @@ public class KycTest  extends BaseTest {
         kycPage.drawSignature();
         kycPage.signaturePadConfirm();
         sendMoneyPage.selectRecipientType("institution");
-        sendMoneyPage.enterRecipientDetailsAndContinue(
-                "John Doe",                  // NameRecipient
-                "Test",           // addNewRecipient
-                "560001",                    // pinCode
-                "Bangalore",                 // city
-                "Karnataka",                 // state
-                "India",                     // country
-                "9876543210",                // phone
-                "john.doe@example.com"       // email
-        );
-        onboardingPage.enterIbanAndProceed("AE660200000037211307001");
 
     }
 
 
     @Test(priority = 29)
-    public void TC029_Upload_Random_Image_In_Aadhaar_Card() throws Exception {
+    public void TC029_Upload_Random_Image_In_PassPort_FE() throws Exception {
         before("TC029 - Upload a Random Image in the Aadhaar Card Document Upload Section");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("7087087087");
-        onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
-        onboardingPage.enterOtp("6");
-        onboardingPage.enterPin("1918");
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
         kycPage.uploadPanCard();
-        kycPage.submitButton();
-        kycPage.confirmPanDetails();
-        kycPage.setYesItsMeButton();
-        kycPage.documentVerificationSuccess();
-        kycPage.clickContinueButton();
-        kycPage.uploadRandomImage();
+        kycPage.clickSecDos();
+        kycPage.PassPort();
+        kycPage.PassPortFD();
+        kycPage.cancelButton();
+        kycPage.passPortUploadRandomImage();
+
     }
 }
 

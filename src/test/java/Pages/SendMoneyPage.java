@@ -10,6 +10,7 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,6 +23,8 @@ import Utils.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 import static Utils.AndroidUtils.*;
 import static extentReport.ExtentReportManager.test;
@@ -61,16 +64,21 @@ import static extentReport.ExtentReportManager.test;
         private WebElement purposeGiftDonation;
          @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Confirm \"]")
          private WebElement confirmButton;
-         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"HomeScreen_Send_Money_Button\"]")
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Recipients\"]")
+        //android.widget.TextView[@text="Recipients"]
+        private WebElement svgIcon;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"HomeScreen_Send_Money_Button\"]")
          private WebElement sendMoneyButton;
-         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"HomeScreen_Send_Money_Button\"]")
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Send Money \"]")
+        private WebElement recipientSendMoneyButton;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"HomeScreen_Send_Money_Button\"]")
         private WebElement setOnetimeVerificationButton;
-        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Recipient_Listing_Ids_12212\"]")
+        @AndroidFindBy(xpath = "(//android.view.ViewGroup[@content-desc=\"Recipient_Listing_Ids_133\"])[1]")
          private WebElement recipient;
          @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Continue \"]")
          private WebElement warningContinue;
-        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Select Source of Funds\"]")
-        //android.widget.TextView[@text="Select Source of Funds"]
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Select Source of Funds\"]")
+        //android.view.ViewGroup[@content-desc="Select Source of Funds"]
         private WebElement selectSourceOfFunds;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Salary or Wages']")
         private WebElement salaryOrWages;
@@ -970,7 +978,8 @@ import static extentReport.ExtentReportManager.test;
             TakeSnap.captureScreenshot();
         }
 
-        public void selectPurposeCode()  {
+        public void selectPurposeCode() throws InterruptedException {
+            Thread.sleep(500);
             SelectPurposeCode.click();
         }
         public void selectPurposeOfTransfer(String purpose) throws InterruptedException {
@@ -998,30 +1007,80 @@ import static extentReport.ExtentReportManager.test;
         public void confirmButton() {
             confirmButton.click();
         }
-        public void setSendMoneyButton() throws InterruptedException{
-            Thread.sleep(600);
-            sendMoneyButton.click();
-            TakeSnap.captureScreenshot();
+        public void clickRecipientSvgIcon() {
+            svgIcon.click();
         }
+        public void setSendMoneyButton() throws InterruptedException{
+            Thread.sleep(800);
+            TakeSnap.captureScreenshot();
+            sendMoneyButton.click();
+        }
+        public void recipientSendMoneyButton() throws InterruptedException{
+            Thread.sleep(800);
+            TakeSnap.captureScreenshot();
+            recipientSendMoneyButton.click();
+        }
+
+
         public void setOnetimeVerificationButton() throws InterruptedException {
             Thread.sleep(500);
             setOnetimeVerificationButton.click();
         }
-        public void recipient() throws InterruptedException{
-            Thread.sleep(300);
-            recipient.click();
-            TakeSnap.captureScreenshot();
+//        public void recipient() throws InterruptedException{
+//            Thread.sleep(300);
+//            recipient.click();
+//            TakeSnap.captureScreenshot();
+//        }
+        public void clickFirstAvailableRecipient() {
+            List<String> xpaths = Arrays.asList(
+                    "(//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_0000037211307001'])[1]",
+                    "(//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_31926819'])[1]",
+                    "(//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_133'])[1]",
+                    "(//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_133'])[2]",
+                    "(//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_123'])[1]",
+                    "//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_1342']",
+                    "//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_457']",
+                    "//android.view.ViewGroup[@content-desc='Recipient_Listing_Ids_234']"
+            );
+
+            boolean clicked = false;
+
+            for (String xpath : xpaths) {
+                try {
+                    WebElement element = driver.findElement(By.xpath(xpath));
+                    if (element.isDisplayed()) {
+                        element.click();
+                        TakeSnap.captureScreenshot(); // Optional
+                        System.out.println("Clicked element with XPath: " + xpath);
+                        clicked = true;
+                        break; // Exit after first match
+                    }
+                } catch (NoSuchElementException e) {
+                    // Skip if not found
+                }
+            }
+
+            if (!clicked) {
+                throw new RuntimeException("No recipient element found from the provided list.");
+            }
         }
+
         public void warningContinue() throws InterruptedException{
             warningContinue.click();
             Thread.sleep(1000);
         }
-        public void selectSourceOfFunds() throws InterruptedException{
+//        public void selectSourceOfFunds() throws InterruptedException{
+//            selectSourceOfFunds.click();
+//            Thread.sleep(1000);
+//            TakeSnap.captureScreenshot();
+//        }
+        public void selectSourceOfFunds(String source) throws InterruptedException {
+            // Click the dropdown or field to open Source of Funds options
             selectSourceOfFunds.click();
             Thread.sleep(1000);
             TakeSnap.captureScreenshot();
-        }
-        public void clickSourceOfFunds(String source) throws InterruptedException {
+
+            // Select the appropriate source based on the given input
             switch (source.toLowerCase()) {
                 case "salary or wages":
                     salaryOrWages.click();
@@ -1042,19 +1101,20 @@ import static extentReport.ExtentReportManager.test;
                     retirementFunds.click();
                     break;
                 case "business owner/ share holder":
-                case "business owner/share holder": // to support minor variations
+                case "business owner/share holder":
                     businessOwnerOrShareHolder.click();
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid source of funds: " + source);
             }
-            TakeSnap.captureScreenshot(); // Optional: for logging purposes
-            Thread.sleep(1000); // Optional: replace with WebDriverWait for better stability
+
+            TakeSnap.captureScreenshot();
+            Thread.sleep(1000);
         }
+
 
         public void proceedToPayment() throws InterruptedException{
             proceedtoPayment.click();
-            Thread.sleep(1000);
         }
 
         public void completePayment() throws InterruptedException{
@@ -1286,15 +1346,15 @@ import static extentReport.ExtentReportManager.test;
 
         public void enterRecipientBankDetailsAndContinue(String swiftIban, String accountNumber, String confirmAccountNumber) throws InterruptedException {
             swiftIbanField.sendKeys(swiftIban);
+            // Click Verify
+            accVerifyButton.click();
+            Thread.sleep(1000); // Optional wait after verification
+
             bankAccountField.sendKeys(accountNumber);
             confirmBankAccountField.sendKeys(confirmAccountNumber);
 
             // Optionally hide keyboard
             driver.network();
-
-            // Click Verify
-            accVerifyButton.click();
-            Thread.sleep(1000); // Optional wait after verification
 
             // Take screenshot (if needed)
             TakeSnap.captureScreenshot();
@@ -1302,6 +1362,131 @@ import static extentReport.ExtentReportManager.test;
             // Click Continue
             nextContinueButton.click();
         }
+        public void applyCouponCode(String couponCode) {
+            // Locate the Coupon Code field and enter the value
+            WebElement couponCodeField = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='ConfirmScreen_Coupon_Code_Value']"));
+            couponCodeField.clear();
+            couponCodeField.sendKeys(couponCode);
+
+            // Optional: Hide keyboard if visible
+            try {
+                driver.network();
+            } catch (Exception e) {
+                // Keyboard not open — ignore
+            }
+
+            // Locate and click the Apply button
+            WebElement applyButton = driver.findElement(By.xpath("//android.widget.TextView[@text='Apply']"));
+            applyButton.click();
+
+            // Optional: wait or screenshot
+            TakeSnap.captureScreenshot();
+        }
+
+        public void redeemHopCoins(String couponCode) {
+            // Step 1: Click "Redeem Hop Coins"
+            WebElement redeemHopCoinsButton = driver.findElement(By.xpath("//android.widget.TextView[@text='Redeem Hop Coins']"));
+            redeemHopCoinsButton.click();
+
+            // Step 2: Enter value in the coupon code input field
+            WebElement couponCodeField = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='ConfirmScreen_Coupon_Code_Value']"));
+            couponCodeField.clear();
+            couponCodeField.sendKeys(couponCode);
+
+            // Optional: Hide keyboard
+            try {
+                driver.network();
+            } catch (Exception e) {
+                // Ignore if keyboard is already hidden
+            }
+
+            // Step 3: Click the "Redeem" button
+            WebElement redeemButton = driver.findElement(By.xpath("//android.widget.TextView[@text='Redeem']"));
+            redeemButton.click();
+
+            // Optional: Screenshot or wait
+            TakeSnap.captureScreenshot();
+        }
+        public void toggleSwitch() {
+            WebElement toggleSwitch = driver.findElement(By.xpath("//android.widget.Switch"));
+            toggleSwitch.click();  // Toggles the switch
+        }
+        public void validateGstAndTcs_ForFinalAmount() {
+            // 1. Total Pay and Fees (get dynamically in real test using XPaths)
+            double totalPay = 100000;
+            double totalFees = 4000;
+
+            // 2. Final amount to validate against
+            double finalAmount = totalPay - totalFees;
+            System.out.println("Final amount after fees: ₹" + finalAmount);
+
+            // 3. Calculate Expected GST
+            double expectedGst = calculateGst(finalAmount);
+            System.out.println("Expected GST: ₹" + expectedGst);
+
+            // 4. Calculate Expected TCS
+            double expectedTcs = calculateTcsO(finalAmount);
+            System.out.println("Expected TCS: ₹" + expectedTcs);
+
+            // 5. (Replace with actual XPath to fetch these from app)
+            String gstText = driver.findElement(By.xpath("//android.widget.TextView[@text=\"GST\"]/following-sibling::android.widget.TextView[1]\n")).getText();
+            String tcsText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text, \"TCS\")]/following-sibling::android.widget.TextView[1]\n")).getText();
+
+            double actualGst = Double.parseDouble(gstText.replaceAll("[^\\d.]", ""));
+            double actualTcs = Double.parseDouble(tcsText.replaceAll("[^\\d.]", ""));
+
+            // 6. Validate (allow small difference tolerance)
+            Assert.assertEquals(actualGst, expectedGst, 0.5, "GST mismatch!");
+            Assert.assertEquals(actualTcs, expectedTcs, 0.5, "TCS mismatch!");
+
+            System.out.println(" GST & TCS validation passed.");
+        }
+        public double calculateGst(double amount) {
+            if (amount <= 25000) {
+                return 250.0; // 1% of 25000
+            } else if (amount <= 100000) {
+                return amount * 0.01; // 1% flat
+            } else if (amount <= 1000000) {
+                return 1000 + 0.005 * (amount - 100000); // 0.5% after 1L
+            } else {
+                return 5500 + 0.001 * (amount - 1000000); // 0.1% after 10L
+            }
+
+        }
+        public double calculateTcsO(double amount) {
+            return amount * 0.05;
+        }
+
+        public void validateTCSOnly() {
+            // 1. Get Total Pay from UI
+            String totalPayText = driver.findElement(By.xpath("//android.widget.EditText[@content-desc=\"HomeScreen_Exchange_Input1_Value\"]")).getText();
+            double totalPay = Double.parseDouble(totalPayText.replaceAll("[^\\d.]", ""));
+
+            // 2. Get Total Fees from UI
+            String totalFeesText = driver.findElement(By.xpath("//android.widget.TextView[@text='Total Fees']/following-sibling::android.widget.TextView")).getText();
+            double totalFees = Double.parseDouble(totalFeesText.replaceAll("[^\\d.]", ""));
+
+            // 3. Calculate Final Amount
+            double finalAmount = totalPay - totalFees;
+            System.out.println("Final Amount: " + finalAmount);
+
+            // 4. Calculate expected TCS (5%)
+            double expectedTcs = calculateTcs(finalAmount);
+            System.out.println("Expected TCS: ₹" + expectedTcs);
+
+            // 5. Get TCS from UI
+            String tcsText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text, \"TCS\")]/following-sibling::android.widget.TextView[1]\n")).getText();
+            double actualTcs = Double.parseDouble(tcsText.replaceAll("[^\\d.]", ""));
+
+            // 6. Validate TCS with small tolerance
+            Assert.assertEquals(actualTcs, expectedTcs, 0.5, "TCS mismatch!");
+        }
+
+        // TCS Calculator
+        public double calculateTcs(double amount) {
+            return amount * 0.05;
+        }
+
 
     }
 
