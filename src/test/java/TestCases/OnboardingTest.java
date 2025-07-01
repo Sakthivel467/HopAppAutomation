@@ -13,8 +13,8 @@ public class OnboardingTest extends BaseTest {
     ExcelSetup ex = new ExcelSetup();
 
     @Test(priority = 1)
-    public void TC001_SignUp_To_Hop_App() throws Exception {
-        before("TC001- New_User_Signup_to_Hop_App");
+    public void TC001_New_User_SignUp_To_Hop_App() throws Exception {
+        before("TC001- New User Signup to Hop App");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -101,8 +101,8 @@ public class OnboardingTest extends BaseTest {
     }
 
     @Test(priority = 5)
-    public void TC005_Reset_App_Pin() throws Exception {
-        before("TC005_Reset_App_Pin");
+    public void TC005_Verify_User_Able_to_Reset_App_Pin() throws Exception {
+        before("TC005 Verify User Able to Reset App Pin");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -124,7 +124,7 @@ public class OnboardingTest extends BaseTest {
     }
     @Test(priority = 6)
     public void TC006_Reset_App_Pin_Failure() throws Exception {
-        before("TC006_Reset_App_Pin_Failure");
+        before("TC006 Reset App Pin Failure");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -143,7 +143,7 @@ public class OnboardingTest extends BaseTest {
     }
     @Test(priority = 7)
     public void TC007_Incorrect_Pin_Old_User() throws Exception {
-        before("TC007_Incorrect_Pin_Old_User");
+        before("TC007 Incorrect Pin Old User");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -160,7 +160,7 @@ public class OnboardingTest extends BaseTest {
 
     @Test(priority = 8)
     public void TC008_OTP_Validation_Hop_App() throws Exception {
-        before("TC008_OTP_Validation_Hop_App");
+        before("TC008 OTP Validation Hop App");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -178,7 +178,7 @@ public class OnboardingTest extends BaseTest {
 
     @Test(priority = 9)
     public void TC009_Signup_TnC_Validation_Hop_App() throws Exception {
-        before("TC009_Signup_TnC_Validation_Hop_App");
+        before("TC009 Signup TnC Validation Hop App");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -194,7 +194,7 @@ public class OnboardingTest extends BaseTest {
     }
     @Test(priority = 10)
     public void TC010_Incorrect_Pin_New_User() throws Exception {
-        before("TC007_Incorrect_Pin_new_User");
+        before("TC007 Incorrect Pin new User");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
