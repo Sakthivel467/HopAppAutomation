@@ -19,7 +19,7 @@ public class OnboardingTest extends BaseTest {
             onboardingPage.dismissButton();
         }
 
-        onboardingPage.clickSvgOrGetStartedButton();
+        onboardingPage.getStarted();
         onboardingPage.enterRandomPhoneNo();
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
@@ -62,9 +62,7 @@ public class OnboardingTest extends BaseTest {
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("student loan");
         sendMoneyPage.proceedToPayment();
-        sendMoneyPage.completePayment();
-        sendMoneyPage.selectPaymentMethod("netBanking");
-        sendMoneyPage.addNewBank();
+        TakeSnap.captureScreenshot();
 
 
     }
@@ -206,5 +204,87 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterPin("1234");
         onboardingPage.enterConfirmPin("1235");
         TakeSnap.captureScreenshot();
+    }
+    @Test(priority = 1)
+    public void TC001_Validation_Purpose_Of_Transfer_Text() throws Exception {
+        before("TC001- Validation Purpose Of TransferText");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        onboardingPage.validatePaymentTexts();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        onboardingPage.validateRemittanceInfoTexts();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        onboardingPage.validateTransferInfoTexts();
+        sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
+        onboardingPage.validateGiftRemittanceTexts();
+        sendMoneyPage.confirmButton();
+        TakeSnap.captureScreenshot();
+
+    }
+    @Test(priority =22)
+    public void TC001_Validation_Payment_Method_ForAD1() throws Exception {
+        before("TC022 - Create a End to End International Remittance Transaction with the Purpose of \"living_expenses_Fees\" for Old User");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.selectCurrencyByName("chf");
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("50000");
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.warningContinue();
+        sendMoneyPage.selectSourceOfFunds("retirement funds");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.completePayment();
+        onboardingPage.validatePaymentMethodTexts();
+
+    }
+    @Test(priority =22)
+    public void TC001_Validation_Logout_Flow() throws Exception {
+        before("TC022 - Create a End to End International Remittance Transaction with the Purpose of \"living_expenses_Fees\" for Old User");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7773335550");
+        onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.clickSettingButton();
+        onboardingPage.clickLogout(false);
+        onboardingPage.clickLogout(true);
+        TakeSnap.captureScreenshot();
+
+
     }
 }

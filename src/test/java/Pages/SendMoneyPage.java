@@ -256,8 +256,6 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void inrCurrencyTextBox(String Amount) throws InterruptedException {
-//            WebElement amountField = driver.findElement(By.id("inrCurrencyTextbox"));
-//            if (amountField.isEnabled()) {
                 inrCurrencyTextbox.click();
                 inrCurrencyTextbox.clear();
                 Thread.sleep(10);
@@ -1115,6 +1113,7 @@ import static extentReport.ExtentReportManager.test;
 
         public void proceedToPayment() throws InterruptedException{
             proceedtoPayment.click();
+            Thread.sleep(1000);
         }
 
         public void completePayment() throws InterruptedException{

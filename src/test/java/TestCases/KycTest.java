@@ -12,9 +12,9 @@ public class KycTest  extends BaseTest {
     ExcelSetup ex = new ExcelSetup();
 
 
-    @Test(priority = 20)
-    public void TC020_Label_Banner_Kyc_Homepage() throws Exception {
-        before("TC020 - Verify the Labels and Banners on the Verify Your Documents Page");
+    @Test(priority = 26)
+    public void TC026_Validate_Label_Banner_Kyc_Homepage() throws Exception {
+        before("TC026 - Verify the Labels and Banners on the Verify Your Documents Page");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -32,9 +32,9 @@ public class KycTest  extends BaseTest {
 
     }
 
-    @Test(priority = 21)
-    public void TC022_Upload_Pan_Card() throws Exception {
-        before("TC021 - Verify the Labels and Banners on the 'Upload PAN Card' Page");
+    @Test(priority = 27)
+    public void TC027_Validate_New_User_able_to_Upload_Pan_Card() throws Exception {
+        before("TC027 Validate New User able to Upload Pan Card");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -44,6 +44,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
@@ -56,9 +57,9 @@ public class KycTest  extends BaseTest {
 
     }
 
-    @Test(priority = 23)
-    public void TC023_Upload_Random_Image_In_Pan_Card() throws Exception {
-        before("TC023 - Upload a Random Image in the PAN Card Document Upload Section");
+    @Test(priority = 28)
+    public void TC028_Validate_Upload_Random_Image_In_Pan_Card() throws Exception {
+        before("TC028 - Upload a Random Image in the PAN Card Document Upload Section");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -79,8 +80,8 @@ public class KycTest  extends BaseTest {
         kycPage.uploadRandomImage();
     }
 
-    @Test(priority = 24)
-    public void TC024_Edit_Pan_Card_Details() throws Exception {
+    @Test(priority = 29)
+    public void TC029_Edit_Pan_Card_Details() throws Exception {
         before("TC024 - Verify Edit PAN Card Option by Entering Incorrect and Correct PAN No.");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -103,34 +104,8 @@ public class KycTest  extends BaseTest {
         kycPage.documentVerificationSuccess();
     }
 
-    @Test(priority = 25)
-    public void TC025_Pan_Card_KYC() throws Exception {
-        before("TC025 - Verify User Successfully Completes the KYC of PAN Card");
-        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
-            onboardingPage.dismissButton();
-        }
-        onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("9999999999");
-        onboardingPage.enterEmailId("testkyc");
-        onboardingPage.continueButton();
-        onboardingPage.enterOtp("123456");
-        onboardingPage.validatePinLabel();
-        onboardingPage.enterPin("1390");
-        onboardingPage.validateConfirmPinLabel();
-        onboardingPage.enterConfirmPin("1234");
-        onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.setSendMoneyButton();
-        kycPage.clickContinueButton();
-        kycPage.uploadPhoto();
-        kycPage.uploadPanCard();
-        kycPage.submitButton();
-        kycPage.confirmPanDetails();
-        kycPage.setYesItsMeButton();
-        kycPage.documentVerificationSuccess();
-    }
-
-    @Test(priority = 26)
-    public void TC026_Verify_Labels_Secondary_Documents() throws Exception {
+    @Test(priority = 30)
+    public void TC030_Verify_Labels_Secondary_Documents() throws Exception {
         before("TC026 - Verify the Labels and All Secondary Document Options");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -157,8 +132,8 @@ public class KycTest  extends BaseTest {
         kycPage.verifyLabelAndLogoSecondaryDoc();
     }
 
-    @Test(priority = 27)
-    public void TC027_Verify_Labels_Upload_Aadhaar_Page() throws Exception {
+    @Test(priority = 31)
+    public void TC031_Verify_Labels_Upload_Aadhaar_Page() throws Exception {
         before("TC027 - Verify the Labels and Banners on the Upload Aadhaar Card Page");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -178,8 +153,8 @@ public class KycTest  extends BaseTest {
         kycPage.uploadAadhaarBanner();
     }
 
-    @Test(priority = 28)
-    public void TC028_Upload_PassPort_Front_And_Back() throws Exception {
+    @Test(priority = 32)
+    public void TC032_Upload_PassPort_Front_And_Back() throws Exception {
         before("TC028 - Upload the Aadhaar Card Front & Back and View the Uploaded Document");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -200,13 +175,9 @@ public class KycTest  extends BaseTest {
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
-        kycPage.cancelButton();
-        kycPage.uploadPhoto();
         kycPage.uploadPanCard();
         kycPage.clickSecDos();
         kycPage.PassPort();
-        kycPage.PassPortFD();
-        kycPage.cancelButton();
         kycPage.PassPortFD();
         kycPage.uploadFrontPassPort();
         kycPage.PassPortBD();
@@ -219,8 +190,8 @@ public class KycTest  extends BaseTest {
     }
 
 
-    @Test(priority = 29)
-    public void TC029_Upload_Random_Image_In_PassPort_FE() throws Exception {
+    @Test(priority = 33)
+    public void TC033_Upload_Random_Image_In_PassPort_FE() throws Exception {
         before("TC029 - Upload a Random Image in the Aadhaar Card Document Upload Section");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();

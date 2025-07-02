@@ -82,7 +82,7 @@ public class KycPage {
     private WebElement uploadPhotoButton;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Upload the front side of your PAN card']")
     private WebElement uploadPanDescription;
-    @AndroidFindBy(xpath = "(//android.widget.ImageView[@resource-id=\"com.google.android.providers.media.module:id/icon_thumbnail\"])[1]")
+    @AndroidFindBy(xpath = "//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[5]/android.view.View[2]/android.view.View[2]/android.view.View")
     private WebElement uploadPanCardOption;
     @AndroidFindBy(xpath = "(//android.widget.ImageView[@resource-id=\"com.google.android.providers.media.module:id/icon_thumbnail\"])[2]")
     private WebElement uploadPassPort1;

@@ -7,8 +7,10 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,12 +20,13 @@ import org.testng.Assert;
 import Utils.*;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Random;
 
 import static extentReport.ExtentReportManager.test;
 
 
-public class OnboardingPage  {
+public class OnboardingPage {
     private final AppiumDriver driver;
 
     public OnboardingPage(AppiumDriver driver) {
@@ -32,26 +35,28 @@ public class OnboardingPage  {
 
     }
 
-     ExcelSetup ex=new ExcelSetup();
+    ExcelSetup ex = new ExcelSetup();
 
-   @iOSXCUITFindBy(accessibility = "redbox-dismiss")
+    @iOSXCUITFindBy(accessibility = "redbox-dismiss")
     private WebElement dismissButton;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Smarter. Faster.\n" +
-           "Better. way to send money abroad\"]")
+            "Better. way to send money abroad\"]")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Smarter. Faster.\n" +
             "Better. way to send money abroad\"]")
     private WebElement smarterTxt;
     @AndroidFindBy(className = "android.widget.ImageView")
     @iOSXCUITFindBy(xpath = "(//XCUIElementTypeOther[@name=\"Smarter. Faster.\n" +
-                    "Better. way to send money abroad Get Started by continuing, I agree to theand Horizontal scroll bar, 1 page Toolbar\"])[6]/XCUIElementTypeOther[2]/XCUIElementTypeOther" )
+            "Better. way to send money abroad Get Started by continuing, I agree to theand Horizontal scroll bar, 1 page Toolbar\"])[6]/XCUIElementTypeOther[2]/XCUIElementTypeOther")
     private WebElement sendMoneyImage;
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"IntroScreen_Get_Started_Button\"]")
-    @iOSXCUITFindBy(accessibility = "Get Started" )
+    @iOSXCUITFindBy(accessibility = "Get Started")
     private WebElement getStarted;
     @AndroidFindBy(className = "com.horcrux.svg.PathView")
-    @iOSXCUITFindBy(xpath ="(//XCUIElementTypeOther[@name='Enter your phone number and email'])[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther")
+    @iOSXCUITFindBy(xpath = "(//XCUIElementTypeOther[@name='Enter your phone number and email'])[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther")
     private WebElement backButton;
+    @AndroidFindBy(xpath = " //android.view.ViewGroup[@content-desc='TransactionDetail_Header_Text']/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
+    private WebElement tranBackButton;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Enter your phone number and email']")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name='Enter your phone number and email']")
     private WebElement labelPhoneNoAndEmail;
@@ -64,11 +69,13 @@ public class OnboardingPage  {
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Signup_Continue_Button\"]")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeOther[@name=\"Continue\"]")
     private WebElement continueButton;
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Settings\"]")
+    private WebElement clickSettingButton;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Phone No.*']")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Phone No.*\"]")
     private WebElement phoneNoPlaceholder;
-      @AndroidFindBy(xpath = "//android.widget.TextView[@text='Email*']")
-      @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Email\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Email*']")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Email\"]")
     private WebElement emailPlaceholder;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Verify your account\"]")
     private WebElement verifyAccountTxt;
@@ -77,7 +84,7 @@ public class OnboardingPage  {
     @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"VerifyOtp_Header_Text\"]")
     //android.widget.TextView[@text='Enter the OTP sent to your phone number']
     private WebElement enterOtpTxt;
-//    @AndroidFindBy(accessibility = "otp-input-0")
+    //    @AndroidFindBy(accessibility = "otp-input-0")
 //    private WebElement otpBox;
 //    @AndroidFindBy(accessibility = "otp-input-1")
 //    private WebElement otpBox1;
@@ -127,13 +134,15 @@ public class OnboardingPage  {
     private WebElement sendMoneyLabel;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Live Google Rate\"]")
     private WebElement liveGoogleRate;
+    @AndroidFindBy(xpath = "  //android.widget.TextView[@text=\"all fees included\"]")
+    private WebElement allFees;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"1 day settlement\"]")
-    private WebElement oneday;
+    private WebElement oneDay;
     @AndroidFindBy(xpath = "//android.view.View[@text=\"Verify your documents\"]")
     private WebElement kYCDocsScreenLabel;
     @AndroidFindBy(xpath = " //android.widget.TextView[@text=\"PAN Card\"]")
     private WebElement pancardLable;
-    @FindBy(xpath = "//android.widget.TextView[@text=\"Welcome to the HOPRemit\"]")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Enter your app PIN\"]")
     private WebElement oldUserPinLabel;
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"otp-input-0\"]")
     private WebElement oldUserPinCode;
@@ -145,70 +154,69 @@ public class OnboardingPage  {
     private WebElement oldUserPinCode4;
 
 
-
     @AndroidFindAll({
-            @AndroidBy(xpath="//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView"),
-            @AndroidBy(xpath="//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView")
+            @AndroidBy(xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView"),
+            @AndroidBy(xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView")
     })
     private WebElement eyeButton;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='Invalid Otp']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Invalid Otp']")
     private WebElement invalidOtpError;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='The passcode you have entered does not match']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='The passcode you have entered does not match']")
     private WebElement pinNotMatched;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='+91']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='+91']")
     private WebElement phoneNoCountryCode;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='Enter your App Pin']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Enter your app Pin']")
     private WebElement enterAppPinLabel;
-    @AndroidFindBy(xpath=" //android.widget.TextView[@text='Tap to login with device Biometric ID lock']")
+    @AndroidFindBy(xpath = " //android.widget.TextView[@text='Tap to login with device Biometric ID lock']")
     private WebElement biometricLabel;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='Mobile no is already registered.']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Mobile no is already registered.']")
     private WebElement mobileNoAlreadyRegistered;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text=\"Entered phoneNumber is already linked with ******\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Entered phoneNumber is already linked with ******\"]")
     private WebElement emailIdAlreadyRegistered;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text=\"Forgot your PIN? \"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Forgot your PIN? \"]")
     private WebElement havingTroubleLabel;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text=\"Enter your phone number and email\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Enter your phone number and email\"]")
     private WebElement enterMobileNum;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text=\"Reset it here\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Reset it here\"]")
     private WebElement resetPinButton;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='Reset App Pin']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Reset App Pin']")
     private WebElement resetPinLabel;
-    @AndroidFindBy(xpath="//android.widget.TextView[@text='Failed to change app pin']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Failed to change app pin']")
     private WebElement failedToChangePin;
-    @AndroidFindBy(xpath="//android.widget.Toast[@text='Successfully changed app pin']")
+    @AndroidFindBy(xpath = "//android.widget.Toast[@text='Successfully changed app pin']")
     private WebElement successChangedPinMessage;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Please choose your new 4-digit app pin']")
     private WebElement newPinLabel;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Invalid Otp\"]")
     private WebElement incorrectPin;
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Skip Guide\"]")
-    private WebElement skipGuide ;
+    private WebElement skipGuide;
     @AndroidFindBy(xpath = "(//android.view.ViewGroup[@content-desc=\"HomeScreen_Exchange_Input_Country_Selection\"])[2]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView")
-    private WebElement SelectCurrency ;
+    private WebElement SelectCurrency;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"United States Dollar\"]")
-    private WebElement currencyUSD ;
+    private WebElement currencyUSD;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"British Pound Sterling\"]")
-    private WebElement currencyGBP ;
+    private WebElement currencyGBP;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Euro\"]")
-    private WebElement currencyEUR ;
+    private WebElement currencyEUR;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Australian Dollar\"]")
-    private WebElement currencyAUD ;
+    private WebElement currencyAUD;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Canadian Dollar\"]")
-    private WebElement currencyCAD ;
+    private WebElement currencyCAD;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Singapore Dollar\"]")
-    private WebElement currencySGD ;
+    private WebElement currencySGD;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Japanese Yen\"]")
-    private WebElement currencyJPY ;
+    private WebElement currencyJPY;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"United Arab Emirates Dirham\"]")
-    private WebElement currencyAED ;
+    private WebElement currencyAED;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"New Zealand Dollar\"]")
-    private WebElement currencyNZD ;
+    private WebElement currencyNZD;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Swiss Franc\"]")
-    private WebElement currencyCHF ;
+    private WebElement currencyCHF;
     @AndroidFindBy(xpath = " //android.widget.TextView[@text=\"terms and conditions\"]")
-    private WebElement termsAndConditions ;
+    private WebElement termsAndConditions;
     @AndroidFindBy(xpath = "//com.horcrux.svg.PathView")
-    private WebElement termsAndConditionsClose ;
+    private WebElement termsAndConditionsClose;
     @FindBy(xpath = "//android.widget.TextView[@text=\"Reset App Pin\"]")
     private WebElement restPinLabel;
     @FindBy(xpath = " //android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
@@ -223,23 +231,25 @@ public class OnboardingPage  {
     private WebElement ibaContinueButton;
 
 
-
     public void dismissButton() throws Exception {
         dismissButton.click();
-        if(dismissButton.isDisplayed()){
+        if (dismissButton.isDisplayed()) {
             dismissButton.click();
         }
     }
+
     public void moneyHopMoto() throws InterruptedException {
         Thread.sleep(4000);
         Assert.assertTrue(smarterTxt.isDisplayed());
-        test.get().log(Status.PASS,"Homepage message: "+smarterTxt.getText());
+        test.get().log(Status.PASS, "Homepage message: " + smarterTxt.getText());
     }
-    public void sendMoneyImage(){
+
+    public void sendMoneyImage() {
         Assert.assertTrue(sendMoneyImage.isDisplayed());
-        test.get().log(Status.PASS,"Send money Image is displayed on the Hop App");
+        test.get().log(Status.PASS, "Send money Image is displayed on the Hop App");
         TakeSnap.captureScreenshot();
     }
+
     public void clickSvgOrGetStartedButton() {
         String primaryXPath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView[1]";
         String fallbackXPath = "//android.view.ViewGroup[@content-desc='IntroScreen_Get_Started_Button']";
@@ -271,9 +281,10 @@ public class OnboardingPage  {
     public void getStarted() throws InterruptedException {
         Thread.sleep(1000);
         TakeSnap.captureScreenshot();
-         getStarted.click();
+        getStarted.click();
 //        test.get().log(Status.PASS,"User has clicked on Get Started Button");
     }
+
     public void termsAndConditions() throws InterruptedException {
         termsAndConditions.click();
         TakeSnap.captureScreenshot();
@@ -281,29 +292,34 @@ public class OnboardingPage  {
         termsAndConditionsClose.click();
 
     }
+
     public void backButtonLoginPage() throws InterruptedException {
 
         backButton.click();
         Thread.sleep(2000);
         Assert.assertTrue(smarterTxt.isDisplayed());
-       test.get().log(Status.PASS, "User clicked the Back button on SignUp page is successfully navigated to the HOP App homepage");
+        test.get().log(Status.PASS, "User clicked the Back button on SignUp page is successfully navigated to the HOP App homepage");
         TakeSnap.captureScreenshot();
         getStarted.click();
     }
+
     public void setBackButton() throws InterruptedException {
         backButton.click();
         Thread.sleep(2000);
     }
+
     public void validateLabelPhoneNoAndEmail() throws InterruptedException {
         Thread.sleep(2000);
         Assert.assertTrue(labelPhoneNoAndEmail.isDisplayed());
-        test.get().log(Status.INFO,"Label: "+labelPhoneNoAndEmail.getText());
+        test.get().log(Status.INFO, "Label: " + labelPhoneNoAndEmail.getText());
 
     }
+
     public void enterPhoneNo(String phoneNoTxt) throws Exception {
         phoneNo.sendKeys(phoneNoTxt);
     }
-    public void enterRandomPhoneNo(){
+
+    public void enterRandomPhoneNo() {
         Random random = new Random();
         StringBuilder mobileNumber = new StringBuilder("9");
         for (int i = 0; i < 9; i++) {
@@ -338,9 +354,9 @@ public class OnboardingPage  {
         phoneNo.sendKeys(phoneNoTxt);
     }
 
-    public void validatePhoneNoCountryCode(){
+    public void validatePhoneNoCountryCode() {
         Assert.assertTrue(phoneNoCountryCode.isDisplayed());
-        test.get().log(Status.INFO,"Label: '"+phoneNoCountryCode.getText()+"' is correctly displayed");
+        test.get().log(Status.INFO, "Label: '" + phoneNoCountryCode.getText() + "' is correctly displayed");
     }
 
     public void enterEmailId(String email) throws Exception {
@@ -348,7 +364,7 @@ public class OnboardingPage  {
         Random randomGenerator = new Random();
 
         int randomInt = randomGenerator.nextInt(100000);
-        emailId.sendKeys(email+ randomInt +"@moneyhop.com");
+        emailId.sendKeys(email + randomInt + "@moneyhop.com");
         Thread.sleep(2000);
         test.get().log(Status.PASS, "User entered the Valid Email Id");
         TakeSnap.captureScreenshot();
@@ -363,12 +379,13 @@ public class OnboardingPage  {
 //        test.get().log(Status.PASS, "Entered Email: " + generatedEmail);
 //        TakeSnap.captureScreenshot();
     }
-    public void enterOldEmailId(String email){
+
+    public void enterOldEmailId(String email) {
         emailId.sendKeys(email);
         test.get().log(Status.PASS, "User entered the Email Id");
     }
 
-    public void enterIncorrectEmailId(String email){
+    public void enterIncorrectEmailId(String email) {
         emailId.sendKeys(email);
         test.get().log(Status.PASS, "User entered the Incorrect Email Id");
     }
@@ -404,7 +421,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validatePhoneNoDoesNotAcceptSpecialCharacter(){
+    public void validatePhoneNoDoesNotAcceptSpecialCharacter() {
         phoneNo.clear();
         phoneNo.sendKeys("895556512%");
         Assert.assertFalse(continueButton.isEnabled());
@@ -412,7 +429,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validatePhoneNoDoesNotAcceptSpaces(){
+    public void validatePhoneNoDoesNotAcceptSpaces() {
         phoneNo.clear();
         phoneNo.sendKeys("89555 6512");
         Assert.assertFalse(continueButton.isEnabled());
@@ -420,7 +437,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validatePhoneNoDoesNotAcceptNullValue(){
+    public void validatePhoneNoDoesNotAcceptNullValue() {
         phoneNo.clear();
         phoneNo.sendKeys("");
         Assert.assertFalse(continueButton.isEnabled());
@@ -435,10 +452,10 @@ public class OnboardingPage  {
         validatePhoneNoDoesNotAcceptSpecialCharacter();
         validatePhoneNoDoesNotAcceptSpaces();
         validatePhoneNoDoesNotAcceptNullValue();
-       phoneNo.sendKeys("9999999999");
+        phoneNo.sendKeys("9999999999");
     }
 
-    public void validateEmailLeadingAndTrailingSpaces(){
+    public void validateEmailLeadingAndTrailingSpaces() {
         emailId.clear();
         emailId.sendKeys(" ");
         Assert.assertFalse(continueButton.isEnabled());
@@ -458,7 +475,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validateEmailAddressWithDots(){
+    public void validateEmailAddressWithDots() {
         emailId.clear();
         emailId.sendKeys("himanshu.sharma@mo.co");
         Assert.assertTrue(continueButton.isEnabled());
@@ -466,7 +483,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validateEmailAddressWithPlusSign(){
+    public void validateEmailAddressWithPlusSign() {
         emailId.clear();
         emailId.sendKeys("himanshu.sharma+12@mo.co");
         Assert.assertTrue(continueButton.isEnabled());
@@ -474,7 +491,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validateEmailAddressWithUppercaseLetter(){
+    public void validateEmailAddressWithUppercaseLetter() {
         emailId.clear();
         emailId.sendKeys("Himanshu.sharma@mo.co");
         Assert.assertTrue(continueButton.isEnabled());
@@ -482,7 +499,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validateEmailAddressWithoutAtTheRateSign(){
+    public void validateEmailAddressWithoutAtTheRateSign() {
         emailId.clear();
         emailId.sendKeys("Himanshumo.co");
         Assert.assertFalse(continueButton.isEnabled());
@@ -490,7 +507,7 @@ public class OnboardingPage  {
         TakeSnap.captureScreenshot();
     }
 
-    public void validateLeadingTrailingDotsAreNotAllowed(){
+    public void validateLeadingTrailingDotsAreNotAllowed() {
         emailId.clear();
         emailId.sendKeys(".himanshu@mo.co");
         Assert.assertFalse(continueButton.isEnabled());
@@ -524,24 +541,30 @@ public class OnboardingPage  {
         Thread.sleep(100);
         TakeSnap.captureScreenshot();
 //        if (continueButton.isEnabled()) {
-            continueButton.click();
+        continueButton.click();
 //            test.get().log(Status.PASS, "User clicked the Continue Button");
 //        }
     }
+    public void clickSettingButton()  {
+        clickSettingButton.click();
+    }
+
+
     //android.widget.TextView[@text="FX fees"]
-    public void verifyAccountLabel(){
+    public void verifyAccountLabel() {
         Assert.assertTrue(verifyAccountTxt.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+verifyAccountTxt.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + verifyAccountTxt.getText() + "' is displayed correctly");
 
         Assert.assertTrue(enterOtpTxt.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+ enterOtpTxt.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + enterOtpTxt.getText() + "' is displayed correctly");
     }
+
     public void validatePrimeUser() {
         Assert.assertTrue(PrimeUse.isDisplayed());
         test.get().log(Status.PASS, "Label: '" + PrimeUse.getText() + "' is displayed correctly");
     }
 
-    public void enterInvalidOtp(String number) throws InterruptedException{
+    public void enterInvalidOtp(String number) throws InterruptedException {
         String invalidOtp = "999999";
 
         otpBox.click(); // Tap to focus
@@ -581,48 +604,49 @@ public class OnboardingPage  {
 //    }
 
     public void enterOtp(String otp) throws InterruptedException {
-          // Tap on the first OTP box to activate input
-            TakeSnap.captureScreenshot();
-            otpBox.click();
+        // Tap on the first OTP box to activate input
+        TakeSnap.captureScreenshot();
+        otpBox.click();
 
-            // Enter OTP digits one-by-one
-            for (char digit : otp.toCharArray()) {
-                ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.valueOf("DIGIT_" + digit)));
-            }
+        // Enter OTP digits one-by-one
+        for (char digit : otp.toCharArray()) {
+            ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.valueOf("DIGIT_" + digit)));
+        }
     }
 //        Thread.sleep(2000);
-////        otpBox.click();
+
+    /// /        otpBox.click();
 //        otpBox.sendKeys("1");
 //        TakeSnap.captureScreenshot();
 //        otpBox.sendKeys(otp);
 //    }
-
-    public void validatePinLabel(){
+    public void validatePinLabel() {
         Assert.assertTrue(pinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+pinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + pinLabel.getText() + "' is displayed correctly");
     }
 
-    public void validateRestPinLabel(){
+    public void validateRestPinLabel() {
         Assert.assertTrue(restPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+pinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + pinLabel.getText() + "' is displayed correctly");
         Assert.assertTrue(restConfirmPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+restConfirmPinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + restConfirmPinLabel.getText() + "' is displayed correctly");
     }
 
-     public void enterPin(String pin){
+    public void enterPin(String pin) {
         // Click on the first OTP box to activate keyboard input
-            pinCode.click();
+        pinCode.click();
 
-            AndroidDriver androidDriver = (AndroidDriver) driver;
+        AndroidDriver androidDriver = (AndroidDriver) driver;
 
-            for (char digit : pin.toCharArray()) {
-                AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
-                androidDriver.pressKey(new KeyEvent(key));
-            }
-
-            TakeSnap.captureScreenshot();
+        for (char digit : pin.toCharArray()) {
+            AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
+            androidDriver.pressKey(new KeyEvent(key));
         }
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        TakeSnap.captureScreenshot();
+    }
+
+    //        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 //        wait.until(ExpectedConditions.visibilityOf(otpBox));
 //        otpBox.sendKeys("139");
 //        eyeButton.click();
@@ -632,31 +656,32 @@ public class OnboardingPage  {
 //        otpBox.clear();
 //        otpBox.sendKeys(pin);
 //    }
-public void oldUserEnterPin(String pin){
-    // Click on the first OTP box to activate keyboard input
-    pinCode.click();
+    public void oldUserEnterPin(String pin) {
+        // Click on the first OTP box to activate keyboard input
+        pinCode.click();
 
-    AndroidDriver androidDriver = (AndroidDriver) driver;
+        AndroidDriver androidDriver = (AndroidDriver) driver;
 
-    for (char digit : pin.toCharArray()) {
-        AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
-        androidDriver.pressKey(new KeyEvent(key));
+        for (char digit : pin.toCharArray()) {
+            AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
+            androidDriver.pressKey(new KeyEvent(key));
+        }
+
+        TakeSnap.captureScreenshot();
     }
 
-    TakeSnap.captureScreenshot();
-}
-    public void validateEnterPinLabel(){
+    public void validateEnterPinLabel() {
         Assert.assertTrue(oldUserPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+oldUserPinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + oldUserPinLabel.getText() + "' is displayed correctly");
     }
 
 
-    public void validateConfirmPinLabel(){
+    public void validateConfirmPinLabel() {
         Assert.assertTrue(confirmPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+confirmPinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + confirmPinLabel.getText() + "' is displayed correctly");
     }
 
-    public void enterConfirmPin(String pin){
+    public void enterConfirmPin(String pin) {
         // Click on the first OTP box to activate keyboard input
         pinCode5.click();
 
@@ -669,6 +694,7 @@ public void oldUserEnterPin(String pin){
 
         TakeSnap.captureScreenshot();
     }
+
     //
 //        TakeSnap.captureScreenshot();
 //        otpBox.sendKeys("1234");
@@ -678,14 +704,16 @@ public void oldUserEnterPin(String pin){
 //        otpBox.clear();
 //        otpBox.sendKeys("1234");
 //    }
-    public void skipGuide ()throws InterruptedException{
+    public void skipGuide() throws InterruptedException {
         Thread.sleep(50);
         skipGuide.click();
     }
-    public void SelectFCYCurrency ()throws InterruptedException{
+
+    public void SelectFCYCurrency() throws InterruptedException {
         Thread.sleep(50);
         SelectCurrency.click();
     }
+
     public void selectCurrency(String currencyName) throws InterruptedException {
         switch (currencyName.toLowerCase()) {
             case "united states dollar":
@@ -729,16 +757,18 @@ public void oldUserEnterPin(String pin){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOf(sendMoneyLabel));
         wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
+        wait.until(ExpectedConditions.visibilityOf(allFees));
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();
-        test.get().log(Status.PASS,"Label: Send Money Page is displayed correctly");
+        test.get().log(Status.PASS, "Label: Send Money Page is displayed correctly");
     }
+
     public void validateUserIoOnOneDaySettlement() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.visibilityOf(oneday));
+        wait.until(ExpectedConditions.visibilityOf(oneDay));
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();
-        test.get().log(Status.PASS,"Label: Send Money Page is displayed correctly");
+        test.get().log(Status.PASS, "Label: Send Money Page is displayed correctly");
     }
 
     public void validateUserIsOnKYCDocsScreen() {
@@ -751,52 +781,60 @@ public void oldUserEnterPin(String pin){
     }
 
 
-    public void validateEnterPinLabelForOldUser(){
+    public void validateEnterPinLabelForOldUser() {
         Assert.assertTrue(enterAppPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Error Message: '"+enterAppPinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Error Message: '" + enterAppPinLabel.getText() + "' is displayed correctly");
         Assert.assertTrue(biometricLabel.isDisplayed());
-        test.get().log(Status.PASS,"Error Message: '"+biometricLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Error Message: '" + biometricLabel.getText() + "' is displayed correctly");
     }
 
-    public void setMobileNoAlreadyRegisteredError(){
+    public void setMobileNoAlreadyRegisteredError() {
         Assert.assertTrue(mobileNoAlreadyRegistered.isDisplayed());
-        test.get().log(Status.PASS,"Error Message: '"+mobileNoAlreadyRegistered.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Error Message: '" + mobileNoAlreadyRegistered.getText() + "' is displayed correctly");
         TakeSnap.captureScreenshot();
     }
-    public void setEmailIdAlreadyRegistered(){
+
+    public void setEmailIdAlreadyRegistered() {
         Assert.assertTrue(emailIdAlreadyRegistered.isDisplayed());
-        test.get().log(Status.PASS,"Error Message: '"+emailIdAlreadyRegistered.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Error Message: '" + emailIdAlreadyRegistered.getText() + "' is displayed correctly");
         TakeSnap.captureScreenshot();
     }
-    public void setHavingTroubleLabel(){
+
+    public void setHavingTroubleLabel() {
         Assert.assertTrue(havingTroubleLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+havingTroubleLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + havingTroubleLabel.getText() + "' is displayed correctly");
     }
-    public void enterMobileNum(){
+
+    public void enterMobileNum() {
         Assert.assertTrue(enterMobileNum.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+enterMobileNum.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + enterMobileNum.getText() + "' is displayed correctly");
     }
-    public void clickResetPin(){
+
+    public void clickResetPin() {
         resetPinButton.click();
     }
-    public void resetAppPinLabel(){
+
+    public void resetAppPinLabel() {
         Assert.assertTrue(resetPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+resetPinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + resetPinLabel.getText() + "' is displayed correctly");
         Assert.assertTrue(newPinLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+newPinLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + newPinLabel.getText() + "' is displayed correctly");
     }
-    public void verifyFailedToChangeAppPin(){
+
+    public void verifyFailedToChangeAppPin() {
         Assert.assertTrue(failedToChangePin.isDisplayed());
-        test.get().log(Status.PASS,"Error Message: '"+failedToChangePin.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Error Message: '" + failedToChangePin.getText() + "' is displayed correctly");
     }
+
     public void verifySuccessToChangeAppPin() throws InterruptedException {
         Thread.sleep(2000);
         Assert.assertTrue(successChangedPinMessage.isDisplayed());
-        test.get().log(Status.PASS,"Success Message: '"+successChangedPinMessage.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Success Message: '" + successChangedPinMessage.getText() + "' is displayed correctly");
     }
-    public void verifyIncorrectPin(){
+
+    public void verifyIncorrectPin() {
         Assert.assertTrue(incorrectPin.isDisplayed());
-        test.get().log(Status.PASS,"Success Message: '"+incorrectPin.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Success Message: '" + incorrectPin.getText() + "' is displayed correctly");
     }
 
     public void enterIbanAndProceed(String iban) throws InterruptedException {
@@ -820,13 +858,144 @@ public void oldUserEnterPin(String pin){
         // Click Continue
         ibaContinueButton.click();
     }
+
     public void clickBackButton() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement backButton = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//android.view.ViewGroup[@content-desc='TransactionDetail_Header_Text']/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView")
-        ));
-        backButton.click();
+        tranBackButton.click();
+    }
+
+    public void clickLogout(boolean confirmLogout) throws InterruptedException {
+        // Click on the Logout button
+        WebElement logoutButton = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout\"]"));
+        logoutButton.click();
+
+        // Wait for the confirmation modal
+        Thread.sleep(1000); // Optional - better to use WebDriverWait if needed
+
+        if (confirmLogout) {
+            // Click on "Yes" in modal
+            WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_Yes\"]"));
+            yesBtn.click();
+            System.out.println("Logout confirmed.");
+        } else {
+            // Click on "No" in modal
+            WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_No\"]"));
+            noBtn.click();
+            System.out.println("Logout cancelled.");
+        }
+    }
+
+    public void scrollFullPage() {
+        boolean canScrollMore = true;
+
+        while (canScrollMore) {
+            try {
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                HashMap<String, Object> scrollParams = new HashMap<>();
+                scrollParams.put("direction", "down");
+                scrollParams.put("strategy", "class name");
+                scrollParams.put("selector", "android.widget.ScrollView"); // You can change if needed
+                canScrollMore = (Boolean) js.executeScript("mobile: scrollGesture", scrollParams);
+            } catch (Exception e) {
+                System.out.println("Scrolling failed: " + e.getMessage());
+                break;
+            }
+        }
+
+        System.out.println("Finished scrolling to the bottom.");
+    }
+
+    public void validatePaymentTexts() {
+        // XPath for first message
+        String expectedText1 = "Successfully paid fees to 600+ universities";
+        WebElement textElement1 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Successfully paid fees to 600+ universities\"]"));
+        Assert.assertTrue(textElement1.isDisplayed(), "Expected text 1 is not displayed!");
+        System.out.println("Text 1 validated: " + textElement1.getText());
+
+        // XPath for second message
+        String expectedText2 = "Self transfers are not allowed. Only close blood relatives (Parents and Siblings) can send money under this purpose.";
+        WebElement textElement2 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Self transfers are not allowed. Only close blood relatives (Parents and Siblings) can send money under this purpose.\"]"));
+        Assert.assertTrue(textElement2.isDisplayed(), "Expected text 2 is not displayed!");
+        System.out.println(" Text 2 validated: " + textElement2.getText());
+    }
+    public void validateRemittanceInfoTexts() {
+        // Text 1: Validation
+        String expectedText1 = "Self transfers are not allowed. Only close blood relatives (Parents and Siblings) can send money under this purpose.";
+        WebElement restrictionText = driver.findElement(By.xpath(" //android.widget.TextView[@text=\"Self transfers are not allowed. Only close blood relatives (Parents and Siblings) can send money under this purpose.\"]"));
+        Assert.assertTrue(restrictionText.isDisplayed(), "Restriction info text is not displayed!");
+        System.out.println(" Restriction text validated: " + restrictionText.getText());
+
+        // Text 2: Validation
+        String expectedText2 = "₹1.8 Cr saved by Indian students last month";
+        WebElement savingsText = driver.findElement(By.xpath("//android.widget.TextView[@text=\"₹1.8 Cr saved by Indian students last month\"]"));
+        Assert.assertTrue(savingsText.isDisplayed(), "Savings info text is not displayed!");
+        System.out.println(" Savings text validated: " + savingsText.getText());
+    }
+
+    public void validateTransferInfoTexts() {
+        // 1. Text: Successfully remitted to 12,000+ families...
+        String expectedText1 = "Successfully remitted to 12,000+ families in last 3 months";
+        WebElement remittedText = driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + expectedText1 + "\"]"));
+        Assert.assertTrue(remittedText.isDisplayed(), "Remittance info text not displayed!");
+        System.out.println(" Validated: " + remittedText.getText());
+
+        // 2. Text: The minimum amount you can send is INR 17,000...
+        String expectedText2 = "The minimum amount you can send is INR 17,000. Only close blood relatives (parents, siblings or spouse) can send money under this purpose. Self-transfers are not allowed.";
+        WebElement minAmtText = driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + expectedText2 + "\"]"));
+        Assert.assertTrue(minAmtText.isDisplayed(), "Minimum amount + relationship rule text not displayed!");
+        System.out.println(" Validated: " + minAmtText.getText());
+
+        // 3. Text: NOSTRO charges...
+        String expectedText3 = "NOSTRO charges will be charged to the beneficiary and the final receivable amount will slightly vary.";
+        WebElement nostroText = driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + expectedText3 + "\"]"));
+        Assert.assertTrue(nostroText.isDisplayed(), "NOSTRO charges info text not displayed!");
+        System.out.println(" Validated: " + nostroText.getText());
+    }
+
+    public void validateGiftRemittanceTexts() {
+        // 1. Validate minimum amount and self-transfer restriction text
+        String expectedText1 = "The minimum amount you can send is INR 17,000. Under this purpose code, self-transfers are not allowed.";
+        WebElement text1 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + expectedText1 + "\"]"));
+        Assert.assertTrue(text1.isDisplayed(), " Minimum amount & self-transfer info not displayed!");
+        System.out.println("Validated: " + text1.getText());
+
+        // 2. Validate gift remittance count info
+        String expectedText2 = "28,000+ gift remittances sent in the last 1 month";
+        WebElement text2 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + expectedText2 + "\"]"));
+        Assert.assertTrue(text2.isDisplayed(), " Gift remittance count text not displayed!");
+        System.out.println(" Validated: " + text2.getText());
+
+        // 3. Validate NOSTRO charges text
+        String expectedText3 = "NOSTRO charges will be charged to the beneficiary and the final receivable amount will slightly vary.";
+        WebElement text3 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + expectedText3 + "\"]"));
+        Assert.assertTrue(text3.isDisplayed(), " NOSTRO charges text not displayed!");
+        System.out.println(" Validated: " + text3.getText());
+    }
+    public void validatePaymentMethodTexts() {
+        // 1. Validate UPI text
+        String expectedText1 = "UPI";
+        WebElement text1 = driver.findElement(By.xpath("//android.widget.TextView[@text='" + expectedText1 + "']"));
+        Assert.assertTrue(text1.isDisplayed(), "UPI option not displayed!");
+        System.out.println("Validated: " + text1.getText());
+
+        // 2. Validate Netbanking text
+        String expectedText2 = "Netbanking";
+        WebElement text2 = driver.findElement(By.xpath("//android.widget.TextView[@text='" + expectedText2 + "']"));
+        Assert.assertTrue(text2.isDisplayed(), "Netbanking option not displayed!");
+        System.out.println("Validated: " + text2.getText());
+
+        // 3. Validate Transfer via NEFT text
+        String expectedText3 = "Transfer via NEFT";
+        WebElement text3 = driver.findElement(By.xpath("//android.widget.TextView[@text='" + expectedText3 + "']"));
+        Assert.assertTrue(text3.isDisplayed(), "NEFT option not displayed!");
+        System.out.println("Validated: " + text3.getText());
+
+        // 4. Validate PAN name match warning
+        String expectedText4 = "Your name in the bank account (which you will use to make the payment) must match with the name in your PAN details uploaded";
+        WebElement text4 = driver.findElement(By.xpath("//android.widget.TextView[@resource-id='" + expectedText4 + "']"));
+        Assert.assertTrue(text4.isDisplayed(), "PAN name match warning not displayed!");
+        System.out.println("Validated: " + text4.getText());
     }
 
 
 }
+
