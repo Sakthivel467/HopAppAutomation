@@ -367,7 +367,6 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
-        onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.clickselectCurrency();
@@ -385,6 +384,75 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectPaymentMethod("neft");
         sendMoneyPage.validateBankDetailsAndClickContinue();
         sendMoneyPage.transactionScreen();
+        onboardingPage.clickBackButton();
+        TakeSnap.captureScreenshot();
+
+    }
+
+    @Test(priority = 25)
+    public void TC025_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation_Prime_User() throws Exception {
+        before("TC024 - Create a End to End International Remittance Transaction with the Purpose of \"personal_gift_or_donation\" for Old user");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("6667778880");
+        onboardingPage.enterIncorrectEmailId("sakthivel+880@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.selectCurrencyByName("nzd");
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("850000");
+        sendMoneyPage.expandTaxAndTransferFee();
+        onboardingPage.validatePrimeUser();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.warningContinue();
+        sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.selectPaymentMethod("neft");
+        sendMoneyPage.validateBankDetailsAndClickContinue();
+        sendMoneyPage.transactionScreen();
+        TakeSnap.captureScreenshot();
+
+    }
+    @Test(priority = 26)
+    public void TC026_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow () throws Exception {
+        before("TC024 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" for Old user");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("6667778880");
+        onboardingPage.enterIncorrectEmailId("sakthivel+880@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.clickRecipientSvgIcon();
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.recipientSendMoneyButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("550000");
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.selectPaymentMethod("neft");
+        sendMoneyPage.validateBankDetailsAndClickContinue();
+        sendMoneyPage.transactionScreen();
+        onboardingPage.clickBackButton();
         TakeSnap.captureScreenshot();
 
     }
