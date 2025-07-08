@@ -235,7 +235,7 @@ public class OnboardingTest extends BaseTest {
     }
     @Test(priority =22)
     public void TC001_Validation_Payment_Method_ForAD1() throws Exception {
-        before("TC022 - Create a End to End International Remittance Transaction with the Purpose of \"living_expenses_Fees\" for Old User");
+        before("TC022 - Validation Payment Method zForAD1");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -266,7 +266,7 @@ public class OnboardingTest extends BaseTest {
     }
     @Test(priority =22)
     public void TC001_Validation_Logout_Flow() throws Exception {
-        before("TC022 - Create a End to End International Remittance Transaction with the Purpose of \"living_expenses_Fees\" for Old User");
+        before("TC022 - Validation Logout Flow");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }

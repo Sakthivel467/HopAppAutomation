@@ -6,7 +6,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -15,16 +14,13 @@ import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import Utils.CommonFunctions;
-import Utils.ExcelSetup;
 import Utils.TakeSnap;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +79,7 @@ public class KycPage {
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Upload the front side of your PAN card']")
     private WebElement uploadPanDescription;
     @AndroidFindBy(xpath = "//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[5]/android.view.View[2]/android.view.View[2]/android.view.View")
+//    @AndroidFindBy(xpath = "(//android.widget.ImageView[@resource-id=\"com.google.android.providers.media.module:id/icon_thumbnail\"])[1]")
     private WebElement uploadPanCardOption;
     @AndroidFindBy(xpath = "(//android.widget.ImageView[@resource-id=\"com.google.android.providers.media.module:id/icon_thumbnail\"])[2]")
     private WebElement uploadPassPort1;
@@ -111,7 +108,7 @@ public class KycPage {
     private WebElement noPanDetectedError;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Submit ']")
     private WebElement submitButton;
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='No, Edit Details']")
+    @AndroidFindBy(xpath = "//com.horcrux.svg.PathView")
     private WebElement editDetailsButton;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Confirm your PAN card details to complete the verification']")
     private WebElement confirmPanDetails;
@@ -298,15 +295,15 @@ public class KycPage {
             AndroidDriver driver1 = (AndroidDriver) driver;
 
             // 🧹 Step 1: Delete existing file if present
-            try {
-                driver1.executeScript("mobile: shell", Map.of(
-                        "command", "rm",
-                        "args", List.of("/sdcard/Download/Pancard.jpg")
-                ));
-                System.out.println("Old file deleted from simulator.");
-            } catch (Exception e) {
-                System.out.println("No existing file to delete or deletion failed. Proceeding anyway.");
-            }
+//            try {
+//                driver1.executeScript("mobile: shell", Map.of(
+//                        "command", "rm",
+//                        "args", List.of("/sdcard/Download/Pancard.jpg")
+//                ));
+//                System.out.println("Old file deleted from simulator.");
+//            } catch (Exception e) {
+//                System.out.println("No existing file to delete or deletion failed. Proceeding anyway.");
+//            }
 
             // Step 2: Push the fresh file
             driver1.pushFile("/sdcard/Download/Pancard.jpg", file);
@@ -477,10 +474,10 @@ public class KycPage {
 
         // Enter incorrect PAN number and verify error
         panNoTextbox.clear();
-        panNoTextbox.sendKeys("IXQPS23450G");
+        panNoTextbox.sendKeys("IXQPS2340G");
         test.get().log(Status.INFO, "User entered incorrect PAN number");
 
-        verifyButton.click();
+        panConfirm.click();
         // It's better to use WebDriverWait instead of Thread.sleep
         Thread.sleep(2000);  // Consider replacing with explicit wait for error element
 
@@ -493,7 +490,7 @@ public class KycPage {
         test.get().log(Status.INFO, "User entered correct PAN number");
 
         TakeSnap.captureScreenshot();
-        verifyButton.click();
+        panConfirm.click();
     }
 
     public void documentVerificationSuccess(){
@@ -514,15 +511,31 @@ public class KycPage {
     public void clickSecDos(){
         clickSec.click();
     }
+    public void selectKycDocumentType(String docType) throws InterruptedException {
+        switch (docType.toLowerCase()) {
+            case "driving license":
+                driver.findElement(By.xpath("//android.widget.TextView[@text=\"Driving License\"]")).click();
+                break;
+            case "passport":
+                driver.findElement(By.xpath("//android.widget.TextView[@text=\"Passport\"]")).click();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid KYC Document type: " + docType);
+        }
+        TakeSnap.captureScreenshot(); // Optional: capture after selection
+        Thread.sleep(1000); // Optional: wait for UI transition
+    }
+
+
     public void PassPort() throws InterruptedException{
         Thread.sleep(2000);
         passPort.click();
     }
-    public void PassPortFD() throws InterruptedException{
+    public void FrontImageUploadClick() throws InterruptedException{
         Thread.sleep(2000);
         passPortFD.click();
     }
-    public void PassPortBD() throws InterruptedException{
+    public void BackImageUploadClick() throws InterruptedException{
         Thread.sleep(2000);
         passPortBD.click();
     }
@@ -586,16 +599,16 @@ public class KycPage {
         TakeSnap.captureScreenshot();
 
         // Load Aadhar.jpg from resources (classpath-safe)
-        URL resource = getClass().getClassLoader().getResource("Abh_PASSPORTFRont.jpg");
+        URL resource = getClass().getClassLoader().getResource("AadharCardSK.jpg");
         if (resource == null) {
-            throw new FileNotFoundException("Abh_PASSPORTFRont.jpg not found in resources!");
+            throw new FileNotFoundException("AadharCardSK.jpg not found in resources!");
         }
         File file = new File(resource.getFile());
 
         // Push file to Android device (simulator or real device)
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
             AndroidDriver driver1 = (AndroidDriver) driver;
-            driver1.pushFile("/sdcard/Download/Abh_PASSPORTFRont.jpg", file);
+            driver1.pushFile("/sdcard/Download/AadharCardSK.jpg", file);
         }
 
         // Open file picker in app
@@ -745,31 +758,47 @@ public class KycPage {
         // Open file picker in app
         uploadPanCardOption.click();
     }
-    public void uploadBackVoterId() throws IOException {
+    public void uploadBackLicenseId() throws IOException {
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            TakeSnap.captureScreenshot();
+
+            // Load passport.jpg from resources (classpath-safe)
+            URL resource = getClass().getClassLoader().getResource("SupriyaDLFront.jpg");
+            if (resource == null) {
+                throw new FileNotFoundException("SupriyaDLFront.jpg not found in resources!");
+            }
+            File file = new File(resource.getFile());
+
+            // Push file to Android device (simulator or real device)
+            if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
+                AndroidDriver driver1 = (AndroidDriver) driver;
+                driver1.pushFile("/sdcard/Download/SupriyaDLFront.jpg", file);
+            }
+
+            // Open file picker in app
+            uploadPanCardOption.click();
+        }
+
+    public void uploadFrontLicenseId() throws IOException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         TakeSnap.captureScreenshot();
 
-        // Load voterId.jpg from resources (classpath-safe)
-        URL resource = getClass().getClassLoader().getResource("supriya voter back.jpg");
+        // Load passport.jpg from resources (classpath-safe)
+        URL resource = getClass().getClassLoader().getResource("SupriyaDL.jpg");
         if (resource == null) {
-            throw new FileNotFoundException("supriya voter back.jpg not found in resources!");
+            throw new FileNotFoundException("SupriyaDL.jpg not found in resources!");
         }
         File file = new File(resource.getFile());
 
         // Push file to Android device (simulator or real device)
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
             AndroidDriver driver1 = (AndroidDriver) driver;
-            driver1.pushFile("/sdcard/Download/supriya voter back.jpg", file);
+            driver1.pushFile("/sdcard/Download/SupriyaDL.jpg", file);
         }
 
         // Open file picker in app
         uploadPanCardOption.click();
-
-        // click confirm button
-        panConfirm.click();
-        TakeSnap.captureScreenshot();
     }
-
     public void viewUploadedFrontSideAadhaarDoc(){
         viewUploadedDocButton.click();
         Assert.assertTrue(aadhaarVerificationLabel.isDisplayed());
@@ -858,6 +887,32 @@ public class KycPage {
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();
     }
+    public void validateSecondaryDocKYCTexts() {
+        // XPath for first message
+        String expectedText1 = "Aadhar Card";
+        WebElement textElement1 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Aadhar Card\"]"));
+        Assert.assertTrue(textElement1.isDisplayed(), "Expected text 1 is not displayed!");
+        System.out.println("Text 1 validated: " + textElement1.getText());
+
+        // XPath for second message
+        String expectedText2 = "E-sign";
+        WebElement textElement2 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"E-sign\"]"));
+        Assert.assertTrue(textElement2.isDisplayed(), "Expected text 2 is not displayed!");
+        System.out.println(" Text 2 validated: " + textElement2.getText());
+
+        // XPath for second message
+        String expectedText3 = "Complete your documentation and earn +100 hop coins";
+        WebElement textElement3 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Complete your documentation and earn +100 hop coins\"]"));
+        Assert.assertTrue(textElement3.isDisplayed(), "Expected text 2 is not displayed!");
+        System.out.println(" Text 2 validated: " + textElement3.getText());
+
+        // XPath for second message
+        String expectedText4 = "Complete your one time document verification, it takes only 2-3 mins.";
+        WebElement textElement4 = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Complete your one time document verification, it takes only 2-3 mins.\"]"));
+        Assert.assertTrue(textElement3.isDisplayed(), "Expected text 2 is not displayed!");
+        System.out.println(" Text 2 validated: " + textElement3.getText());
+    }
+
 
     }
 

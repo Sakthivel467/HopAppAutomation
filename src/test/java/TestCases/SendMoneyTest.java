@@ -425,7 +425,7 @@ public class SendMoneyTest extends BaseTest {
     }
     @Test(priority = 26)
     public void TC026_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow () throws Exception {
-        before("TC024 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" for Old user");
+        before("TC026 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" for Old user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
