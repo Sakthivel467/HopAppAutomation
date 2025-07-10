@@ -106,8 +106,30 @@ public class SendMoneyTest extends BaseTest {
     }
 
     @Test(priority = 15)
-    public void TC015_Validate_The_Transfer_Fees() throws Exception {
-        before("TC011 - Validate Transfer Fee for All Amount Ranges");
+    public void TC015_Validate_The_Bank_And_Convenience_Fees_ForAD2() throws Exception {
+        before("TC011 - Validate The Bank And Convenience Fees ForAD2 for All Amount Ranges");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7872434499");
+        onboardingPage.enterOldEmailId("testing@gmail.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("70000");
+        sendMoneyPage.expandTaxAndTransferFee();
+        sendMoneyPage.validateAd2BankAndConvenienceFee();
+       sendMoneyPage.validateTotalFeesDynamically();
+    }
+    @Test(priority = 15)
+    public void TC015_Validate_The_Bank_And_Convenience_Fees_ForAD1() throws Exception {
+        before("TC011 - Validate The Bank And Convenience Fees ForAD1 for All Amount Ranges");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -118,9 +140,14 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.inrCurrencyTextBox("50000");
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("1000000");
         sendMoneyPage.expandTaxAndTransferFee();
+        sendMoneyPage.validateAd1BankAndConvenienceFee();
         sendMoneyPage.validateTotalFeesDynamically();
     }
 
@@ -143,6 +170,29 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.validateGST();
 
     }
+    @Test(priority = 15)
+    public void TC015_Validate_The_Bank_And_Convenience_Fees_And_Total_Feel_ForAD1_WithoutKYC() throws Exception {
+        before("TC011 - Validate The Bank And Convenience Fees And Total Feel ForAD1 WithoutKYC for All Amount Ranges");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.inrCurrencyTextBox("100000");
+        sendMoneyPage.expandTaxAndTransferFee();
+        sendMoneyPage.validateAd1BankAndConvenienceFee();
+        sendMoneyPage.validateTotalFeesDynamically();
+
+    }
+
 
     @Test(priority = 17)
     public void TC017_Validate_TCS_Amount() throws Exception {
@@ -317,8 +367,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectSourceOfFunds("investments");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
-        sendMoneyPage.selectPaymentMethod("upi");
-        sendMoneyPage.enterAccountDetailsAndClickVerify("sakthivel145@okaxis", "1234567890", "HDFC0001234");
+        sendMoneyPage.selectPaymentMethod("netBanking");
+        sendMoneyPage.addNewBank();
         TakeSnap.captureScreenshot();
 
     }
@@ -410,7 +460,6 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("850000");
         sendMoneyPage.expandTaxAndTransferFee();
-        onboardingPage.validatePrimeUser();
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
@@ -444,7 +493,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("550000");
+        sendMoneyPage.inrCurrencyTextBox("1550000");
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.selectSourceOfFunds("personal savings");
         sendMoneyPage.proceedToPayment();

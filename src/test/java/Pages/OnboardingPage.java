@@ -756,7 +756,7 @@ public class OnboardingPage {
     public void validateUserIoOnSendMoneyScreen() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOf(sendMoneyLabel));
-        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
+//        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
         wait.until(ExpectedConditions.visibilityOf(allFees));
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();

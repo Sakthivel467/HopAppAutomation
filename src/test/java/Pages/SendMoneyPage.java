@@ -156,12 +156,17 @@ import static extentReport.ExtentReportManager.test;
         private WebElement chfCurrency;
 
         //        @AndroidFindBy(xpath = "//android.widget.TextView[@text='Tax and transfer fee']")
-        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Included in INR amount\"]")
+        //android.widget.TextView[@text="Included in INR amount"]
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees\"]")
         private WebElement taxAndTransferFee;
         @AndroidFindBy(xpath ="//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
         private WebElement taxAndTransferFeeClose;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Transfer fee']/preceding-sibling::android.widget.TextView[1]\n")
         private WebElement transferFeeAmount;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Bank fees\"]/following-sibling::android.widget.TextView\n")
+        private WebElement bankFerFeeAmount;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Convenience fees\"]/following-sibling::android.widget.TextView\n")
+        private WebElement convenienceFeeAmount;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='GST']/preceding-sibling::android.widget.TextView[3]\n")
         private WebElement checkGstAmount;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='TCS']/preceding-sibling::android.widget.TextView[5]")
@@ -638,37 +643,8 @@ import static extentReport.ExtentReportManager.test;
         }
 
 
-        public void validateTransferFee() throws InterruptedException {
-            Thread.sleep(2000);
-               comFun.wait(inrCurrencyTextbox);
-                String youSendAmountStr = comFun.removeDelimiter(inrCurrencyTextbox.getText());
-                String transferFeeStr = comFun.removeDelimiter(transferFeeAmount.getText());
-
-                double youSendAmount = Double.parseDouble(youSendAmountStr);
-                double transferFee = Double.parseDouble(transferFeeStr);
-
-                // Expected fee values
-                double expectedFee = 0.0;
-
-                if (youSendAmount < 80000) {
-                    expectedFee = 750;
-                } else if (youSendAmount >= 80000 && youSendAmount < 200000) {
-                    expectedFee = 1000;
-                } else if (youSendAmount >= 200000 && youSendAmount < 400000) {
-                    expectedFee = 1250;
-                } else if (youSendAmount >= 400000) {
-                    expectedFee = 1500;
-                }
-
-                if (Double.compare(transferFee, expectedFee) == 0) {
-                    test.get().log(Status.PASS, "Successful Validation Message: Transfer fee calculated correctly. Expected: " + expectedFee + ", Actual: " + transferFee);
-                } else {
-                    test.get().log(Status.FAIL, "Transfer fee mismatch. Expected: " + expectedFee + ", Actual: " + transferFee);
-                }
-
-                TakeSnap.captureScreenshot();
-
-
+//        public void validateTransferFee() throws InterruptedException {
+//
 //            String youSendAmount = comFun.removeDelimiter(inrCurrencyTextbox.getText());
 //            String transferFee = comFun.removeDelimiter(transferFeeAmount.getText());
 //
@@ -727,68 +703,68 @@ import static extentReport.ExtentReportManager.test;
 //                }
 //            }
 //            TakeSnap.captureScreenshot();
-        }
-
-
-        //  (It will be needed once the Promo code is deployed)
-       /* if(Double.parseDouble(youSendAmount)<80000)
-
-        {
-            if (String.valueOf(bankAndConvenienceFeeMinAmount).contains(bankAndConvenienceFeeAmount)) {
-                System.out.println("Successful Validation Message: Amount is less than 80000, so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
-            } else {
-                System.out.println("Amount is less than 80000, so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
-            }
-        }
-        if(Double.parseDouble(youSendAmount)>=80000&&Double.parseDouble(youSendAmount)<200000)
-
-        {
-            if (String.valueOf(bankAndConvenienceFeeAmountRange1).contains(bankAndConvenienceFeeAmount)) {
-                System.out.println("Successful Validation Message: Amount is in range of 80000 to 200000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
-            } else {
-                System.out.println("Amount is in range of 80000 to 200000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
-            }
-        }
-
-        if(Double.parseDouble(youSendAmount)>=200000&&Double.parseDouble(youSendAmount)<400000)
-
-        {
-            if (String.valueOf(bankAndConvenienceFeeAmountRange2).contains(bankAndConvenienceFeeAmount)) {
-                System.out.println("Successful Validation Message: Amount is in range of 200000 to 400000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
-            } else {
-                System.out.println("Amount is in range of 200000 to 400000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
-            }
-        }
-
-        if(Double.parseDouble(youSendAmount)>=400000&&Double.parseDouble(youSendAmount)<600000)
-
-        {
-            if (String.valueOf(bankAndConvenienceFeeAmountRange3).contains(bankAndConvenienceFeeAmount)) {
-                System.out.println("Successful Validation Message: Amount is in range of 400000 to 600000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
-            } else {
-                System.out.println("Amount is in range of 400000 to 600000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
-            }
-        }
-
-        if(Double.parseDouble(youSendAmount)>=600000&&Double.parseDouble(youSendAmount)<1000000)
-
-        {
-            if (String.valueOf(bankAndConvenienceFeeAmountRange4).contains(bankAndConvenienceFeeAmount)) {
-                System.out.println("Successful Validation Message: Amount is in range of 600000 to 1000000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
-            } else {
-                System.out.println("Amount is in range of 600000 to 1000000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
-            }
-        }
-
-        if(Double.parseDouble(youSendAmount)>=1000000)
-
-        {
-            if (String.valueOf(bankAndConvenienceFeeAmountRange5).contains(bankAndConvenienceFeeAmount)) {
-                System.out.println("Successful Validation Message: Amount is more than 1000000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
-            } else {
-                System.out.println("Amount is more than 1000000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
-            }
-        }*/
+//
+//
+//        //  (It will be needed once the Promo code is deployed)
+//        if(Double.parseDouble(youSendAmount)<80000)
+//
+//        {
+//            if (String.valueOf(bankAndConvenienceFeeMinAmount).contains(bankAndConvenienceFeeAmount)) {
+//                System.out.println("Successful Validation Message: Amount is less than 80000, so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            } else {
+//                System.out.println("Amount is less than 80000, so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            }
+//        }
+//        if(Double.parseDouble(youSendAmount)>=80000&&Double.parseDouble(youSendAmount)<200000)
+//
+//        {
+//            if (String.valueOf(bankAndConvenienceFeeAmountRange1).contains(bankAndConvenienceFeeAmount)) {
+//                System.out.println("Successful Validation Message: Amount is in range of 80000 to 200000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            } else {
+//                System.out.println("Amount is in range of 80000 to 200000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            }
+//        }
+//
+//        if(Double.parseDouble(youSendAmount)>=200000&&Double.parseDouble(youSendAmount)<400000)
+//
+//        {
+//            if (String.valueOf(bankAndConvenienceFeeAmountRange2).contains(bankAndConvenienceFeeAmount)) {
+//                System.out.println("Successful Validation Message: Amount is in range of 200000 to 400000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            } else {
+//                System.out.println("Amount is in range of 200000 to 400000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            }
+//        }
+//
+//        if(Double.parseDouble(youSendAmount)>=400000&&Double.parseDouble(youSendAmount)<600000)
+//
+//        {
+//            if (String.valueOf(bankAndConvenienceFeeAmountRange3).contains(bankAndConvenienceFeeAmount)) {
+//                System.out.println("Successful Validation Message: Amount is in range of 400000 to 600000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            } else {
+//                System.out.println("Amount is in range of 400000 to 600000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            }
+//        }
+//
+//        if(Double.parseDouble(youSendAmount)>=600000&&Double.parseDouble(youSendAmount)<1000000)
+//
+//        {
+//            if (String.valueOf(bankAndConvenienceFeeAmountRange4).contains(bankAndConvenienceFeeAmount)) {
+//                System.out.println("Successful Validation Message: Amount is in range of 600000 to 1000000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            } else {
+//                System.out.println("Amount is in range of 600000 to 1000000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            }
+//        }
+//
+//        if(Double.parseDouble(youSendAmount)>=1000000)
+//
+//        {
+//            if (String.valueOf(bankAndConvenienceFeeAmountRange5).contains(bankAndConvenienceFeeAmount)) {
+//                System.out.println("Successful Validation Message: Amount is more than 1000000 so the bank and convenience fee is calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            } else {
+//                System.out.println("Amount is more than 1000000 so the bank and convenience fee is not calculated as Expected: " + bankAndConvenienceFeeAmount);
+//            }
+//        }
+//        }
 
         private BigDecimal gstFrom(double baseFee) {
             double gstValue = twoDecimalValues(baseFee * 0.18 * 100) / 100;
@@ -1271,30 +1247,75 @@ import static extentReport.ExtentReportManager.test;
             TakeSnap.captureScreenshot();
         }
         public void validateTotalFeesDynamically() {
-            // Clean and parse individual values from UI
-            double bank = Double.parseDouble(bankFeesText.getText().replace("INR", "").replace(",", "").trim());
-            double convenience = Double.parseDouble(convenienceFeesText.getText().replace("INR", "").replace(",", "").trim());
-            double gstAmount = Double.parseDouble(gstText.getText().replace("INR", "").replace(",", "").trim());
-            double tcs = Double.parseDouble(tcsTaxText.getText().replace("INR", "").replace(",", "").trim());
-            double expectedTotal = Double.parseDouble(totalFeesText.getText().replace("INR", "").replace(",", "").trim());
+                try {
+                    // Clean and parse UI values
+                    double bank = Double.parseDouble(bankFeesText.getText().replace("INR", "").replace(",", "").trim());
+                    double convenience = Double.parseDouble(convenienceFeesText.getText().replace("INR", "").replace(",", "").trim());
+                    double gstAmount = Double.parseDouble(gstText.getText().replace("INR", "").replace(",", "").trim());
+                    double tcs = 0.0; // Default TCS
+                    boolean isTcsPresent = false;
 
-            // Print individual values
-            System.out.println("Bank Fees: " + bank);
-            System.out.println("Convenience Fees: " + convenience);
-            System.out.println("GST Amount: " + gstAmount);
-            System.out.println("TCS Tax: " + tcs);
-            System.out.println("Expected Total Fees: " + expectedTotal);
-            // Sum all parts
-            double calculatedTotal = bank + convenience + gstAmount + tcs;
+                    // Check if TCS is displayed
+                    try {
+                        if (tcsTaxText.isDisplayed()) {
+                            tcs = Double.parseDouble(tcsTaxText.getText().replace("INR", "").replace(",", "").trim());
+                            isTcsPresent = true;
+                        }
+                    } catch (NoSuchElementException | NullPointerException e) {
+                        test.get().log(Status.INFO, "TCS not displayed. Skipping TCS validation.");
+                    }
 
-            // Debug log
-            System.out.println("Calculated Total: " + calculatedTotal);
-            System.out.println("Displayed Total: " + expectedTotal);
+                    double expectedTotal = Double.parseDouble(totalFeesText.getText().replace("INR", "").replace(",", "").trim());
 
-            // Assert with tolerance for rounding
-            Assert.assertEquals(calculatedTotal, expectedTotal, 0.05, "Total fee mismatch!");
-            TakeSnap.captureScreenshot();
-        }
+                    // Log values to report
+                    test.get().log(Status.INFO, "Bank Fee validated successfully for AD1: " + bank);
+                    test.get().log(Status.INFO, "Convenience Fee validated successfully for AD1: " + convenience);
+                    test.get().log(Status.INFO, "GST Amount: " + gstAmount);
+                    if (isTcsPresent) {
+                        test.get().log(Status.INFO, "TCS Amount: " + tcs);
+                    }
+                    test.get().log(Status.INFO, "Expected Total from UI: " + expectedTotal);
+
+                    // Calculate total
+                    double calculatedTotal = bank + convenience + gstAmount + (isTcsPresent ? tcs : 0.0);
+                    test.get().log(Status.INFO, "Calculated Total: " + calculatedTotal);
+
+                    // Final assertion
+                    Assert.assertEquals(calculatedTotal, expectedTotal, 0.05, "Total fee mismatch!");
+                    test.get().log(Status.PASS, "Total fees validated successfully");
+
+                } catch (Exception e) {
+                    test.get().log(Status.FAIL, "Error in total fee validation: " + e.getMessage());
+                } finally {
+                    TakeSnap.captureScreenshot();
+                }
+            }
+
+
+//            // Clean and parse individual values from UI
+//            double bank = Double.parseDouble(bankFeesText.getText().replace("INR", "").replace(",", "").trim());
+//            double convenience = Double.parseDouble(convenienceFeesText.getText().replace("INR", "").replace(",", "").trim());
+//            double gstAmount = Double.parseDouble(gstText.getText().replace("INR", "").replace(",", "").trim());
+//            double tcs = Double.parseDouble(tcsTaxText.getText().replace("INR", "").replace(",", "").trim());
+//            double expectedTotal = Double.parseDouble(totalFeesText.getText().replace("INR", "").replace(",", "").trim());
+//
+//            // Print individual values
+//            System.out.println("Bank Fees: " + bank);
+//            System.out.println("Convenience Fees: " + convenience);
+//            System.out.println("GST Amount: " + gstAmount);
+//            System.out.println("TCS Tax: " + tcs);
+//            System.out.println("Expected Total Fees: " + expectedTotal);
+//            // Sum all parts
+//            double calculatedTotal = bank + convenience + gstAmount + tcs;
+//
+//            // Debug log
+//            System.out.println("Calculated Total: " + calculatedTotal);
+//            System.out.println("Displayed Total: " + expectedTotal);
+//
+//            // Assert with tolerance for rounding
+//            Assert.assertEquals(calculatedTotal, expectedTotal, 0.05, "Total fee mismatch!");
+//            TakeSnap.captureScreenshot();
+//        }
         public void validateBankDetailsAndClickContinue() {
             if (bankDetailsText.isDisplayed() && bankDetailsText.getText().equals("Bank Details")) {
                 System.out.println("Bank Details text is displayed correctly.");
@@ -1485,8 +1506,111 @@ import static extentReport.ExtentReportManager.test;
         public double calculateTcs(double amount) {
             return amount * 0.05;
         }
+        public void validateAd2BankAndConvenienceFee() {
+            try {
+                // Step 1: Get the entered amount and fees from UI
+                String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
+                String bankFeeText = bankFerFeeAmount.getText(); // e.g., "1,250 INR"
+                String conFeeText = convenienceFeeAmount.getText(); // e.g., "350 INR"
 
+                double youSendAmount = Double.parseDouble(youSendAmountText);
+                double actualBankFee = Double.parseDouble(cleanFeeText(bankFeeText));
+                double actualConFee = Double.parseDouble(cleanFeeText(conFeeText));
 
+                // Step 2: Calculate expected Bank Fee
+                double expectedBankFee = 0;
+                if (youSendAmount <= 79999) {
+                    expectedBankFee = 750;
+                } else if (youSendAmount <= 199999) {
+                    expectedBankFee = 1000;
+                } else if (youSendAmount <= 399999) {
+                    expectedBankFee = 1250;
+                } else if (youSendAmount <= 599999) {
+                    expectedBankFee = 1500;
+                } else if (youSendAmount <= 999999) {
+                    expectedBankFee = 1500;
+                } else if (youSendAmount <= 3000000) {
+                    expectedBankFee = 1500;
+                }
+
+                // Step 3: Calculate expected Convenience Fee
+                double expectedConFee = 0;
+                if (youSendAmount <= 79999) {
+                    expectedConFee = 0;
+                } else if (youSendAmount <= 199999) {
+                    expectedConFee = 250;
+                } else if (youSendAmount <= 399999) {
+                    expectedConFee = 350;
+                } else if (youSendAmount <= 599999) {
+                    expectedConFee = 750;
+                } else if (youSendAmount <= 999999) {
+                    expectedConFee = 1000;
+                } else if (youSendAmount <= 3000000) {
+                    expectedConFee = 1250;
+                }
+
+                // Step 4: Validate both fees
+                if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
+                    test.get().log(Status.PASS, "Bank Fee validated successfully: " + actualBankFee);
+                } else {
+                    test.get().log(Status.FAIL, "Bank Fee mismatch. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
+                }
+
+                if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
+                    test.get().log(Status.PASS, "Convenience Fee validated successfully: " + actualConFee);
+                } else {
+                    test.get().log(Status.FAIL, "Convenience Fee mismatch. Expected: " + expectedConFee + ", Actual: " + actualConFee);
+                }
+
+                // Step 5: Capture screenshot
+                TakeSnap.captureScreenshot();
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Error while validating fees: " + e.getMessage());
+                TakeSnap.captureScreenshot();
+            }
+        }
+
+        // Utility Method to clean text like "1,250 INR" => "1250"
+        public String cleanFeeText(String text) {
+            return text.replaceAll("[^\\d.]", "");
+        }
+        public void validateAd1BankAndConvenienceFee() {
+            try {
+                // Step 1: Get entered amount and fees from UI
+                String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
+                String bankFeeText = comFun.removeDelimiter(bankFerFeeAmount.getText());
+                String conFeeText = comFun.removeDelimiter(convenienceFeeAmount.getText());
+
+                double youSendAmount = Double.parseDouble(youSendAmountText.replaceAll("[^\\d.]", ""));
+                double actualBankFee = Double.parseDouble(bankFeeText.replaceAll("[^\\d.]", ""));
+                double actualConFee = Double.parseDouble(conFeeText.replaceAll("[^\\d.]", ""));
+
+                // Step 2: Define expected values for AD1
+                double expectedBankFee = 590.0;
+                double expectedConFee = 0.0;
+
+                // Step 3: Validate Bank Fee
+                if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
+                    test.get().log(Status.PASS, "Bank Fee validated successfully for AD1: " + actualBankFee);
+                } else {
+                    test.get().log(Status.FAIL, "Bank Fee mismatch for AD1. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
+                }
+
+                // Step 4: Validate Convenience Fee
+                if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
+                    test.get().log(Status.PASS, "Convenience Fee validated successfully for AD1: " + actualConFee);
+                } else {
+                    test.get().log(Status.FAIL, "Convenience Fee mismatch for AD1. Expected: " + expectedConFee + ", Actual: " + actualConFee);
+                }
+
+                // Step 5: Capture screenshot
+                TakeSnap.captureScreenshot();
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Error while validating AD1 Fees: " + e.getMessage());
+                TakeSnap.captureScreenshot();
+            }
+        }
     }
 
 
