@@ -12,9 +12,9 @@ public class KycTest  extends BaseTest {
     ExcelSetup ex = new ExcelSetup();
 
 
-    @Test(priority = 26)
-    public void TC026_Validate_Banner_Kyc_Homepage_New_User() throws Exception {
-        before("TC026 - Verify the Labels and Banners on the Verify Your Documents Page");
+    @Test(priority = 32)
+    public void TC032_Validate_Banner_Kyc_Homepage_New_User() throws Exception {
+        before("TC032 - Verify the Labels and Banners on the Verify Your Documents Page");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -34,9 +34,9 @@ public class KycTest  extends BaseTest {
 
     }
 
-    @Test(priority = 27)
-    public void TC027_Validate_New_User_able_to_Upload_Pan_Card() throws Exception {
-        before("TC027 Validate New User able to Upload Pan Card");
+    @Test(priority = 33)
+    public void TC033_Validate_New_User_able_to_Upload_Pan_Card() throws Exception {
+        before("TC033 Validate New User able to Upload Pan Card");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -60,9 +60,9 @@ public class KycTest  extends BaseTest {
 
     }
 
-    @Test(priority = 28)
-    public void TC028_Validate_Upload_Random_Image_In_Pan_Card() throws Exception {
-        before("TC028 - Upload a Random Image in the PAN Card Document Upload Section");
+    @Test(priority = 34)
+    public void TC034_Validate_Upload_Random_Image_In_Pan_Card() throws Exception {
+        before("TC034 - Upload a Random Image in the PAN Card Document Upload Section");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -107,9 +107,9 @@ public class KycTest  extends BaseTest {
 //        kycPage.documentVerificationSuccess();
 //    }
 
-    @Test(priority = 30)
-    public void TC030_Validate_Labels_Secondary_Documents_KYC_page() throws Exception {
-        before("TC026 - Verify the Labels and All Secondary Document Options");
+    @Test(priority = 35)
+    public void TC035_Validate_Labels_Secondary_Documents_KYC_page() throws Exception {
+        before("TC035 - Verify the Labels and All Secondary Document Options");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -131,9 +131,9 @@ public class KycTest  extends BaseTest {
         kycPage.validateSecondaryDocKYCTexts();
     }
 
-    @Test(priority = 31)
-    public void TC031_Verify_New_User_Able_To_Upload_AadharCard_Page() throws Exception {
-        before("TC027 - Verify the Labels and Banners on the Upload Aadhaar Card Page");
+    @Test(priority = 36)
+    public void TC036_Verify_New_User_Able_To_Upload_AadharCard_Page() throws Exception {
+        before("TC036 - Verify the Labels and Banners on the Upload Aadhaar Card Page");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -165,9 +165,9 @@ public class KycTest  extends BaseTest {
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 32)
-    public void TC032_Upload_PassPort_Front_And_Back() throws Exception {
-        before("TC028 - Upload the Aadhaar Card Front & Back and View the Uploaded Document");
+    @Test(priority = 37)
+    public void TC037_Upload_PassPort_Front_And_Back() throws Exception {
+        before("TC037 - Upload the Aadhaar Card Front & Back and View the Uploaded Document");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -202,9 +202,9 @@ public class KycTest  extends BaseTest {
     }
 
 
-    @Test(priority = 33)
-    public void TC033_Upload_Random_Image_In_PassPort_FE() throws Exception {
-        before("TC029 - Upload a Random Image in the Aadhaar Card Document Upload Section");
+    @Test(priority = 38)
+    public void TC038_Upload_Random_Image_In_PassPort_FE() throws Exception {
+        before("TC038 - Upload a Random Image in the Aadhaar Card Document Upload Section");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -230,9 +230,9 @@ public class KycTest  extends BaseTest {
         kycPage.passPortUploadRandomImage();
 
     }
-    @Test(priority = 32)
-    public void TC032_Verify_New_User_Able_To_Upload_DrivingLicense_Page() throws Exception {
-        before("TC028 - Upload the Aadhaar Card Front & Back and View the Uploaded Document");
+    @Test(priority = 39)
+    public void TC039_Verify_New_User_Able_To_Upload_DrivingLicense_Page() throws Exception {
+        before("TC039 - Upload the Aadhaar Card Front & Back and View the Uploaded Document");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }

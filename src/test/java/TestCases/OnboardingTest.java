@@ -192,7 +192,7 @@ public class OnboardingTest extends BaseTest {
     }
     @Test(priority = 10)
     public void TC010_Incorrect_Pin_New_User() throws Exception {
-        before("TC007 Incorrect Pin new User");
+        before("TC0010 Incorrect Pin new User");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -205,9 +205,9 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterConfirmPin("1235");
         TakeSnap.captureScreenshot();
     }
-    @Test(priority = 1)
-    public void TC001_Validation_Purpose_Of_Transfer_Text() throws Exception {
-        before("TC001- Validation Purpose Of TransferText");
+    @Test(priority = 11)
+    public void TC0011_Validation_Purpose_Of_Transfer_Text() throws Exception {
+        before("TC0011- Validation Purpose Of TransferText");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -233,9 +233,9 @@ public class OnboardingTest extends BaseTest {
         TakeSnap.captureScreenshot();
 
     }
-    @Test(priority =22)
-    public void TC001_Validation_Payment_Method_ForAD1() throws Exception {
-        before("TC022 - Validation Payment Method zForAD1");
+    @Test(priority =12)
+    public void TC0012_Validation_Payment_Method_ForAD1() throws Exception {
+        before("TC0012 - Validation Payment Method zForAD1");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -264,9 +264,9 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.validatePaymentMethodTexts();
 
     }
-    @Test(priority =22)
-    public void TC001_Validation_Logout_Flow() throws Exception {
-        before("TC022 - Validation Logout Flow");
+    @Test(priority =13)
+    public void TC0013_Validation_Logout_Flow() throws Exception {
+        before("TC013 - Validation Logout Flow");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
