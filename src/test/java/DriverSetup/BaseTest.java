@@ -47,7 +47,7 @@ public class BaseTest {
 
             //Android Setup
             String home = System.getProperty("user.home");
-            File app = new File(home + File.separator + "Desktop" + File.separator + "remit_stg_nov13th.apk");
+            File app = new File(home + File.separator + "Desktop" + File.separator + "remit_dev_5.apk");
 
             UiAutomator2Options options = new UiAutomator2Options();
             options.setDeviceName("emulator-5554");

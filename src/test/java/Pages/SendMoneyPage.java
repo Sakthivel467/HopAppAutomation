@@ -240,7 +240,8 @@ import static extentReport.ExtentReportManager.test;
         private WebElement accVerifyButton;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='RecipientAccount1_Continue_Button']")
         private WebElement nextContinueButton;
-
+        @AndroidFindBy(xpath = "//android.widget.TextView[contains(@text,'1 USD')]\n")
+        private WebElement ibrRateField;
 
 
 
@@ -1132,7 +1133,7 @@ import static extentReport.ExtentReportManager.test;
             clickRelationshipsType.click();
             Thread.sleep(1000);
         }
-        public void clickselectCurrency() throws InterruptedException{
+        public void clickSelectCurrency() throws InterruptedException{
             selectCurrency.click();
             Thread.sleep(1000);
         }
@@ -1611,6 +1612,42 @@ import static extentReport.ExtentReportManager.test;
                 TakeSnap.captureScreenshot();
             }
         }
+        public void validateIBRChangesOnTargetCurrencySelection(String fullCurrencyName, String expectedCurrencyCode) throws InterruptedException {
+            // Step 1: Capture Initial IBR
+            TakeSnap.captureScreenshot();
+            String initialIBR = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'1') and contains(@text,'INR')]")).getText();
+            test.get().log(Status.INFO, " Initial IBR Rate: " + initialIBR);
+
+            // Step 2: Select target currency
+            test.get().log(Status.INFO, " Selecting Currency: " + fullCurrencyName);
+            selectCurrency.click();
+
+            TakeSnap.captureScreenshot();
+            String xpath = "//android.widget.TextView[contains(@text,'" + fullCurrencyName + "')]";
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement currencyOption = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            currencyOption.click();
+
+            // Step 3: Wait for IBR to update
+            Thread.sleep(2000); // Replace with WebDriverWait for production
+
+            // Step 4: Capture Updated IBR
+            String updatedIBR = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'1') and contains(@text,'INR')]")).getText();
+            test.get().log(Status.INFO, " Updated IBR Rate: " + updatedIBR);
+
+            // Step 5: Log expected vs actual
+            test.get().log(Status.INFO, " Expected Currency Code: " + expectedCurrencyCode);
+
+            // Step 6: Assertion with logging
+            if (updatedIBR.contains("1 " + expectedCurrencyCode)) {
+                test.get().log(Status.PASS, " IBR updated correctly for selected currency: " + expectedCurrencyCode);
+            } else {
+                test.get().log(Status.FAIL, " IBR mismatch. Expected to contain: '1 " + expectedCurrencyCode + "', but found: '" + updatedIBR + "'");
+                Assert.fail("IBR not updated for selected currency. Expected: " + expectedCurrencyCode + ", Found: " + updatedIBR);
+            }
+        }
+
     }
 
 

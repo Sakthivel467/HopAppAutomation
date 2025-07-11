@@ -249,7 +249,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("chf");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
@@ -264,6 +264,57 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.validatePaymentMethodTexts();
 
     }
+
+    @Test(priority = 40)
+    public void TC040_Validate_IBR_Rate_Target_Currency_Selection() throws Exception {
+        before("TC0040-Validate IBR Rate Currency for the International Remittance");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterOldEmailId("sakthivel+330@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("British Pound Sterling", "GBP");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("New Zealand Dollar", "NZD");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("Australian Dollar", "AUD");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("Japanese Yen", "JPY");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("United Arab Emirates Dirham", "AED");
+        TakeSnap.captureScreenshot();
+
+    }
+
+
+    @Test(priority = 40)
+    public void TC041_Validate_IBR_Rate_Target_Currency_Selection() throws Exception {
+        before("TC0041-Validate IBR Rate Currency for the International Remittance");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterOldEmailId("sakthivel+330@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("Canadian Dollar", "CAD");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("Euro", "EUR");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("United States Dollar", "USD");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("Swiss Franc", "CHF");
+        sendMoneyPage.validateIBRChangesOnTargetCurrencySelection("Singapore Dollar", "SGD");
+        TakeSnap.captureScreenshot();
+
+    }
+
+
     @Test(priority =13)
     public void TC0013_Validation_Logout_Flow() throws Exception {
         before("TC013 - Validation Logout Flow");
