@@ -25,6 +25,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
@@ -73,6 +74,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
@@ -120,6 +122,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
@@ -146,6 +149,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
@@ -180,6 +184,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
@@ -215,6 +220,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
@@ -245,6 +251,7 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");

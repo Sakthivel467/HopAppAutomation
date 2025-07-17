@@ -30,6 +30,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         onboardingPage.validateUserIoOnOneDaySettlement();
         sendMoneyPage.selectPurposeCode();
@@ -53,6 +54,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
@@ -117,6 +119,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterConfirmPin("1234");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         TakeSnap.captureScreenshot();
     }
@@ -219,6 +222,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");

@@ -2,8 +2,8 @@
 <suite name="MobileAppTestSuite" parallel="false">
     <test name="AppAutomationTests">
         <classes>
-            <class name="TestCases.OnboardingTest"/>
-<!--            <class name="TestCases.SendMoneyTest"/>-->
+<!--            <class name="TestCases.OnboardingTest"/>-->
+            <class name="TestCases.SendMoneyTest"/>
 <!--            <class name="TestCases.KycTest"/>-->
         </classes>
     </test>

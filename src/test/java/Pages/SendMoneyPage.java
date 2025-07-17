@@ -29,7 +29,7 @@ import java.util.List;
 import static Utils.AndroidUtils.*;
 import static extentReport.ExtentReportManager.test;
 
-    public class SendMoneyPage  {
+    public class SendMoneyPage {
         private final AppiumDriver driver;
         ExcelSetup ex = new ExcelSetup();
         CommonFunctions comFun = new CommonFunctions();
@@ -39,21 +39,22 @@ import static extentReport.ExtentReportManager.test;
             this.driver = driver;
             PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(30)), this);
         }
-         //@AndroidFindBy(xpath = "//android.widget.EditText[@text='10,000']")
-         @AndroidFindBy(xpath = "//android.view.ViewGroup[@resource-id=\"HomeScreen_Exchange_Input1\"]")
-         private WebElement presetInrCurrencyTextbox;
-//        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"₹\"]/following-sibling::android.widget.EditText[1]")
-         @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"HomeScreen_Exchange_Input1_Value\"]")
-         private WebElement inrCurrencyTextbox;
+
+        //@AndroidFindBy(xpath = "//android.widget.EditText[@text='10,000']")
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@resource-id=\"HomeScreen_Exchange_Input1\"]")
+        private WebElement presetInrCurrencyTextbox;
+        //        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"₹\"]/following-sibling::android.widget.EditText[1]")
+        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"HomeScreen_Exchange_Input1_Value\"]")
+        private WebElement inrCurrencyTextbox;
         @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"HomeScreen_Exchange_Input2_Value\"]")
         private WebElement fcyCurrencyTextbox;
-         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"INR Amount should be greater than or equal to 5,000 INR\"]")
-         private WebElement minAmountErrorMessage;
-         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"INR Amount should be less than or equal to 20,00,000 INR\"]")
-         private WebElement maxAmountErrorMessage;
-         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Select purpose of payment *\"]")
-         private WebElement SelectPurposeCode;
-         //android.view.ViewGroup[@content-desc="Select purpose of payment *"]
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"INR Amount should be greater than or equal to 5,000 INR\"]")
+        private WebElement minAmountErrorMessage;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"INR Amount should be less than or equal to 20,00,000 INR\"]")
+        private WebElement maxAmountErrorMessage;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Select purpose of payment *\"]")
+        private WebElement SelectPurposeCode;
+        //android.view.ViewGroup[@content-desc="Select purpose of payment *"]
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Overseas Education - University Fees\"]")
         private WebElement purposeUniversityFees;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Overseas Education - Living Expenses\"]")
@@ -62,21 +63,21 @@ import static extentReport.ExtentReportManager.test;
         private WebElement purposeFamilyMaintenance;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Personal Gift or Donation\"]")
         private WebElement purposeGiftDonation;
-         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Confirm \"]")
-         private WebElement confirmButton;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Confirm \"]")
+        private WebElement confirmButton;
         @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Recipients\"]")
         //android.widget.TextView[@text="Recipients"]
         private WebElement svgIcon;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"HomeScreen_Send_Money_Button\"]")
-         private WebElement sendMoneyButton;
+        private WebElement sendMoneyButton;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Send Money \"]")
         private WebElement recipientSendMoneyButton;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"HomeScreen_Send_Money_Button\"]")
         private WebElement setOnetimeVerificationButton;
         @AndroidFindBy(xpath = "(//android.view.ViewGroup[@content-desc=\"Recipient_Listing_Ids_133\"])[1]")
-         private WebElement recipient;
-         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Continue \"]")
-         private WebElement warningContinue;
+        private WebElement recipient;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Continue \"]")
+        private WebElement warningContinue;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Select Source of Funds\"]")
         //android.view.ViewGroup[@content-desc="Select Source of Funds"]
         private WebElement selectSourceOfFunds;
@@ -125,7 +126,7 @@ import static extentReport.ExtentReportManager.test;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"SendingMoney_Listing_Ids_GIC\"]/android.view.ViewGroup")
         private WebElement selectRecipientType4;
         @AndroidFindBy(className = "android.widget.EditText")
-         private WebElement searchBar;
+        private WebElement searchBar;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Select Currency']")
         private WebElement selectCurrencyLabel;
         @AndroidFindBy(xpath = "//android.widget.EditText[@text='Type a currency']")
@@ -159,7 +160,7 @@ import static extentReport.ExtentReportManager.test;
         //android.widget.TextView[@text="Included in INR amount"]
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees\"]")
         private WebElement taxAndTransferFee;
-        @AndroidFindBy(xpath ="//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
+        @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
         private WebElement taxAndTransferFeeClose;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Transfer fee']/preceding-sibling::android.widget.TextView[1]\n")
         private WebElement transferFeeAmount;
@@ -187,15 +188,15 @@ import static extentReport.ExtentReportManager.test;
         private WebElement bankAndConvenienceFee;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Overseas Education - University Fees\"]")
         private WebElement purposecode;
-        @AndroidFindBy(xpath ="//android.widget.TextView[@text=\"Bank fees\"]/following-sibling::android.widget.TextView[1]")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Bank fees\"]/following-sibling::android.widget.TextView[1]")
         private WebElement bankFeesText;
-        @AndroidFindBy(xpath ="//android.widget.TextView[@text=\"Convenience fees\"]/following-sibling::android.widget.TextView[1]\n")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Convenience fees\"]/following-sibling::android.widget.TextView[1]\n")
         private WebElement convenienceFeesText;
-        @AndroidFindBy(xpath ="//android.widget.TextView[@text=\"GST\"]/following-sibling::android.widget.TextView[1]\n")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"GST\"]/following-sibling::android.widget.TextView[1]\n")
         private WebElement gstText;
-        @AndroidFindBy(xpath ="//android.widget.TextView[contains(@text, \"TCS\")]/following-sibling::android.widget.TextView[1]\n")
+        @AndroidFindBy(xpath = "//android.widget.TextView[contains(@text, \"TCS\")]/following-sibling::android.widget.TextView[1]\n")
         private WebElement tcsTaxText;
-        @AndroidFindBy(xpath ="//android.widget.TextView[@text=\"Total fees\"]/following-sibling::android.widget.TextView[1]\n")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees\"]/following-sibling::android.widget.TextView[1]\n")
         private WebElement totalFeesText;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Bank Details']")
         private WebElement bankDetailsText;
@@ -244,13 +245,6 @@ import static extentReport.ExtentReportManager.test;
         private WebElement ibrRateField;
 
 
-
-
-
-
-
-
-
         public void sendMoneyLabel() {
             Assert.assertTrue(sendMoneyLabel.isDisplayed());
             test.get().log(Status.PASS, "Label: '" + sendMoneyLabel.getText() + "' is displayed correctly");
@@ -262,9 +256,9 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void inrCurrencyTextBox(String Amount) throws InterruptedException {
-                inrCurrencyTextbox.click();
-                inrCurrencyTextbox.clear();
-                Thread.sleep(10);
+            inrCurrencyTextbox.click();
+            inrCurrencyTextbox.clear();
+            Thread.sleep(10);
             inrCurrencyTextbox.sendKeys(Amount);
 //            } else {
 //                System.out.println("Field is not enabled.");
@@ -272,6 +266,7 @@ import static extentReport.ExtentReportManager.test;
 //            inrCurrencyTextbox.clear();
 //            inrCurrencyTextbox.sendKeys(Amount);
         }
+
         public void fcyCurrencyTextBox(String Amount) throws InterruptedException {
 //            WebElement amountField = driver.findElement(By.id("inrCurrencyTextbox"));
 //            if (amountField.isEnabled()) {
@@ -285,6 +280,7 @@ import static extentReport.ExtentReportManager.test;
 //            inrCurrencyTextbox.clear();
 //            inrCurrencyTextbox.sendKeys(Amount);
         }
+
         public void selectCurrencyByName(String currency) throws InterruptedException {
             switch (currency.toLowerCase()) {
                 case "usd":
@@ -407,7 +403,8 @@ import static extentReport.ExtentReportManager.test;
 
 
         }
-        public  void foreignCurrencies() throws InterruptedException {
+
+        public void foreignCurrencies() throws InterruptedException {
 
 
 //            selectForeignCurrency("USD");
@@ -606,7 +603,6 @@ import static extentReport.ExtentReportManager.test;
         }
 
 
-
 //         public void expandTaxAndTransferFee(boolean validateGst) {
 //                try {
 //                    // Step 1: Expand the section
@@ -632,11 +628,12 @@ import static extentReport.ExtentReportManager.test;
 //            }
 
         public void expandTaxAndTransferFee() throws InterruptedException {
-            Thread.sleep(1000);
             taxAndTransferFee.click();
             TakeSnap.captureScreenshot();
 
+
         }
+
         public void expandTaxAndTransferClose() throws InterruptedException {
             taxAndTransferFeeClose.click();
             Thread.sleep(4000);
@@ -779,6 +776,7 @@ import static extentReport.ExtentReportManager.test;
                 test.get().log(Status.FAIL, "GST Mismatch: " + slabInfo + " | Expected: " + expected + ", Found: " + actual);
             }
         }
+
         public void validateGST() {
             try {
                 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -837,7 +835,8 @@ import static extentReport.ExtentReportManager.test;
                 e.printStackTrace();
             }
         }
-            public void selectMethod() throws InterruptedException {
+
+        public void selectMethod() throws InterruptedException {
             Thread.sleep(2000);
             String youSendAmount = comFun.removeDelimiter(inrCurrencyTextbox.getText());
             String gstAmount = String.valueOf(extractNumber(checkGstAmount.getText()));
@@ -957,40 +956,44 @@ import static extentReport.ExtentReportManager.test;
             Thread.sleep(500);
             SelectPurposeCode.click();
         }
+
         public void selectPurposeOfTransfer(String purpose) throws InterruptedException {
-                switch (purpose.toLowerCase()) {
-                    case "overseas education - university fees":
-                        purposeUniversityFees.click();
-                        break;
-                    case "overseas education - living expenses":
-                        purposeLivingExpenses.click();
-                        break;
-                    case "family maintenance":
-                        purposeFamilyMaintenance.click();
-                        break;
-                    case "personal gift or donation":
-                        purposeGiftDonation.click();
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid purpose of transfer: " + purpose);
-                }
-                TakeSnap.captureScreenshot();
-                Thread.sleep(1000); // Consider using WebDriverWait instead of Thread.sleep
+            switch (purpose.toLowerCase()) {
+                case "overseas education - university fees":
+                    purposeUniversityFees.click();
+                    break;
+                case "overseas education - living expenses":
+                    purposeLivingExpenses.click();
+                    break;
+                case "family maintenance":
+                    purposeFamilyMaintenance.click();
+                    break;
+                case "personal gift or donation":
+                    purposeGiftDonation.click();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid purpose of transfer: " + purpose);
             }
+            TakeSnap.captureScreenshot();
+            Thread.sleep(1000); // Consider using WebDriverWait instead of Thread.sleep
+        }
 
 
         public void confirmButton() {
             confirmButton.click();
         }
+
         public void clickRecipientSvgIcon() {
             svgIcon.click();
         }
-        public void setSendMoneyButton() throws InterruptedException{
+
+        public void setSendMoneyButton() throws InterruptedException {
             Thread.sleep(800);
             TakeSnap.captureScreenshot();
             sendMoneyButton.click();
         }
-        public void recipientSendMoneyButton() throws InterruptedException{
+
+        public void recipientSendMoneyButton() throws InterruptedException {
             Thread.sleep(800);
             TakeSnap.captureScreenshot();
             recipientSendMoneyButton.click();
@@ -1001,7 +1004,8 @@ import static extentReport.ExtentReportManager.test;
             Thread.sleep(500);
             setOnetimeVerificationButton.click();
         }
-//        public void recipient() throws InterruptedException{
+
+        //        public void recipient() throws InterruptedException{
 //            Thread.sleep(300);
 //            recipient.click();
 //            TakeSnap.captureScreenshot();
@@ -1040,11 +1044,12 @@ import static extentReport.ExtentReportManager.test;
             }
         }
 
-        public void warningContinue() throws InterruptedException{
+        public void warningContinue() throws InterruptedException {
             warningContinue.click();
             Thread.sleep(1000);
         }
-//        public void selectSourceOfFunds() throws InterruptedException{
+
+        //        public void selectSourceOfFunds() throws InterruptedException{
 //            selectSourceOfFunds.click();
 //            Thread.sleep(1000);
 //            TakeSnap.captureScreenshot();
@@ -1088,16 +1093,17 @@ import static extentReport.ExtentReportManager.test;
         }
 
 
-        public void proceedToPayment() throws InterruptedException{
+        public void proceedToPayment() throws InterruptedException {
             proceedtoPayment.click();
             Thread.sleep(1000);
         }
 
-        public void completePayment() throws InterruptedException{
+        public void completePayment() throws InterruptedException {
             TakeSnap.captureScreenshot();
             completePayment.click();
             Thread.sleep(1000);
         }
+
         public void selectPaymentMethod(String method) throws InterruptedException {
             TakeSnap.captureScreenshot();
             switch (method.toLowerCase()) {
@@ -1119,21 +1125,24 @@ import static extentReport.ExtentReportManager.test;
         }
 
 
-        public void addNewBank() throws InterruptedException{
+        public void addNewBank() throws InterruptedException {
             addNewBank.click();
             Thread.sleep(1000);
         }
-        public void addNewRecipient() throws InterruptedException{
+
+        public void addNewRecipient() throws InterruptedException {
             Thread.sleep(100);
             TakeSnap.captureScreenshot();
             addNewRecipient.click();
 
         }
-        public void clickRelationshipsType() throws InterruptedException{
+
+        public void clickRelationshipsType() throws InterruptedException {
             clickRelationshipsType.click();
             Thread.sleep(1000);
         }
-        public void clickSelectCurrency() throws InterruptedException{
+
+        public void clickSelectCurrency() throws InterruptedException {
             selectCurrency.click();
             Thread.sleep(1000);
         }
@@ -1142,9 +1151,11 @@ import static extentReport.ExtentReportManager.test;
         public void recipientName(String name) throws Exception {
             recipientName.sendKeys(name);
         }
+
         public void recipientAddress(String name) throws Exception {
             recipientAddress.sendKeys(name);
         }
+
         public void selectRelationshipType(String relation) {
             String xpath = "//android.widget.TextView[@text='" + relation + "']";
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -1218,6 +1229,7 @@ import static extentReport.ExtentReportManager.test;
             Assert.assertEquals(String.valueOf(theyReceiveAmount), textInsideCheckAmountTheyReceive);
             System.out.println("Successful validation message: " + textInsideCheckAmountTheyReceive);
         }
+
         public void eSignAutomation() {
             // 1. Locate the Signature Pad
             WebElement signaturePad = driver.findElement(By.id("your_signature_pad_id")); // Replace with real ID
@@ -1247,53 +1259,54 @@ import static extentReport.ExtentReportManager.test;
             test.get().log(Status.PASS, "Submit button clicked.");
             TakeSnap.captureScreenshot();
         }
+
         public void validateTotalFeesDynamically() {
+            try {
+                // Clean and parse UI values
+                double bank = Double.parseDouble(bankFeesText.getText().replace("INR", "").replace(",", "").trim());
+                double convenience = Double.parseDouble(convenienceFeesText.getText().replace("INR", "").replace(",", "").trim());
+                double gstAmount = Double.parseDouble(gstText.getText().replace("INR", "").replace(",", "").trim());
+                double tcs = 0.0; // Default TCS
+                boolean isTcsPresent = false;
+
+                // Check if TCS is displayed
                 try {
-                    // Clean and parse UI values
-                    double bank = Double.parseDouble(bankFeesText.getText().replace("INR", "").replace(",", "").trim());
-                    double convenience = Double.parseDouble(convenienceFeesText.getText().replace("INR", "").replace(",", "").trim());
-                    double gstAmount = Double.parseDouble(gstText.getText().replace("INR", "").replace(",", "").trim());
-                    double tcs = 0.0; // Default TCS
-                    boolean isTcsPresent = false;
-
-                    // Check if TCS is displayed
-                    try {
-                        if (tcsTaxText.isDisplayed()) {
-                            tcs = Double.parseDouble(tcsTaxText.getText().replace("INR", "").replace(",", "").trim());
-                            isTcsPresent = true;
-                        }
-                    } catch (NoSuchElementException | NullPointerException e) {
-                        test.get().log(Status.INFO, "TCS not displayed. Skipping TCS validation.");
+                    if (tcsTaxText.isDisplayed()) {
+                        tcs = Double.parseDouble(tcsTaxText.getText().replace("INR", "").replace(",", "").trim());
+                        isTcsPresent = true;
                     }
-
-                    double expectedTotal = Double.parseDouble(totalFeesText.getText().replace("INR", "").replace(",", "").trim());
-
-                    // Log values to report
-                    test.get().log(Status.INFO, "Bank Fee validated successfully for AD1: " + bank);
-                    test.get().log(Status.INFO, "Convenience Fee validated successfully for AD1: " + convenience);
-                    test.get().log(Status.INFO, "GST Amount: " + gstAmount);
-                    if (isTcsPresent) {
-                        test.get().log(Status.INFO, "TCS Amount: " + tcs);
-                    }
-                    test.get().log(Status.INFO, "Expected Total from UI: " + expectedTotal);
-
-                    // Calculate total
-                    double calculatedTotal = bank + convenience + gstAmount + (isTcsPresent ? tcs : 0.0);
-                    test.get().log(Status.INFO, "Calculated Total: " + calculatedTotal);
-
-                    // Final assertion
-                    Assert.assertEquals(calculatedTotal, expectedTotal, 0.05, "Total fee mismatch!");
-                    test.get().log(Status.PASS, "Total fees validated successfully");
-
-                } catch (Exception e) {
-                    test.get().log(Status.FAIL, "Error in total fee validation: " + e.getMessage());
-                } finally {
-                    TakeSnap.captureScreenshot();
+                } catch (NoSuchElementException | NullPointerException e) {
+                    test.get().log(Status.INFO, "TCS not displayed. Skipping TCS validation.");
                 }
+
+                double expectedTotal = Double.parseDouble(totalFeesText.getText().replace("INR", "").replace(",", "").trim());
+
+                // Log values to report
+                test.get().log(Status.INFO, "Bank Fee validated successfully : " + bank);
+                test.get().log(Status.INFO, "Convenience Fee validated successfully : " + convenience);
+                test.get().log(Status.INFO, "GST Amount: " + gstAmount);
+                if (isTcsPresent) {
+                    test.get().log(Status.INFO, "TCS Amount: " + tcs);
+                }
+                test.get().log(Status.INFO, "Expected Total from UI: " + expectedTotal);
+
+                // Calculate total
+                double calculatedTotal = bank + convenience + gstAmount + (isTcsPresent ? tcs : 0.0);
+                test.get().log(Status.INFO, "Calculated Total: " + calculatedTotal);
+
+                // Final assertion
+                Assert.assertEquals(calculatedTotal, expectedTotal, 0.05, "Total fee mismatch!");
+                test.get().log(Status.PASS, "Total fees validated successfully");
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Error in total fee validation: " + e.getMessage());
+            } finally {
+                TakeSnap.captureScreenshot();
             }
+        }
 
 
-//            // Clean and parse individual values from UI
+        //            // Clean and parse individual values from UI
 //            double bank = Double.parseDouble(bankFeesText.getText().replace("INR", "").replace(",", "").trim());
 //            double convenience = Double.parseDouble(convenienceFeesText.getText().replace("INR", "").replace(",", "").trim());
 //            double gstAmount = Double.parseDouble(gstText.getText().replace("INR", "").replace(",", "").trim());
@@ -1328,6 +1341,7 @@ import static extentReport.ExtentReportManager.test;
             continueButton.click();
             System.out.println("Clicked on Continue button.");
         }
+
         public void enterAccountDetailsAndClickVerify(String upi, String AccountNumber, String ifscCode) {
             // Enter Account Number
             TakeSnap.captureScreenshot();
@@ -1339,9 +1353,10 @@ import static extentReport.ExtentReportManager.test;
             // Click on Verify button
             verifyButton.click();
         }
-        public void transactionScreen(){
+
+        public void transactionScreen() {
             Assert.assertTrue(transactionScreen.isDisplayed());
-            test.get().log(Status.PASS,"Label: '"+transactionScreen.getText()+"' is displayed correctly");
+            test.get().log(Status.PASS, "Label: '" + transactionScreen.getText() + "' is displayed correctly");
         }
 
         public void enterRecipientDetailsAndContinue(String nameRecipient, String addNewRecipient, String pinCode, String city, String state, String country, String phone, String email) throws InterruptedException {
@@ -1383,6 +1398,7 @@ import static extentReport.ExtentReportManager.test;
             // Click Continue
             nextContinueButton.click();
         }
+
         public void applyCouponCode(String couponCode) {
             // Locate the Coupon Code field and enter the value
             WebElement couponCodeField = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='ConfirmScreen_Coupon_Code_Value']"));
@@ -1428,10 +1444,12 @@ import static extentReport.ExtentReportManager.test;
             // Optional: Screenshot or wait
             TakeSnap.captureScreenshot();
         }
+
         public void toggleSwitch() {
             WebElement toggleSwitch = driver.findElement(By.xpath("//android.widget.Switch"));
             toggleSwitch.click();  // Toggles the switch
         }
+
         public void validateGstAndTcs_ForFinalAmount() {
             // 1. Total Pay and Fees (get dynamically in real test using XPaths)
             double totalPay = 100000;
@@ -1462,6 +1480,7 @@ import static extentReport.ExtentReportManager.test;
 
             System.out.println(" GST & TCS validation passed.");
         }
+
         public double calculateGst(double amount) {
             if (amount <= 25000) {
                 return 250.0; // 1% of 25000
@@ -1474,6 +1493,7 @@ import static extentReport.ExtentReportManager.test;
             }
 
         }
+
         public double calculateTcsO(double amount) {
             return amount * 0.05;
         }
@@ -1507,8 +1527,10 @@ import static extentReport.ExtentReportManager.test;
         public double calculateTcs(double amount) {
             return amount * 0.05;
         }
+
         public void validateAd2BankAndConvenienceFee() {
             try {
+                TakeSnap.captureScreenshot();
                 // Step 1: Get the entered amount and fees from UI
                 String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
                 String bankFeeText = bankFerFeeAmount.getText(); // e.g., "1,250 INR"
@@ -1549,16 +1571,16 @@ import static extentReport.ExtentReportManager.test;
                 } else if (youSendAmount <= 3000000) {
                     expectedConFee = 1250;
                 }
-
+                TakeSnap.captureScreenshot();
                 // Step 4: Validate both fees
                 if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
-                    test.get().log(Status.PASS, "Bank Fee validated successfully: " + actualBankFee);
+                    test.get().log(Status.PASS, "Bank Fee validated successfully AD2: " + actualBankFee);
                 } else {
                     test.get().log(Status.FAIL, "Bank Fee mismatch. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
                 }
 
                 if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
-                    test.get().log(Status.PASS, "Convenience Fee validated successfully: " + actualConFee);
+                    test.get().log(Status.PASS, "Convenience Fee validated successfully AD2: " + actualConFee);
                 } else {
                     test.get().log(Status.FAIL, "Convenience Fee mismatch. Expected: " + expectedConFee + ", Actual: " + actualConFee);
                 }
@@ -1575,8 +1597,10 @@ import static extentReport.ExtentReportManager.test;
         public String cleanFeeText(String text) {
             return text.replaceAll("[^\\d.]", "");
         }
+
         public void validateAd1BankAndConvenienceFee() {
             try {
+                TakeSnap.captureScreenshot();
                 // Step 1: Get entered amount and fees from UI
                 String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
                 String bankFeeText = comFun.removeDelimiter(bankFerFeeAmount.getText());
@@ -1612,6 +1636,7 @@ import static extentReport.ExtentReportManager.test;
                 TakeSnap.captureScreenshot();
             }
         }
+
         public void validateIBRChangesOnTargetCurrencySelection(String fullCurrencyName, String expectedCurrencyCode) throws InterruptedException {
             // Step 1: Capture Initial IBR
             TakeSnap.captureScreenshot();
@@ -1647,6 +1672,185 @@ import static extentReport.ExtentReportManager.test;
                 Assert.fail("IBR not updated for selected currency. Expected: " + expectedCurrencyCode + ", Found: " + updatedIBR);
             }
         }
+
+        public void validateInrToForeignConversionWithTCS() {
+            try {
+                // Step 1: Fetch actual INR amount shown in UI
+                String actualInrText = inrCurrencyTextbox.getText().replace("INR", "").replace(",", "").trim();
+                double inrAmount = Double.parseDouble(actualInrText);
+
+                // Step 2: Read total fee from UI
+                String feeText = taxAndTransferFee.getText().replace("INR", "").replace(",", "").trim();
+                double totalFee = Double.parseDouble(feeText);
+
+                // Step 3: Read IBR from UI (format: "1 USD = 83.45 INR")
+                String ibrRateText = ibrRateField.getText();
+                double ibr = Double.parseDouble(ibrRateText.split("=")[1].replace("INR", "").trim());
+
+                // Step 4: Read displayed "User Gets" value from UI
+                String userGetsText = fcyCurrencyTextbox.getText().replace(",", "").trim();
+                double displayedUserGets = Double.parseDouble(userGetsText);
+
+                // Step 5: Read TCS (if present)
+                double displayedTCS = 0.0;
+                boolean tcsDisplayed = false;
+
+                try {
+                    String tcsText = tcsTaxText.getText().replace("INR", "").replace(",", "").trim();
+                    displayedTCS = Double.parseDouble(tcsText);
+                    tcsDisplayed = true;
+                } catch (NoSuchElementException e) {
+                    test.get().log(Status.INFO, "TCS not displayed in UI. Skipping TCS validation.");
+                }
+
+                // Step 6: Perform Calculations
+                double actualAmount = inrAmount - totalFee;
+                double expectedUserGets = actualAmount / ibr;
+                double expectedTCS = actualAmount * 0.05;
+
+                // Step 7: Log all values
+                test.get().log(Status.INFO, "Entered INR Amount: " + inrAmount);
+                test.get().log(Status.INFO, "Total Fee: " + totalFee);
+                test.get().log(Status.INFO, "Actual Amount (after fee): " + actualAmount);
+                test.get().log(Status.INFO, "IBR Rate: " + ibr);
+                test.get().log(Status.INFO, "Expected 'User Gets': " + expectedUserGets);
+                test.get().log(Status.INFO, "Displayed 'User Gets': " + displayedUserGets);
+
+                if (tcsDisplayed) {
+                    test.get().log(Status.INFO, "Expected TCS (5%): " + expectedTCS);
+                    test.get().log(Status.INFO, "Displayed TCS: " + displayedTCS);
+                }
+
+                // Step 8: Validate User Gets with tolerance
+                Assert.assertEquals(displayedUserGets, expectedUserGets, 0.5, "'User Gets' mismatch");
+
+                // Step 9: Validate TCS if present
+                if (tcsDisplayed) {
+                    Assert.assertEquals(displayedTCS, expectedTCS, 0.5, "TCS mismatch");
+                    test.get().log(Status.PASS, "TCS validated successfully: " + displayedTCS);
+                }
+
+                test.get().log(Status.PASS, "INR to Foreign Currency Conversion validated successfully.");
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Exception during INR conversion validation: " + e.getMessage());
+            } finally {
+                TakeSnap.captureScreenshot();
+            }
+
+        }
+
+        public void calculateDynamicAmountAfterFee() {
+            try {
+                    // 1. Get INR Amount with better XPath
+                    String inrText = driver.findElement(By.xpath(
+                            "//android.widget.TextView[contains(@text,'₹') and string-length(@text) > 2]"
+                    )).getText();
+
+                    System.out.println("Raw INR Text: " + inrText);
+                    test.get().log(Status.INFO, "Raw INR Text: " + inrText);
+
+                    if (inrText == null || inrText.trim().isEmpty()) {
+                        test.get().log(Status.FAIL, "INR amount text not found or empty.");
+                        return;
+                    }
+
+                    String inrClean = inrText.replaceAll("[^\\d.]", "").trim();
+                    if (inrClean.isEmpty()) {
+                        test.get().log(Status.FAIL, "INR amount is empty after cleanup: " + inrText);
+                        return;
+                    }
+
+                    double inrValue = Double.parseDouble(inrClean);
+
+                    // 2. Get Total Fees from content-desc
+                    String feeText = driver.findElement(By.xpath(
+                            "//android.view.ViewGroup[contains(@content-desc,'Total fees')]"
+                    )).getAttribute("content-desc");
+
+                    System.out.println("Raw Fee Text: " + feeText);
+                    test.get().log(Status.INFO, "Raw Fee Text: " + feeText);
+
+                    if (feeText == null || feeText.trim().isEmpty()) {
+                        test.get().log(Status.FAIL, "Total fees content-desc is empty or not found.");
+                        return;
+                    }
+
+                    String[] feeParts = feeText.split(",");
+                    if (feeParts.length < 2) {
+                        test.get().log(Status.FAIL, "Unexpected fee format: " + feeText);
+                        return;
+                    }
+
+                    String feeClean = feeParts[1].replaceAll("[^\\d.]", "").trim();
+                    if (feeClean.isEmpty()) {
+                        test.get().log(Status.FAIL, "Fee amount is empty after cleanup: " + feeText);
+                        return;
+                    }
+
+                    double feeValue = Double.parseDouble(feeClean);
+
+                    // 3. Calculate Net Amount
+                    double netAmount = inrValue - feeValue;
+
+                    // 4. Print and Log Results
+                    System.out.println("INR Amount: " + inrValue);
+                    System.out.println("Total Fee: " + feeValue);
+                    System.out.println("Amount after Fee: " + netAmount);
+
+                    test.get().log(Status.INFO, "INR Amount: ₹" + inrValue);
+                    test.get().log(Status.INFO, "Total Fee: ₹" + feeValue);
+                    test.get().log(Status.PASS, "Amount after Fee: ₹" + netAmount);
+
+                } catch (Exception e) {
+                    test.get().log(Status.FAIL, "Exception occurred during calculation: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+            public void validateNetAmountAndTCS() {
+            // 1. Get INR Amount
+            String inrText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'₹')]")).getText();
+            String inrClean = inrText.replaceAll("[^\\d.]", "");
+            double inrValue = Double.parseDouble(inrClean);
+
+            // 2. Get Total Fees
+            String feeText = driver.findElement(By.xpath("//android.view.ViewGroup[contains(@content-desc,'Total fees')]"))
+                    .getAttribute("content-desc");
+            String feeClean = feeText.split(",")[1].replaceAll("[^\\d.]", "");
+            double feeValue = Double.parseDouble(feeClean);
+
+            // 3. Calculate Net Amount
+            double netAmount = inrValue - feeValue;
+
+            // 4. Get TCS from UI
+            String tcsText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text, \"TCS\")]/following-sibling::android.widget.TextView[1]\n"))
+                    .getAttribute("content-desc");
+            String tcsClean = tcsText.split(",")[1].replaceAll("[^\\d.]", "");
+            double tcsValueFromUI = Double.parseDouble(tcsClean);
+
+            // 5. Calculate Expected TCS (e.g., 5% of Net Amount)
+            double expectedTcs = (netAmount * 5) / 100.0;
+
+            // 6. Round both to 2 decimal places
+            expectedTcs = Math.round(expectedTcs * 100.0) / 100.0;
+            tcsValueFromUI = Math.round(tcsValueFromUI * 100.0) / 100.0;
+
+            // 7. Log values
+            test.get().log(Status.INFO, "INR Amount: ₹" + inrValue);
+            test.get().log(Status.INFO, "Total Fee: ₹" + feeValue);
+            test.get().log(Status.INFO, "Net Amount: ₹" + netAmount);
+            test.get().log(Status.INFO, "Expected TCS (5%): ₹" + expectedTcs);
+            test.get().log(Status.INFO, "Actual TCS from UI: ₹" + tcsValueFromUI);
+
+            // 8. Validation
+            if (expectedTcs == tcsValueFromUI) {
+                test.get().log(Status.PASS, "TCS is correctly applied.");
+            } else {
+                test.get().log(Status.FAIL, "TCS mismatch! Expected: ₹" + expectedTcs + ", but found: ₹" + tcsValueFromUI);
+            }
+        }
+
+
 
     }
 

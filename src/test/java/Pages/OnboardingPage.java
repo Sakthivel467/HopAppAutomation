@@ -132,7 +132,7 @@ public class OnboardingPage {
     private WebElement pinCode8;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"HOP Remit\"]")
     private WebElement sendMoneyLabel;
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Live Google Rate\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Live Rate\"]")
     private WebElement liveGoogleRate;
     @AndroidFindBy(xpath = "  //android.widget.TextView[@text=\"all fees included\"]")
     private WebElement allFees;
@@ -756,7 +756,7 @@ public class OnboardingPage {
     public void validateUserIoOnSendMoneyScreen() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOf(sendMoneyLabel));
-//        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
+        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
         wait.until(ExpectedConditions.visibilityOf(allFees));
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();
