@@ -23,7 +23,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
-        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.validateNetAmountAndTCS();
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.inrCurrencyTextBox("4999");
         sendMoneyPage.minAmountValidation();
@@ -44,6 +44,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1234");
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.fcyCurrencyTextBox("49");
         sendMoneyPage.minAmountValidation();
@@ -70,6 +71,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.defaultCurrencies();
     }
@@ -91,12 +93,13 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("cad");
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("eur");
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("nzd");
         sendMoneyPage.inrCurrencyTextBox("1500000");
         sendMoneyPage.expandTaxAndTransferFee();
@@ -122,7 +125,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("70000");
+        sendMoneyPage.inrCurrencyTextBox("1500000");
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd2BankAndConvenienceFee();
        sendMoneyPage.validateTotalFeesDynamically();
@@ -164,6 +167,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.inrCurrencyTextBox("80000");
         sendMoneyPage.expandTaxAndTransferFee();
@@ -171,7 +175,7 @@ public class SendMoneyTest extends BaseTest {
 
     }
     @Test(priority = 21)
-    public void TC021_Validate_The_Bank_And_Convenience_Fees_And_Total_Feel_ForAD1_WithoutKYC() throws Exception {
+    public void TC021_Validate_The_Bank_And_Convenience_Fees_And_Total_Feel_ForAD1_WithoutTCS() throws Exception {
         before("TC021 - Validate The Bank And Convenience Fees And Total Feel ForAD1 WithoutKYC for All Amount Ranges");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
@@ -186,7 +190,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterConfirmPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.inrCurrencyTextBox("100000");
+        sendMoneyPage.inrCurrencyTextBox("1000000");
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd1BankAndConvenienceFee();
         sendMoneyPage.validateTotalFeesDynamically();
@@ -207,6 +211,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.enterPin("1918");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.inrCurrencyTextBox("700000");
@@ -232,11 +237,12 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.validateConfirmPinLabel();
         onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("cad");
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("1500000");
         sendMoneyPage.expandTaxAndTransferFee();
@@ -259,7 +265,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("cad");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
@@ -289,7 +295,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("chf");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
@@ -321,8 +327,9 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("Euro");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
@@ -331,7 +338,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
-        sendMoneyPage.selectSourceOfFunds("salary or wages");
+        sendMoneyPage.selectSourceOfFunds("personal savings");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("upi");
@@ -354,13 +361,14 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("gbp");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("100000");
+        sendMoneyPage.inrCurrencyTextBox("500000");
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
@@ -386,13 +394,14 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("aud");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("80000");
+        sendMoneyPage.inrCurrencyTextBox("180000");
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
@@ -418,8 +427,9 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("nzd");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
@@ -452,8 +462,9 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.clickselectCurrency();
+        sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("nzd");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
