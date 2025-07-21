@@ -25,6 +25,8 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static Utils.AndroidUtils.*;
 import static extentReport.ExtentReportManager.test;
@@ -160,6 +162,8 @@ import static extentReport.ExtentReportManager.test;
         //android.widget.TextView[@text="Included in INR amount"]
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees\"]")
         private WebElement taxAndTransferFee;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees & discounts\"]")
+        private WebElement taxDetailSection;
         @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
         private WebElement taxAndTransferFeeClose;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Transfer fee']/preceding-sibling::android.widget.TextView[1]\n")
@@ -627,12 +631,22 @@ import static extentReport.ExtentReportManager.test;
 //                }
 //            }
 
-        public void expandTaxAndTransferFee() throws InterruptedException {
-            taxAndTransferFee.click();
+//        public void expandTaxAndTransferFee() throws InterruptedException {
+//            taxAndTransferFee.click();
+//            TakeSnap.captureScreenshot();
+//
+//
+//        }
+        public void expandTaxAndTransferFee() {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(taxAndTransferFee)).click();
+
+            // Optional: validate some text or element that appears after click
+            Assert.assertTrue(taxDetailSection.isDisplayed(), "Tax section not expanded after click.");
+
             TakeSnap.captureScreenshot();
-
-
         }
+
 
         public void expandTaxAndTransferClose() throws InterruptedException {
             taxAndTransferFeeClose.click();
@@ -1849,6 +1863,42 @@ import static extentReport.ExtentReportManager.test;
                 test.get().log(Status.FAIL, "TCS mismatch! Expected: ₹" + expectedTcs + ", but found: ₹" + tcsValueFromUI);
             }
         }
+        public void validateRemittanceSummary() {
+            try {
+                // Fetch INR Amount
+                String inrAmt = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input1_Value']")).getText();
+                test.get().log(Status.INFO, "INR Amount: " + inrAmt);
+
+                // Fetch USD Amount
+                String usdAmt = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input2_Value']")).getText();
+                test.get().log(Status.INFO, "USD Amount: " + usdAmt);
+
+                // Fetch IBR rate (e.g., "1 USD = 86.83 INR")
+                String ibrText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'1 USD =')]")).getText();
+                String rate = ibrText.split("=")[1].trim().split(" ")[0];
+                test.get().log(Status.INFO, "Extracted IBR Rate: " + rate);
+
+                String totalFeesContent = driver.findElement(
+                        By.xpath("//android.view.ViewGroup[contains(@content-desc,'Total fees')]")
+                ).getAttribute("content-desc");
+
+                // Regex to capture comma-separated decimal numbers like "59,118.16"
+                Pattern pattern = Pattern.compile("\\d{1,3}(,\\d{3})*\\.\\d{2}");
+                Matcher matcher = pattern.matcher(totalFeesContent);
+
+                if (matcher.find()) {
+                    String totalFeeAmount = matcher.group();
+                    test.get().log(Status.INFO, "Total Fees: " + totalFeeAmount);
+                } else {
+                    test.get().log(Status.WARNING, "Could not extract total fees from content: " + totalFeesContent);
+                }
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Exception occurred while validating remittance summary: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
 
 
 

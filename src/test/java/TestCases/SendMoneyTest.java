@@ -23,8 +23,6 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
-        sendMoneyPage.validateNetAmountAndTCS();
-        sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.inrCurrencyTextBox("4999");
         sendMoneyPage.minAmountValidation();
         sendMoneyPage.inrCurrencyTextBox("3000000");
@@ -154,6 +152,30 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.validateTotalFeesDynamically();
     }
 
+    @Test(priority = 18)
+    public void TC018_Validate_The_Total_Fees_With_TCS_ForAD2() throws Exception {
+        before("TC018 - Validate The Bank And Convenience Fees ForAD2 for All Amount Ranges");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7872434499");
+        onboardingPage.enterOldEmailId("testing@gmail.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.toggleSwitch();
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("1100000");
+        sendMoneyPage.expandTaxAndTransferFee();
+        sendMoneyPage.validateAd2BankAndConvenienceFee();
+        sendMoneyPage.validateTotalFeesDynamically();
+    }
+
     @Test(priority = 20)
     public void TC020_Validate_GST_Amount() throws Exception {
         before("TC020 - Validate GST Amount for All Amount Ranges");
@@ -174,6 +196,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.validateGST();
 
     }
+
     @Test(priority = 21)
     public void TC021_Validate_The_Bank_And_Convenience_Fees_And_Total_Feel_ForAD1_WithoutTCS() throws Exception {
         before("TC021 - Validate The Bank And Convenience Fees And Total Feel ForAD1 WithoutKYC for All Amount Ranges");

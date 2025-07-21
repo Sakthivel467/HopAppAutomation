@@ -56,6 +56,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.validateRemittanceSummary();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
@@ -317,7 +318,24 @@ public class OnboardingTest extends BaseTest {
         TakeSnap.captureScreenshot();
 
     }
+    @Test(priority = 42)
+    public void TC0042_Validate_New_User_Default_Amount_And_Fees() throws Exception {
+        before("TC001- Validate New User Default Amount And Fees");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
 
+        onboardingPage.getStarted();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.validateRemittanceSummary();
+    }
 
     @Test(priority =13)
     public void TC0013_Validation_Logout_Flow() throws Exception {
