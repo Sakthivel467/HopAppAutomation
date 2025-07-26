@@ -20,6 +20,7 @@ public class OnboardingTest extends BaseTest {
         }
 
         onboardingPage.getStarted();
+        onboardingPage.validateLabelPhoneNoAndEmail();
         onboardingPage.enterRandomPhoneNo();
         onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
@@ -32,6 +33,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterConfirmPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.validatePromoMessage();
         onboardingPage.validateUserIoOnOneDaySettlement();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
@@ -48,6 +50,7 @@ public class OnboardingTest extends BaseTest {
         }
 
         onboardingPage.getStarted();
+        onboardingPage.validateLabelPhoneNoAndEmail();
         onboardingPage.enterPhoneNo("7773335550");
         onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
         onboardingPage.continueButton();
@@ -56,6 +59,7 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.validatePromoMessage();
         sendMoneyPage.validateRemittanceSummary();
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
@@ -81,7 +85,6 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterIncorrectEmailId("testduplicateemail@moneyhop.com");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
-        onboardingPage.setMobileNoAlreadyRegisteredError();
         TakeSnap.captureScreenshot();
     }
 
@@ -116,12 +119,13 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.clickResetPin();
         onboardingPage.enterOtp("123456");
         onboardingPage.validateRestPinLabel();
-        onboardingPage.enterPin("1234");
-        onboardingPage.enterConfirmPin("1234");
+        onboardingPage.enterPin("1235");
+        onboardingPage.enterConfirmPin("1235");
         onboardingPage.validateEnterPinLabel();
-        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.oldUserEnterPin("1235");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.validatePromoMessage();
         TakeSnap.captureScreenshot();
     }
     @Test(priority = 6)
@@ -156,7 +160,6 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.enterOtp("123456");
         onboardingPage.validateEnterPinLabel();
         onboardingPage.oldUserEnterPin("1232");
-        onboardingPage.verifyIncorrectPin();
         TakeSnap.captureScreenshot();
     }
 
@@ -259,7 +262,7 @@ public class OnboardingTest extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("50000");
+        sendMoneyPage.fcyCurrencyTextBox("870.99");
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
@@ -335,6 +338,14 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.validateRemittanceSummary();
+        sendMoneyPage.validateRemittanceActual();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("794560.88");
+        sendMoneyPage.validateRemittanceActual();
+        TakeSnap.captureScreenshot();
+
     }
 
     @Test(priority =13)
@@ -354,8 +365,10 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         onboardingPage.clickSettingButton();
-        onboardingPage.clickLogout(false);
-        onboardingPage.clickLogout(true);
+        onboardingPage.clickLogout();
+        onboardingPage.selectLogoutConfirmation("no");
+        onboardingPage.clickLogout();
+        onboardingPage.selectLogoutConfirmation("yes");
         TakeSnap.captureScreenshot();
 
 

@@ -62,7 +62,7 @@ public class OnboardingPage {
     private WebElement backButton;
     @AndroidFindBy(xpath = " //android.view.ViewGroup[@content-desc='TransactionDetail_Header_Text']/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
     private WebElement tranBackButton;
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Enter your phone number and email']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Enter your phone number and email\"]")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name='Enter your phone number and email']")
     private WebElement labelPhoneNoAndEmail;
     @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"Signup_Phone_No\"]")
@@ -224,8 +224,10 @@ public class OnboardingPage {
     private WebElement termsAndConditionsClose;
     @FindBy(xpath = "//android.widget.TextView[@text=\"Reset App Pin\"]")
     private WebElement restPinLabel;
-    @FindBy(xpath = " //android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
     private WebElement restConfirmPinLabel;
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Confirm your new 4-digit app pin\"]]")
+    private WebElement confirmYourNew;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='IBAN']")
     private WebElement ibanLabel;
     @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='RecipientAccount_SWIFT_IBAN_Input']")
@@ -316,11 +318,11 @@ public class OnboardingPage {
     public void validateLabelPhoneNoAndEmail() throws InterruptedException {
         Thread.sleep(2000);
         Assert.assertTrue(labelPhoneNoAndEmail.isDisplayed());
-        test.get().log(Status.INFO, "Label: " + labelPhoneNoAndEmail.getText());
-
+        test.get().log(Status.INFO, "Enter your phone number and emaill: " + labelPhoneNoAndEmail.getText());
     }
 
-    public void enterPhoneNo(String phoneNoTxt) throws Exception {
+    public void enterPhoneNo(String phoneNoTxt) throws  Exception  {
+        TakeSnap.captureScreenshot();
         phoneNo.sendKeys(phoneNoTxt);
     }
 
@@ -632,10 +634,49 @@ public class OnboardingPage {
 
     public void validateRestPinLabel() {
         Assert.assertTrue(restPinLabel.isDisplayed());
-        test.get().log(Status.PASS, "Label: '" + pinLabel.getText() + "' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + restPinLabel.getText() + "' is displayed correctly");
+        test.get().log(Status.INFO, "Actual user send NR Amount(INR Amount - Fees): " + restPinLabel);
         Assert.assertTrue(restConfirmPinLabel.isDisplayed());
         test.get().log(Status.PASS, "Label: '" + restConfirmPinLabel.getText() + "' is displayed correctly");
+        test.get().log(Status.INFO, "Actual user send NR Amount(INR Amount - Fees): " + restConfirmPinLabel);
+        Assert.assertTrue(confirmYourNew.isDisplayed());
+        test.get().log(Status.PASS, "Label: '" + confirmYourNew.getText() + "' is displayed correctly");
+        test.get().log(Status.INFO, "Actual user send NR Amount(INR Amount - Fees): " + confirmYourNew);
     }
+
+    public void validatePromoMessage() {
+        try {
+            // Locate the element using partial text match
+            WebElement promoMsg = driver.findElement(By.xpath(
+                    "//android.widget.TextView[contains(@text, 'Recipient gets') and contains(@text, 'more with Hop Remit')]"
+            ));
+
+            // Get the full dynamic text
+            String fullText = promoMsg.getText(); // e.g., "Recipient gets $47.86 more with Hop Remit"
+            System.out.println("Promo Message: " + fullText);
+
+            // Basic structure validation
+            Assert.assertTrue(fullText.startsWith("Recipient gets $"), "Message doesn't start with 'Recipient gets $'");
+            Assert.assertTrue(fullText.endsWith("more with Hop Remit"), "Message doesn't end with 'more with Hop Remit'");
+
+            // Extract and print the dynamic amount
+            String amountText = fullText.replaceAll("[^\\d.]", ""); // removes $, letters, keeps number
+            double amount = Double.parseDouble(amountText);
+            System.out.println("Extracted Amount: $" + amount);
+
+            // Optional: Add logic to validate the amount if needed
+            if (amount > 0) {
+                test.get().log(Status.PASS, "Promo message validated successfully: " + fullText);
+            } else {
+                test.get().log(Status.FAIL, "Promo message amount invalid: " + amount);
+            }
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Error while validating promo message: " + e.getMessage());
+
+        }
+    }
+
 
     public void enterPin(String pin) {
         // Click on the first OTP box to activate keyboard input
@@ -663,6 +704,7 @@ public class OnboardingPage {
 //    }
     public void oldUserEnterPin(String pin) {
         // Click on the first OTP box to activate keyboard input
+        TakeSnap.captureScreenshot();
         pinCode.click();
 
         AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -671,8 +713,6 @@ public class OnboardingPage {
             AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
             androidDriver.pressKey(new KeyEvent(key));
         }
-
-        TakeSnap.captureScreenshot();
     }
 
     public void validateEnterPinLabel() {
@@ -687,6 +727,7 @@ public class OnboardingPage {
     }
 
     public void enterConfirmPin(String pin) {
+        TakeSnap.captureScreenshot();
         // Click on the first OTP box to activate keyboard input
         pinCode5.click();
 
@@ -696,8 +737,6 @@ public class OnboardingPage {
             AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
             androidDriver.pressKey(new KeyEvent(key));
         }
-
-        TakeSnap.captureScreenshot();
     }
 
     //
@@ -838,7 +877,9 @@ public class OnboardingPage {
     }
 
     public void verifyIncorrectPin() {
-        Assert.assertTrue(incorrectPin.isDisplayed());
+        TakeSnap.captureScreenshot();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(incorrectPin));
         test.get().log(Status.PASS, "Success Message: '" + incorrectPin.getText() + "' is displayed correctly");
     }
 
@@ -868,26 +909,39 @@ public class OnboardingPage {
         tranBackButton.click();
     }
 
-    public void clickLogout(boolean confirmLogout) throws InterruptedException {
+    public void clickLogout() throws InterruptedException {
         // Click on the Logout button
-        WebElement logoutButton = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout\"]"));
+        WebElement logoutButton = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Reset App Pin\"]"));
         logoutButton.click();
-
         // Wait for the confirmation modal
         Thread.sleep(1000); // Optional - better to use WebDriverWait if needed
+    }
+    public void selectLogoutConfirmation(String option) {
+        switch (option.toLowerCase()) {
+            case "yes":
+            case "confirm":
+            case "logout":
+                WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='Logout_Modal_Test_Yes']"));
+                yesBtn.click();
+                System.out.println("Logout confirmed.");
+                break;
 
-        if (confirmLogout) {
-            // Click on "Yes" in modal
-            WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_Yes\"]"));
-            yesBtn.click();
-            System.out.println("Logout confirmed.");
-        } else {
-            // Click on "No" in modal
-            WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_No\"]"));
-            noBtn.click();
-            System.out.println("Logout cancelled.");
+            case "no":
+            case "cancel":
+            case "stay":
+                WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='Logout_Modal_Test_No']"));
+                noBtn.click();
+                System.out.println(" Logout cancelled.");
+                break;
+
+            default:
+                throw new IllegalArgumentException(" Invalid option passed to selectLogoutConfirmation(): " + option);
         }
     }
+
+
+
+
 
     public void scrollFullPage() {
         boolean canScrollMore = true;
