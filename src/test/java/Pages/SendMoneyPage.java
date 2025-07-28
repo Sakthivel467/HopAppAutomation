@@ -4,18 +4,33 @@ import com.aventstack.extentreports.Status;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import io.appium.java_client.android.AndroidDriver;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import io.appium.java_client.AppiumBy;
+import org.openqa.selenium.WebElement;
+
+
+
 
 import Utils.*;
 
@@ -25,6 +40,8 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static Utils.AndroidUtils.*;
 import static extentReport.ExtentReportManager.test;
@@ -99,6 +116,8 @@ import static extentReport.ExtentReportManager.test;
         private WebElement proceedtoPayment;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Complete Payment \"]")
         private WebElement completePayment;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Upload Documents \"]")
+        private WebElement uploadDocs;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Netbanking\"]")
         private WebElement paymentNetbanking;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"UPI\"]")
@@ -160,6 +179,8 @@ import static extentReport.ExtentReportManager.test;
         //android.widget.TextView[@text="Included in INR amount"]
         @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees\"]")
         private WebElement taxAndTransferFee;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Total fees & discounts\"]")
+        private WebElement taxDetailSection;
         @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
         private WebElement taxAndTransferFeeClose;
         @AndroidFindBy(xpath = "//android.widget.TextView[@text='Transfer fee']/preceding-sibling::android.widget.TextView[1]\n")
@@ -243,11 +264,20 @@ import static extentReport.ExtentReportManager.test;
         private WebElement nextContinueButton;
         @AndroidFindBy(xpath = "//android.widget.TextView[contains(@text,'1 USD')]\n")
         private WebElement ibrRateField;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[contains(@content-desc,'Total fees')]")
+        private WebElement totalFeesContent;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Please upload your documents and complete the payment to process this transaction\"]\n")
+        private WebElement tranDetails;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"UploadSupportDocs_Bank statement (last 6 months)_Title\"]\n")
+        private WebElement bankAEDStatement;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@resource-id=\"Beneficiary ID - Upload any identity document of the recipient. Ex - ' passport, foreign driving license, etc\"]\n")
+        private WebElement ad1AEDContent;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"UploadSupportDocs_Header_Back_Icon\"]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
+        private WebElement docsUploadBackCTA;
 
-
-        public void sendMoneyLabel() {
-            Assert.assertTrue(sendMoneyLabel.isDisplayed());
-            test.get().log(Status.PASS, "Label: '" + sendMoneyLabel.getText() + "' is displayed correctly");
+        public void docsUploadBackCTA() throws InterruptedException {
+            Thread.sleep(1000);
+            docsUploadBackCTA.click();
         }
 
         public void validatePresetAmount() {
@@ -255,81 +285,103 @@ import static extentReport.ExtentReportManager.test;
             test.get().log(Status.PASS, "Label: '" + presetInrCurrencyTextbox.getText() + "' is displayed correctly");
         }
 
-        public void inrCurrencyTextBox(String Amount) throws InterruptedException {
+        public void inrCurrencyTextBox(String amount) throws InterruptedException {
             inrCurrencyTextbox.click();
             inrCurrencyTextbox.clear();
-            Thread.sleep(10);
-            inrCurrencyTextbox.sendKeys(Amount);
-//            } else {
-//                System.out.println("Field is not enabled.");
-//            }
-//            inrCurrencyTextbox.clear();
-//            inrCurrencyTextbox.sendKeys(Amount);
+            inrCurrencyTextbox.sendKeys(amount);
+            test.get().log(Status.INFO, "Entered INR Amount: " + amount);
+
+            try {
+                ((AndroidDriver) driver).pressKey(new KeyEvent().withKey(AndroidKey.ENTER));
+            } catch (Exception e) {
+                test.get().log(Status.WARNING, "Keyboard ENTER key press failed: " + e.getMessage());
+            }
+            Thread.sleep(1000);
         }
 
         public void fcyCurrencyTextBox(String Amount) throws InterruptedException {
-//            WebElement amountField = driver.findElement(By.id("inrCurrencyTextbox"));
-//            if (amountField.isEnabled()) {
             fcyCurrencyTextbox.click();
             fcyCurrencyTextbox.clear();
-            Thread.sleep(10);
             fcyCurrencyTextbox.sendKeys(Amount);
-//            } else {
-//                System.out.println("Field is not enabled.");
-//            }
-//            inrCurrencyTextbox.clear();
-//            inrCurrencyTextbox.sendKeys(Amount);
+
+            test.get().log(Status.INFO, "Entered INR Amount: " + Amount);
+
+            try {
+                ((AndroidDriver) driver).pressKey(new KeyEvent().withKey(AndroidKey.ENTER));
+            } catch (Exception e) {
+                test.get().log(Status.WARNING, "Keyboard ENTER key press failed: " + e.getMessage());
+            }
+            Thread.sleep(1000);
         }
 
         public void selectCurrencyByName(String currency) throws InterruptedException {
-            switch (currency.toLowerCase()) {
-                case "usd":
-                case "united states dollar":
-                    usdCurrency.click();
-                    break;
-                case "gbp":
-                case "british pound sterling":
-                    gbpCurrency.click();
-                    break;
-                case "eur":
-                case "euro":
-                    euroCurrency.click();
-                    break;
-                case "aud":
-                case "australian dollar":
-                    audCurrency.click();
-                    break;
-                case "cad":
-                case "canadian dollar":
-                    cadCurrency.click();
-                    break;
-                case "sgd":
-                case "singapore dollar":
-                    sgdCurrency.click();
-                    break;
-                case "jpy":
-                case "japanese yen":
-                    jpyCurrency.click();
-                    break;
-                case "aed":
-                case "united arab emirates dirham":
-                    aedCurrency.click();
-                    break;
-                case "nzd":
-                case "new zealand dollar":
-                    nzdCurrency.click();
-                    break;
-                case "chf":
-                case "swiss franc":
-                    chfCurrency.click();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid currency name: " + currency);
+            try {
+                Thread.sleep(400);
+                switch (currency.toLowerCase()) {
+                    case "usd":
+                    case "united states dollar":
+                        usdCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: United States Dollar (USD)");
+                        break;
+                    case "gbp":
+                    case "british pound sterling":
+                        gbpCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: British Pound Sterling (GBP)");
+                        break;
+                    case "eur":
+                    case "euro":
+                        euroCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Euro (EUR)");
+                        break;
+                    case "aud":
+                    case "australian dollar":
+                        audCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Australian Dollar (AUD)");
+                        break;
+                    case "cad":
+                    case "canadian dollar":
+                        cadCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Canadian Dollar (CAD)");
+                        break;
+                    case "sgd":
+                    case "singapore dollar":
+                        sgdCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Singapore Dollar (SGD)");
+                        break;
+                    case "jpy":
+                    case "japanese yen":
+                        jpyCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Japanese Yen (JPY)");
+                        break;
+                    case "aed":
+                    case "united arab emirates dirham":
+                        aedCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: UAE Dirham (AED)");
+                        break;
+                    case "nzd":
+                    case "new zealand dollar":
+                        nzdCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: New Zealand Dollar (NZD)");
+                        break;
+                    case "chf":
+                    case "swiss franc":
+                        chfCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Swiss Franc (CHF)");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid currency name: " + currency);
+                }
+
+                // Capture screenshot after selecting currency
+                TakeSnap.captureScreenshot();
+                Thread.sleep(1000);
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Failed to select currency: " + currency + ". Error: " + e.getMessage());
+                throw e;
             }
-            // Optional screenshot and wait
-            TakeSnap.captureScreenshot();
-            Thread.sleep(1000);
         }
+
 
         public void minAmountValidation() {
             Assert.assertTrue(minAmountErrorMessage.isDisplayed());
@@ -374,24 +426,34 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void defaultCurrencies() {
+            try {
+                // Validate INR (Local Currency)
+                Assert.assertTrue(getCurrencyCode("INR").isDisplayed(), "INR Code is not displayed");
+                test.get().log(Status.PASS, "Indian Currency Code: " + getCurrencyCode("INR").getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencyCode("INR").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Indian Currency Code: " + getCurrencyCode("INR").getText() + "' is displayed correctly");
+                Assert.assertTrue(getCurrencyFlag("INR").isDisplayed(), "INR Flag is not displayed");
+                test.get().log(Status.PASS, "Indian Currency Flag is displayed correctly");
 
-            Assert.assertTrue(getCurrencyFlag("INR").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Indian Currency Flag' is displayed correctly");
+                WebElement inrSymbol = getCurrencySymbol("₹");
+                Assert.assertTrue(inrSymbol.isDisplayed(), "INR Symbol is not displayed");
+                test.get().log(Status.PASS, "Indian Currency Symbol: " + inrSymbol.getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencySymbol("₹").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Indian Currency Symbol: " + getCurrencySymbol("₹").getText() + "' is displayed correctly");
+                // Validate USD (Default Foreign Currency)
+                Assert.assertTrue(getCurrencyCode("USD").isDisplayed(), "USD Code is not displayed");
+                test.get().log(Status.PASS, "Default Foreign Currency Code: " + getCurrencyCode("USD").getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencyCode("USD").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Default Foreign Currency Code: " + getCurrencyCode("USD").getText() + "' is displayed correctly");
+                Assert.assertTrue(getCurrencyFlag("USD").isDisplayed(), "USD Flag is not displayed");
+                test.get().log(Status.PASS, "Default Foreign Currency Flag is displayed correctly");
 
-            Assert.assertTrue(getCurrencyFlag("USD").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Default Foreign Currency Flag' is displayed correctly");
+                WebElement usdSymbol = getCurrencySymbol("$");
+                Assert.assertTrue(usdSymbol.isDisplayed(), "USD Symbol is not displayed");
+                test.get().log(Status.PASS, "Default Foreign Currency Symbol: " + usdSymbol.getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencySymbol("$").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Default Foreign Currency Symbol: " + getCurrencySymbol("$").getText() + "' is displayed correctly");
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Currency display validation failed: " + e.getMessage());
+                e.printStackTrace();
+                Assert.fail("Currency validation failed due to exception: " + e.getMessage());
+            }
         }
 
         public void selectForeignCurrency(String code) {
@@ -629,10 +691,11 @@ import static extentReport.ExtentReportManager.test;
 
         public void expandTaxAndTransferFee() throws InterruptedException {
             taxAndTransferFee.click();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(taxDetailSection));
             TakeSnap.captureScreenshot();
-
-
         }
+
 
         public void expandTaxAndTransferClose() throws InterruptedException {
             taxAndTransferFeeClose.click();
@@ -958,25 +1021,35 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void selectPurposeOfTransfer(String purpose) throws InterruptedException {
-            switch (purpose.toLowerCase()) {
-                case "overseas education - university fees":
-                    purposeUniversityFees.click();
-                    break;
-                case "overseas education - living expenses":
-                    purposeLivingExpenses.click();
-                    break;
-                case "family maintenance":
-                    purposeFamilyMaintenance.click();
-                    break;
-                case "personal gift or donation":
-                    purposeGiftDonation.click();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid purpose of transfer: " + purpose);
+            try {
+                switch (purpose.toLowerCase()) {
+                    case "overseas education - university fees":
+                        purposeUniversityFees.click();
+                        test.get().log(Status.PASS, "selected Purpose: overseas education - university fees");
+                        break;
+                    case "overseas education - living expenses":
+                        purposeLivingExpenses.click();
+                        test.get().log(Status.PASS, "selected Purpose: overseas education - living expenses ");
+                        break;
+                    case "family maintenance":
+                        purposeFamilyMaintenance.click();
+                        test.get().log(Status.PASS, "selected Purpose: family maintenance");
+                        break;
+                    case "personal gift or donation":
+                        purposeGiftDonation.click();
+                        test.get().log(Status.PASS, "selected Purpose: personal gift or donation");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid purpose of transfer: " + purpose);
+                }
+                TakeSnap.captureScreenshot();
+                Thread.sleep(1000); // Consider using WebDriverWait instead of Thread.sleep
             }
-            TakeSnap.captureScreenshot();
-            Thread.sleep(1000); // Consider using WebDriverWait instead of Thread.sleep
+         catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to select currency: " + purpose + ". Error: " + e.getMessage());
+            throw e;
         }
+    }
 
 
         public void confirmButton() {
@@ -1094,14 +1167,34 @@ import static extentReport.ExtentReportManager.test;
 
 
         public void proceedToPayment() throws InterruptedException {
+            TakeSnap.captureScreenshot();
             proceedtoPayment.click();
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         }
 
         public void completePayment() throws InterruptedException {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(tranDetails));
+            test.get().log(Status.PASS, "Label: Please upload your documents is displayed correctly");
             TakeSnap.captureScreenshot();
             completePayment.click();
             Thread.sleep(1000);
+        }
+        public void uploadDocs() throws InterruptedException {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(tranDetails));
+            test.get().log(Status.PASS, "Label: Please upload your documents is displayed correctly");
+            TakeSnap.captureScreenshot();
+            uploadDocs.click();
+            Thread.sleep(1000);
+        }
+
+        public void validateBankStatement() throws InterruptedException {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(bankAEDStatement));
+            test.get().log(Status.PASS, "Label:bankAEDStatement is displayed correctly");
+            wait.until(ExpectedConditions.visibilityOf(ad1AEDContent));
+            test.get().log(Status.PASS, "Label: txt is displayed correctly");
         }
 
         public void selectPaymentMethod(String method) throws InterruptedException {
@@ -1125,6 +1218,11 @@ import static extentReport.ExtentReportManager.test;
         }
 
 
+        public void netBanks() throws InterruptedException {
+            paymentNetbanking.click();
+            Thread.sleep(1000);
+        }
+
         public void addNewBank() throws InterruptedException {
             addNewBank.click();
             Thread.sleep(1000);
@@ -1145,6 +1243,7 @@ import static extentReport.ExtentReportManager.test;
         public void clickSelectCurrency() throws InterruptedException {
             selectCurrency.click();
             Thread.sleep(1000);
+            TakeSnap.captureScreenshot();
         }
 
 
@@ -1355,8 +1454,23 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void transactionScreen() {
-            Assert.assertTrue(transactionScreen.isDisplayed());
-            test.get().log(Status.PASS, "Label: '" + transactionScreen.getText() + "' is displayed correctly");
+            try {
+                Assert.assertTrue(transactionScreen.isDisplayed(), "Transaction screen is not displayed");
+                String screenLabel = transactionScreen.getText().trim();
+
+                if (!screenLabel.isEmpty()) {
+                    test.get().log(Status.PASS, "Label: '" + screenLabel + "' is displayed correctly");
+                } else {
+                    test.get().log(Status.WARNING, "Transaction screen is visible but label text is empty");
+                }
+
+                TakeSnap.captureScreenshot();
+
+            } catch (AssertionError e) {
+                test.get().log(Status.FAIL, "Transaction screen is not displayed.");
+                TakeSnap.captureScreenshot();
+                throw e; // re-throw for TestNG/JUnit to mark as failed
+            }
         }
 
         public void enterRecipientDetailsAndContinue(String nameRecipient, String addNewRecipient, String pinCode, String city, String state, String country, String phone, String email) throws InterruptedException {
@@ -1599,45 +1713,74 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void validateAd1BankAndConvenienceFee() {
-            try {
-                TakeSnap.captureScreenshot();
-                // Step 1: Get entered amount and fees from UI
-                String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
-                String bankFeeText = comFun.removeDelimiter(bankFerFeeAmount.getText());
-                String conFeeText = comFun.removeDelimiter(convenienceFeeAmount.getText());
+                try {
+                    TakeSnap.captureScreenshot();
 
-                double youSendAmount = Double.parseDouble(youSendAmountText.replaceAll("[^\\d.]", ""));
-                double actualBankFee = Double.parseDouble(bankFeeText.replaceAll("[^\\d.]", ""));
-                double actualConFee = Double.parseDouble(conFeeText.replaceAll("[^\\d.]", ""));
+                    // Step 1: Get the entered amount and fees from UI
+                    String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
+                    String bankFeeText = bankFerFeeAmount.getText(); // e.g., "1,250 INR"
+                    String conFeeText = convenienceFeeAmount.getText(); // e.g., "350 INR"
 
-                // Step 2: Define expected values for AD1
-                double expectedBankFee = 590.0;
-                double expectedConFee = 0.0;
+                    double youSendAmount = Double.parseDouble(youSendAmountText);
+                    double actualBankFee = Double.parseDouble(cleanFeeText(bankFeeText));
+                    double actualConFee = Double.parseDouble(cleanFeeText(conFeeText));
 
-                // Step 3: Validate Bank Fee
-                if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
-                    test.get().log(Status.PASS, "Bank Fee validated successfully for AD1: " + actualBankFee);
-                } else {
-                    test.get().log(Status.FAIL, "Bank Fee mismatch for AD1. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
+                    // Step 2: Calculate expected Bank Fee (same logic as AD2)
+                    double expectedBankFee = 0;
+                    if (youSendAmount <= 79999) {
+                        expectedBankFee = 590;
+                    } else if (youSendAmount <= 199999) {
+                        expectedBankFee = 590;
+                    } else if (youSendAmount <= 399999) {
+                        expectedBankFee = 590;
+                    } else if (youSendAmount <= 599999) {
+                        expectedBankFee = 590;
+                    } else if (youSendAmount <= 999999) {
+                        expectedBankFee = 590;
+                    } else if (youSendAmount <= 3000000) {
+                        expectedBankFee = 590;
+                    }
+
+                    // Step 3: Calculate expected Convenience Fee (same logic as AD2)
+                    double expectedConFee = 0;
+                    if (youSendAmount <= 79999) {
+                        expectedConFee = 0;
+                    } else if (youSendAmount <= 199999) {
+                        expectedConFee = 0;
+                    } else if (youSendAmount <= 399999) {
+                        expectedConFee = 0;
+                    } else if (youSendAmount <= 599999) {
+                        expectedConFee = 0;
+                    } else if (youSendAmount <= 999999) {
+                        expectedConFee = 0;
+                    } else if (youSendAmount <= 3000000) {
+                        expectedConFee = 0;
+                    }
+
+                    // Step 4: Validate Bank Fee
+                    if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
+                        test.get().log(Status.PASS, "Bank Fee validated successfully for AD1: " + actualBankFee);
+                    } else {
+                        test.get().log(Status.FAIL, "Bank Fee mismatch for AD1. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
+                    }
+
+                    // Step 5: Validate Convenience Fee
+                    if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
+                        test.get().log(Status.PASS, "Convenience Fee validated successfully for AD1: " + actualConFee);
+                    } else {
+                        test.get().log(Status.FAIL, "Convenience Fee mismatch for AD1. Expected: " + expectedConFee + ", Actual: " + actualConFee);
+                    }
+
+                    TakeSnap.captureScreenshot();
+
+                } catch (Exception e) {
+                    test.get().log(Status.FAIL, "Error while validating AD1 fees: " + e.getMessage());
+                    TakeSnap.captureScreenshot();
                 }
-
-                // Step 4: Validate Convenience Fee
-                if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
-                    test.get().log(Status.PASS, "Convenience Fee validated successfully for AD1: " + actualConFee);
-                } else {
-                    test.get().log(Status.FAIL, "Convenience Fee mismatch for AD1. Expected: " + expectedConFee + ", Actual: " + actualConFee);
-                }
-
-                // Step 5: Capture screenshot
-                TakeSnap.captureScreenshot();
-
-            } catch (Exception e) {
-                test.get().log(Status.FAIL, "Error while validating AD1 Fees: " + e.getMessage());
-                TakeSnap.captureScreenshot();
             }
-        }
 
-        public void validateIBRChangesOnTargetCurrencySelection(String fullCurrencyName, String expectedCurrencyCode) throws InterruptedException {
+
+            public void validateIBRChangesOnTargetCurrencySelection(String fullCurrencyName, String expectedCurrencyCode) throws InterruptedException {
             // Step 1: Capture Initial IBR
             TakeSnap.captureScreenshot();
             String initialIBR = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'1') and contains(@text,'INR')]")).getText();
@@ -1849,9 +1992,241 @@ import static extentReport.ExtentReportManager.test;
                 test.get().log(Status.FAIL, "TCS mismatch! Expected: ₹" + expectedTcs + ", but found: ₹" + tcsValueFromUI);
             }
         }
+        public void validateRemittanceSummary() {
+            try {
+                // Fetch INR Amount
+                String inrAmt = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input1_Value']")).getText();
+                test.get().log(Status.INFO, "INR Amount: " + inrAmt);
 
+                // Fetch USD Amount
+                String usdAmt = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input2_Value']")).getText();
+                test.get().log(Status.INFO, "USD Amount: " + usdAmt);
 
+                // Fetch IBR rate (e.g., "1 USD = 86.83 INR")
+                String ibrText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'1 USD =')]")).getText();
+                String rate = ibrText.split("=")[1].trim().split(" ")[0];
+                test.get().log(Status.INFO, "Extracted IBR Rate: " + rate);
 
+                String totalFeesContent = driver.findElement(
+                        By.xpath("//android.view.ViewGroup[contains(@content-desc,'Total fees')]")
+                ).getAttribute("content-desc");
+
+                // Regex to capture comma-separated decimal numbers like "59,118.16"
+                Pattern pattern = Pattern.compile("\\d{1,3}(,\\d{3})*\\.\\d{2}");
+                Matcher matcher = pattern.matcher(totalFeesContent);
+
+                if (matcher.find()) {
+                    String totalFeeAmount = matcher.group();
+                    test.get().log(Status.INFO, "Total Fees: " + totalFeeAmount);
+                } else {
+                    test.get().log(Status.WARNING, "Could not extract total fees from content: " + totalFeesContent);
+                }
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Exception occurred while validating remittance summary: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        public void validateRemittanceActual() {
+            try {
+                // Fetch INR Amount
+                String inrAmtText = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input1_Value']")).getText();
+                test.get().log(Status.INFO, "INR Amount: " + inrAmtText);
+
+                // Fetch Total Fees from content-desc
+                String totalFeesContent = driver.findElement(
+                        By.xpath("//android.view.ViewGroup[contains(@content-desc,'Total fees')]")
+                ).getAttribute("content-desc");
+
+                // Regex to extract amount like "59,118.16"
+                Pattern pattern = Pattern.compile("\\d{1,3}(,\\d{3})*\\.\\d{2}");
+                Matcher matcher = pattern.matcher(totalFeesContent);
+
+                if (matcher.find()) {
+                    String totalFeeAmountText = matcher.group();
+                    test.get().log(Status.INFO, "Total Fees: " + totalFeeAmountText);
+
+                    // Convert both amounts to double after removing commas
+                    double inrAmt = Double.parseDouble(inrAmtText.replace(",", ""));
+                    double totalFees = Double.parseDouble(totalFeeAmountText.replace(",", ""));
+
+                    // Calculate Net Remittance
+                    double netRemittance = inrAmt - totalFees;
+
+                    // Log the result
+                    test.get().log(Status.INFO, "Net Remittance (INR Amount - Fees): " + netRemittance);
+                } else {
+                    test.get().log(Status.WARNING, "Could not extract total fees from content: " + totalFeesContent);
+                }
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Exception occurred while validating remittance summary: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        public void validateNetRemittance() throws InterruptedException {
+            try {
+                Thread.sleep(400);
+                TakeSnap.captureScreenshot();
+
+                // Extract INR Amount
+                String inrText = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input1_Value']")).getText();
+                double inrAmount = Double.parseDouble(inrText.replaceAll(",", "").trim());
+                String formattedInrAmount = String.format("%,.2f", inrAmount);
+                test.get().log(Status.INFO, "INR Amount: " + formattedInrAmount);
+
+                // Extract FCY Amount
+                String fcyText = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input2_Value']")).getText();
+                double fcyAmount = Double.parseDouble(fcyText.replaceAll(",", "").trim());
+                String formattedFcy = String.format("%,.2f", fcyAmount);
+                test.get().log(Status.INFO, "User received Amount (from app): " + formattedFcy);
+
+                // Extract IBR Rate (e.g., "1 USD = 52.68 INR")
+                String ibrText = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'1') and contains(@text,'=') and contains(@text,'INR')]")).getText();
+                double ibrRate = 0.0;
+
+                try {
+                    String[] parts = ibrText.split("=");
+                    if (parts.length > 1) {
+                        ibrRate = Double.parseDouble(parts[1].trim().split(" ")[0]);
+                        test.get().log(Status.INFO, "IBR Rate: " + ibrRate);
+                    } else {
+                        test.get().log(Status.FAIL, "Failed to parse IBR rate from text: " + ibrText);
+                        return;
+                    }
+                } catch (Exception e) {
+                    test.get().log(Status.FAIL, "Error while parsing IBR rate: " + e.getMessage());
+                    return;
+                }
+
+                // Extract Total Fees
+                String totalFeesContent = driver.findElement(By.xpath("//android.widget.TextView[@text='Total fees']/following-sibling::android.widget.TextView")).getText();
+                double totalFees;
+                String matchedValue = "";
+
+                Pattern pattern = Pattern.compile("\\d{1,3}(,\\d{3})*\\.\\d{2}");
+                Matcher matcher = pattern.matcher(totalFeesContent);
+
+                while (matcher.find()) {
+                    matchedValue = matcher.group(); // Last match assumed to be the final value
+                }
+
+                if (!matchedValue.isEmpty()) {
+                    totalFees = Double.parseDouble(matchedValue.replaceAll(",", "").trim());
+                    String formattedFees = String.format("%,.2f", totalFees);
+                    test.get().log(Status.INFO, "Total Fees: ₹" + formattedFees);
+                } else {
+                    test.get().log(Status.FAIL, "Could not extract Total Fees from text: " + totalFeesContent);
+                    return;
+                }
+
+                // Net Remittance in INR
+                double netINR = inrAmount - totalFees;
+                String formattedNetINR = String.format("%,.2f", netINR);
+                test.get().log(Status.INFO, "Actual user send NR Amount (INR Amount - Fees): " + formattedNetINR);
+
+                // Net Remittance in FCY
+                double calculatedFCY = netINR / ibrRate;
+                String formattedCalculatedFCY = String.format("%,.6f", calculatedFCY);
+                test.get().log(Status.INFO, "User received Amount IN FCY (Calculated): " + formattedCalculatedFCY);
+
+                // Compare FCY
+                if (Math.abs(calculatedFCY - fcyAmount) < 0.10) {
+                    test.get().log(Status.PASS, "User received amount matches the calculated FCY amount.");
+                } else {
+                    test.get().log(Status.FAIL, "Mismatch! Expected: " + formattedCalculatedFCY + ", Actual: " + formattedFcy);
+                }
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Exception in Net Remittance Validation: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        public class TransferData {
+            public String inrAmount;
+            public String userGets;
+            public String totalFees;
+            public String purposeCode;
+
+            public TransferData(String inrAmount, String userGets, String totalFees, String purposeCode) {
+                this.inrAmount = inrAmount;
+                this.userGets = userGets;
+                this.totalFees = totalFees;
+                this.purposeCode = purposeCode;
+            }
+        }
+        public TransferData captureHomeScreenValues() {
+            try {
+                TakeSnap.captureScreenshot();
+
+                String inrText = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input1_Value']")).getText().trim();
+                String usdText = driver.findElement(By.xpath("//android.widget.EditText[@content-desc='HomeScreen_Exchange_Input2_Value']")).getText().trim();
+                String totalFeesContent = driver.findElement(By.xpath("//android.view.ViewGroup[contains(@content-desc,'Total fees')]")).getAttribute("content-desc").trim();
+                String purposeText = driver.findElement(By.xpath("//android.view.ViewGroup[contains(@content-desc,'Overseas Education')]")).getAttribute("content-desc").trim();
+
+                test.get().log(Status.INFO, "Home Screen INR Amount: " + inrText);
+                test.get().log(Status.INFO, "Home Screen USD Amount: " + usdText);
+                test.get().log(Status.INFO, "Home Screen Total Fees: " + totalFeesContent);
+                test.get().log(Status.INFO, "Home Screen Purpose: " + purposeText);
+
+                return new TransferData(inrText, usdText, totalFeesContent, purposeText);
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Error capturing Home screen values: " + e.getMessage());
+                TakeSnap.captureScreenshot();
+                return null;
+            }
+        }
+
+        public TransferData captureReviewScreenValues() {
+            try {
+                TakeSnap.captureScreenshot();
+
+                String inrAmount = driver.findElement(By.xpath("//android.widget.TextView[@text='You Send']/following-sibling::android.widget.TextView")).getText().trim();
+                String userGets = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'Recipient Gets')]/following-sibling::android.widget.TextView")).getText().trim();
+                String totalFees = driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'Total Fee')]/following-sibling::android.widget.TextView")).getText().trim();
+                String purposeCode = driver.findElement(By.xpath("//android.widget.TextView[@text='Purpose of Remittance']/following-sibling::android.widget.TextView")).getText().trim();
+
+                test.get().log(Status.INFO, "Review Screen INR Amount: " + inrAmount);
+                test.get().log(Status.INFO, "Review Screen User Gets: " + userGets);
+                test.get().log(Status.INFO, "Review Screen Total Fees: " + totalFees);
+                test.get().log(Status.INFO, "Review Screen Purpose: " + purposeCode);
+
+                return new TransferData(inrAmount, userGets, totalFees, purposeCode);
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Error capturing Review screen values: " + e.getMessage());
+                TakeSnap.captureScreenshot();
+                return null;
+            }
+        }
+        public void validateHomeAndReviewScreenData() throws InterruptedException{
+            TakeSnap.captureScreenshot();
+            TransferData home = captureHomeScreenValues();
+
+            // navigateToRecipientScreen(); // Optional, if recipient has values
+            // navigateToReviewScreen();    // Call your navigation method
+
+            TransferData review = captureReviewScreenValues();
+
+            if (home == null || review == null) return;
+
+            compareValues("INR Amount", home.inrAmount, review.inrAmount);
+            compareValues("USD Amount", home.userGets, review.userGets);
+            compareValues("Total Fees", home.totalFees, review.totalFees);
+            compareValues("Purpose", home.purposeCode, review.purposeCode);
+        }
+
+        private void compareValues(String label, String expected, String actual) {
+            if (expected.replaceAll("[^\\d.]", "").equals(actual.replaceAll("[^\\d.]", ""))) {
+                test.get().log(Status.PASS, label + " matched: " + actual);
+            } else {
+                test.get().log(Status.FAIL, label + " mismatch. Expected: " + expected + ", Actual: " + actual);
+            }
+        }
     }
 
 

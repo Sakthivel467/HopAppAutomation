@@ -17,7 +17,7 @@ public class TakeSnap{
 			byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			String screenshotBase64 = encodeBase.encodeBase64(screenshotBytes);
 			String fullSizeScreenshotHtml = "<a href='data:image/png;base64," + screenshotBase64 + "' target='_blank'>"
-					+ "<img src='data:image/png;base64," + screenshotBase64 + "' style='width:80px;height:150px;' /></a>";
+					+ "<img src='data:image/png;base64," + screenshotBase64 + "'  style='width:200px;height:auto;' /></a>";
 			test.get().log(Status.INFO, fullSizeScreenshotHtml);
 
 		} catch (Exception e) {

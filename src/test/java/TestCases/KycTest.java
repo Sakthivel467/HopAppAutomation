@@ -30,6 +30,7 @@ public class KycTest  extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
         sendMoneyPage.confirmButton();
+        sendMoneyPage.validateNetRemittance();
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
 
@@ -50,9 +51,11 @@ public class KycTest  extends BaseTest {
         onboardingPage.enterConfirmPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.fcyCurrencyTextBox("3456.86");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
+        sendMoneyPage.validateNetRemittance();
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
@@ -79,35 +82,36 @@ public class KycTest  extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
+        sendMoneyPage.validateRemittanceActual();
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();
         kycPage.uploadRandomImage();
     }
-//
-//    @Test(priority = 29)
-//    public void TC029_Edit_Pan_Card_Details() throws Exception {
-//        before("TC024 - Verify Edit PAN Card Option by Entering Incorrect and Correct PAN No.");
-//        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
-//            onboardingPage.dismissButton();
-//        }
-//        onboardingPage.getStarted();
-//        onboardingPage.enterRandomPhoneNo();
-//        onboardingPage.enterEmailId("testkyc");
-//        onboardingPage.continueButton();
-//        onboardingPage.enterOtp("123456");
-//        onboardingPage.enterPin("1234");
-//        onboardingPage.validateUserIoOnSendMoneyScreen();
-//        sendMoneyPage.selectPurposeCode();
-//        sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
-//        sendMoneyPage.confirmButton();
-//        sendMoneyPage.setOnetimeVerificationButton();
-//        onboardingPage.validateUserIsOnKYCDocsScreen();
-//        kycPage.uploadPhoto();
-//        kycPage.uploadPanCard();
-//        kycPage.editPanDetails();
-//        kycPage.documentVerificationSuccess();
-//    }
+
+    @Test(priority = 29, enabled = false)
+    public void TC029_Edit_Pan_Card_Details() throws Exception {
+        before("TC024 - Verify Edit PAN Card Option by Entering Incorrect and Correct PAN No.");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+        onboardingPage.getStarted();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.enterPin("1234");
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.setOnetimeVerificationButton();
+        onboardingPage.validateUserIsOnKYCDocsScreen();
+        kycPage.uploadPhoto();
+        kycPage.uploadPanCard();
+        kycPage.editPanDetails();
+        kycPage.documentVerificationSuccess();
+    }
 
     @Test(priority = 35)
     public void TC035_Validate_Labels_Secondary_Documents_KYC_page() throws Exception {
@@ -127,6 +131,7 @@ public class KycTest  extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
+        sendMoneyPage.validateRemittanceActual();
         sendMoneyPage.setOnetimeVerificationButton();
         onboardingPage.validateUserIsOnKYCDocsScreen();
         kycPage.uploadPhoto();

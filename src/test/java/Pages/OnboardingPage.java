@@ -17,6 +17,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.android.AndroidTouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
+
 import Utils.*;
 
 import java.time.Duration;
@@ -57,7 +62,7 @@ public class OnboardingPage {
     private WebElement backButton;
     @AndroidFindBy(xpath = " //android.view.ViewGroup[@content-desc='TransactionDetail_Header_Text']/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
     private WebElement tranBackButton;
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Enter your phone number and email']")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Enter your phone number and email\"]")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name='Enter your phone number and email']")
     private WebElement labelPhoneNoAndEmail;
     @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"Signup_Phone_No\"]")
@@ -131,9 +136,9 @@ public class OnboardingPage {
     @AndroidFindBy(xpath = "(//android.view.ViewGroup[@content-desc=\"otp-input-3\"])[2]")
     private WebElement pinCode8;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"HOP Remit\"]")
-    private WebElement sendMoneyLabel;
+    private WebElement hopRemit;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Live Rate\"]")
-    private WebElement liveGoogleRate;
+    private WebElement liveRate;
     @AndroidFindBy(xpath = "  //android.widget.TextView[@text=\"all fees included\"]")
     private WebElement allFees;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"1 day settlement\"]")
@@ -219,8 +224,10 @@ public class OnboardingPage {
     private WebElement termsAndConditionsClose;
     @FindBy(xpath = "//android.widget.TextView[@text=\"Reset App Pin\"]")
     private WebElement restPinLabel;
-    @FindBy(xpath = " //android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
     private WebElement restConfirmPinLabel;
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Confirm your new 4-digit app pin\"]]")
+    private WebElement confirmYourNew;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='IBAN']")
     private WebElement ibanLabel;
     @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='RecipientAccount_SWIFT_IBAN_Input']")
@@ -311,46 +318,59 @@ public class OnboardingPage {
     public void validateLabelPhoneNoAndEmail() throws InterruptedException {
         Thread.sleep(2000);
         Assert.assertTrue(labelPhoneNoAndEmail.isDisplayed());
-        test.get().log(Status.INFO, "Label: " + labelPhoneNoAndEmail.getText());
-
+        test.get().log(Status.INFO, "Enter your phone number and emaill: " + labelPhoneNoAndEmail.getText());
     }
 
-    public void enterPhoneNo(String phoneNoTxt) throws Exception {
-        phoneNo.sendKeys(phoneNoTxt);
+    public void enterPhoneNo(String phoneNoTxt) throws  Exception  {
+        try {
+            TakeSnap.captureScreenshot();
+            phoneNo.clear();
+            phoneNo.sendKeys(phoneNoTxt);
+
+            // Fetch entered value from field
+            String enteredNumber = phoneNo.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.INFO, "Entered Phone Number: " + enteredNumber);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter phone number: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     public void enterRandomPhoneNo() {
-        Random random = new Random();
-        StringBuilder mobileNumber = new StringBuilder("9");
-        for (int i = 0; i < 9; i++) {
-            mobileNumber.append(random.nextInt(10));
+          try {
+                Random random = new Random();
+                StringBuilder mobileNumber = new StringBuilder("9");
+                for (int i = 0; i < 9; i++) {
+                    mobileNumber.append(random.nextInt(10));
+                }
+                String phoneNoTxt = mobileNumber.toString();
+
+                // Wait for the input field to appear
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+                WebElement phoneInput = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//android.widget.EditText[@content-desc='Signup_Phone_No']")
+                ));
+
+                // Enter phone number
+                phoneInput.clear();
+                phoneInput.sendKeys(phoneNoTxt);
+
+                // Log the entered phone number in Extent Report
+                test.get().log(Status.INFO, "Entered Mobile Number: " + phoneNoTxt);
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Failed to enter random phone number: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
-        String phoneNoTxt = mobileNumber.toString();
 
-// Wait for the input field to appear
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement phoneInput = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//android.widget.EditText[@content-desc='Signup_Phone_No']")
-        ));
 
-// Optionally scroll into view if needed
-// driver.findElement(AppiumBy.androidUIAutomator(
-//     "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(" +
-//     "new UiSelector().description(\"Signup_Phone_No\"))"
-// ));
-
-        phoneInput.sendKeys(phoneNoTxt);
-        System.out.println("Phone number entered: " + phoneNoTxt);
-
-//        emailId.clear();
-//        Random randomGenerator = new Random();
-//        int randomInt = randomGenerator.nextInt(99999);
-//        phoneNo.sendKeys(phoneNoTxt+ randomInt);
-//        test.get().log(Status.PASS, "User entered the Valid Phone No.");
-//        phoneNo.sendKeys(phoneNoTxt);
-    }
-
-    public void incorrectEnterPhoneNo(String phoneNoTxt) throws Exception {
+        public void incorrectEnterPhoneNo(String phoneNoTxt) throws Exception {
         phoneNo.sendKeys(phoneNoTxt);
     }
 
@@ -360,35 +380,66 @@ public class OnboardingPage {
     }
 
     public void enterEmailId(String email) throws Exception {
-        emailId.clear();
-        Random randomGenerator = new Random();
+        try {
+            TakeSnap.captureScreenshot();
+            emailId.clear();
+            Random randomGenerator = new Random();
 
-        int randomInt = randomGenerator.nextInt(100000);
-        emailId.sendKeys(email + randomInt + "@moneyhop.com");
-        Thread.sleep(2000);
-        test.get().log(Status.PASS, "User entered the Valid Email Id");
-        TakeSnap.captureScreenshot();
-//        emailId.clear();
-//
-//        Random randomGenerator = new Random();
-//        int randomInt = randomGenerator.nextInt(100000);
-//
-//        generatedEmail = emailPrefix + randomInt + "@moneyhop.com";
-//        emailId.sendKeys(generatedEmail);
-//
-//        test.get().log(Status.PASS, "Entered Email: " + generatedEmail);
-//        TakeSnap.captureScreenshot();
+            int randomInt = randomGenerator.nextInt(100000);
+            emailId.sendKeys(email + randomInt + "@moneyhop.com");
+            Thread.sleep(2000);
+            TakeSnap.captureScreenshot();
+            // Fetch entered value from field
+            String enteredEmail = emailId.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.PASS, "User entered the Valid Email Id: " + enteredEmail);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter email: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
-
     public void enterOldEmailId(String email) {
-        emailId.sendKeys(email);
-        test.get().log(Status.PASS, "User entered the Email Id");
+        try {
+            TakeSnap.captureScreenshot();
+            emailId.clear();
+            emailId.sendKeys(email);
+
+            // Fetch entered value from field
+            String enteredEmail = emailId.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.INFO, "Entered Phone Number: " + enteredEmail);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter phone number: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     public void enterIncorrectEmailId(String email) {
-        emailId.sendKeys(email);
-        test.get().log(Status.PASS, "User entered the Incorrect Email Id");
+        try {
+            TakeSnap.captureScreenshot();
+            emailId.clear();
+            emailId.sendKeys(email);
+
+            // Fetch entered value from field
+            String enteredEmail = emailId.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.INFO, "Entered Email id: " + enteredEmail);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter phone number: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     public void validatePhoneNoAndEmailPlaceholder() {
         Assert.assertTrue(phoneNoPlaceholder.isDisplayed());
@@ -613,13 +664,7 @@ public class OnboardingPage {
             ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.valueOf("DIGIT_" + digit)));
         }
     }
-//        Thread.sleep(2000);
 
-    /// /        otpBox.click();
-//        otpBox.sendKeys("1");
-//        TakeSnap.captureScreenshot();
-//        otpBox.sendKeys(otp);
-//    }
     public void validatePinLabel() {
         Assert.assertTrue(pinLabel.isDisplayed());
         test.get().log(Status.PASS, "Label: '" + pinLabel.getText() + "' is displayed correctly");
@@ -627,10 +672,49 @@ public class OnboardingPage {
 
     public void validateRestPinLabel() {
         Assert.assertTrue(restPinLabel.isDisplayed());
-        test.get().log(Status.PASS, "Label: '" + pinLabel.getText() + "' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + restPinLabel.getText() + "' is displayed correctly");
+        test.get().log(Status.INFO, "Actual user send NR Amount(INR Amount - Fees): " + restPinLabel);
         Assert.assertTrue(restConfirmPinLabel.isDisplayed());
         test.get().log(Status.PASS, "Label: '" + restConfirmPinLabel.getText() + "' is displayed correctly");
+        test.get().log(Status.INFO, "Actual user send NR Amount(INR Amount - Fees): " + restConfirmPinLabel);
+        Assert.assertTrue(confirmYourNew.isDisplayed());
+        test.get().log(Status.PASS, "Label: '" + confirmYourNew.getText() + "' is displayed correctly");
+        test.get().log(Status.INFO, "Actual user send NR Amount(INR Amount - Fees): " + confirmYourNew);
     }
+
+    public void validatePromoMessage() {
+        try {
+            // Locate the element using partial text match
+            WebElement promoMsg = driver.findElement(By.xpath(
+                    "//android.widget.TextView[contains(@text, 'Recipient gets') and contains(@text, 'more with Hop Remit')]"
+            ));
+
+            // Get the full dynamic text
+            String fullText = promoMsg.getText(); // e.g., "Recipient gets $47.86 more with Hop Remit"
+            System.out.println("Promo Message: " + fullText);
+
+            // Basic structure validation
+            Assert.assertTrue(fullText.startsWith("Recipient gets "), "Message doesn't start with 'Recipient gets '");
+            Assert.assertTrue(fullText.endsWith("more with Hop Remit"), "Message doesn't end with 'more with Hop Remit'");
+
+            // Extract and print the dynamic amount
+            String amountText = fullText.replaceAll("[^\\d.]", ""); // removes $, letters, keeps number
+            double amount = Double.parseDouble(amountText);
+            System.out.println("Extracted Amount: $" + amount);
+
+            // Optional: Add logic to validate the amount if needed
+            if (amount > 0) {
+                test.get().log(Status.PASS, "Promo message validated successfully: " + fullText);
+            } else {
+                test.get().log(Status.FAIL, "Promo message amount invalid: " + amount);
+            }
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Error while validating promo message: " + e.getMessage());
+
+        }
+    }
+
 
     public void enterPin(String pin) {
         // Click on the first OTP box to activate keyboard input
@@ -658,6 +742,7 @@ public class OnboardingPage {
 //    }
     public void oldUserEnterPin(String pin) {
         // Click on the first OTP box to activate keyboard input
+        TakeSnap.captureScreenshot();
         pinCode.click();
 
         AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -666,8 +751,6 @@ public class OnboardingPage {
             AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
             androidDriver.pressKey(new KeyEvent(key));
         }
-
-        TakeSnap.captureScreenshot();
     }
 
     public void validateEnterPinLabel() {
@@ -682,6 +765,7 @@ public class OnboardingPage {
     }
 
     public void enterConfirmPin(String pin) {
+        TakeSnap.captureScreenshot();
         // Click on the first OTP box to activate keyboard input
         pinCode5.click();
 
@@ -691,8 +775,6 @@ public class OnboardingPage {
             AndroidKey key = AndroidKey.valueOf("DIGIT_" + digit);
             androidDriver.pressKey(new KeyEvent(key));
         }
-
-        TakeSnap.captureScreenshot();
     }
 
     //
@@ -754,14 +836,32 @@ public class OnboardingPage {
     }
 
     public void validateUserIoOnSendMoneyScreen() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.visibilityOf(sendMoneyLabel));
-        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
-        wait.until(ExpectedConditions.visibilityOf(allFees));
-        Thread.sleep(2000);
-        TakeSnap.captureScreenshot();
-        test.get().log(Status.PASS, "Label: Send Money Page is displayed correctly");
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+            // Verify Send Money Label
+            wait.until(ExpectedConditions.visibilityOf(hopRemit));
+            test.get().log(Status.PASS, "Send Money Label is displayed correctly");
+
+            // Verify Live Google Rate
+            wait.until(ExpectedConditions.visibilityOf(liveRate));
+            test.get().log(Status.PASS, "Live Google Rate is displayed correctly");
+
+            // Verify All Fees
+            wait.until(ExpectedConditions.visibilityOf(allFees));
+            test.get().log(Status.PASS, "All Fees section is displayed correctly");
+
+            // Capture screenshot after all elements are validated
+            TakeSnap.captureScreenshot();
+            test.get().log(Status.PASS, "Send Money Page is displayed correctly with all required elements");
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Send Money Page validation failed: " + e.getMessage());
+            e.printStackTrace();
+            Assert.fail("Send Money Page validation failed due to exception: " + e.getMessage());
+        }
     }
+
 
     public void validateUserIoOnOneDaySettlement() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -833,7 +933,9 @@ public class OnboardingPage {
     }
 
     public void verifyIncorrectPin() {
-        Assert.assertTrue(incorrectPin.isDisplayed());
+        TakeSnap.captureScreenshot();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(incorrectPin));
         test.get().log(Status.PASS, "Success Message: '" + incorrectPin.getText() + "' is displayed correctly");
     }
 
@@ -863,26 +965,39 @@ public class OnboardingPage {
         tranBackButton.click();
     }
 
-    public void clickLogout(boolean confirmLogout) throws InterruptedException {
+    public void clickLogout() throws InterruptedException {
         // Click on the Logout button
-        WebElement logoutButton = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout\"]"));
+        WebElement logoutButton = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Reset App Pin\"]"));
         logoutButton.click();
-
         // Wait for the confirmation modal
         Thread.sleep(1000); // Optional - better to use WebDriverWait if needed
+    }
+    public void selectLogoutConfirmation(String option) {
+        switch (option.toLowerCase()) {
+            case "yes":
+            case "confirm":
+            case "logout":
+                WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='Logout_Modal_Test_Yes']"));
+                yesBtn.click();
+                System.out.println("Logout confirmed.");
+                break;
 
-        if (confirmLogout) {
-            // Click on "Yes" in modal
-            WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_Yes\"]"));
-            yesBtn.click();
-            System.out.println("Logout confirmed.");
-        } else {
-            // Click on "No" in modal
-            WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_No\"]"));
-            noBtn.click();
-            System.out.println("Logout cancelled.");
+            case "no":
+            case "cancel":
+            case "stay":
+                WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='Logout_Modal_Test_No']"));
+                noBtn.click();
+                System.out.println(" Logout cancelled.");
+                break;
+
+            default:
+                throw new IllegalArgumentException(" Invalid option passed to selectLogoutConfirmation(): " + option);
         }
     }
+
+
+
+
 
     public void scrollFullPage() {
         boolean canScrollMore = true;
