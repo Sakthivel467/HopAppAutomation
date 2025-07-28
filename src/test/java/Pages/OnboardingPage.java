@@ -226,7 +226,7 @@ public class OnboardingPage {
     private WebElement restPinLabel;
     @FindBy(xpath = "//android.widget.TextView[@text=\"Please choose your new 4-digit app pin\"]")
     private WebElement restConfirmPinLabel;
-    @FindBy(xpath = "//android.widget.TextView[@text=\"Confirm your new 4-digit app pin\"]]")
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Confirm your new 4-digit app pin\"]")
     private WebElement confirmYourNew;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='IBAN']")
     private WebElement ibanLabel;
