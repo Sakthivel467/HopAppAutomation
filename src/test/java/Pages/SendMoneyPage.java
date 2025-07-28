@@ -275,7 +275,7 @@ import static extentReport.ExtentReportManager.test;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"UploadSupportDocs_Header_Back_Icon\"]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
         private WebElement docsUploadBackCTA;
 
-        public void docsUploadBackCTA() throws InterruptedException{
+        public void docsUploadBackCTA() throws InterruptedException {
             Thread.sleep(1000);
             docsUploadBackCTA.click();
         }
@@ -285,19 +285,19 @@ import static extentReport.ExtentReportManager.test;
             test.get().log(Status.PASS, "Label: '" + presetInrCurrencyTextbox.getText() + "' is displayed correctly");
         }
 
-            public void inrCurrencyTextBox(String amount) throws  InterruptedException{
-                inrCurrencyTextbox.click();
-                inrCurrencyTextbox.clear();
-                inrCurrencyTextbox.sendKeys(amount);
-                test.get().log(Status.INFO, "Entered INR Amount: " + amount);
+        public void inrCurrencyTextBox(String amount) throws InterruptedException {
+            inrCurrencyTextbox.click();
+            inrCurrencyTextbox.clear();
+            inrCurrencyTextbox.sendKeys(amount);
+            test.get().log(Status.INFO, "Entered INR Amount: " + amount);
 
-                try {
-                    ((AndroidDriver) driver).pressKey(new KeyEvent().withKey(AndroidKey.ENTER));
-                } catch (Exception e) {
-                    test.get().log(Status.WARNING, "Keyboard ENTER key press failed: " + e.getMessage());
-                }
-                Thread.sleep(1000);
+            try {
+                ((AndroidDriver) driver).pressKey(new KeyEvent().withKey(AndroidKey.ENTER));
+            } catch (Exception e) {
+                test.get().log(Status.WARNING, "Keyboard ENTER key press failed: " + e.getMessage());
             }
+            Thread.sleep(1000);
+        }
 
         public void fcyCurrencyTextBox(String Amount) throws InterruptedException {
             fcyCurrencyTextbox.click();
@@ -315,54 +315,73 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void selectCurrencyByName(String currency) throws InterruptedException {
-            switch (currency.toLowerCase()) {
-                case "usd":
-                case "united states dollar":
-                    usdCurrency.click();
-                    break;
-                case "gbp":
-                case "british pound sterling":
-                    gbpCurrency.click();
-                    break;
-                case "eur":
-                case "euro":
-                    euroCurrency.click();
-                    break;
-                case "aud":
-                case "australian dollar":
-                    audCurrency.click();
-                    break;
-                case "cad":
-                case "canadian dollar":
-                    cadCurrency.click();
-                    break;
-                case "sgd":
-                case "singapore dollar":
-                    sgdCurrency.click();
-                    break;
-                case "jpy":
-                case "japanese yen":
-                    jpyCurrency.click();
-                    break;
-                case "aed":
-                case "united arab emirates dirham":
-                    aedCurrency.click();
-                    break;
-                case "nzd":
-                case "new zealand dollar":
-                    nzdCurrency.click();
-                    break;
-                case "chf":
-                case "swiss franc":
-                    chfCurrency.click();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid currency name: " + currency);
+            try {
+                Thread.sleep(400);
+                switch (currency.toLowerCase()) {
+                    case "usd":
+                    case "united states dollar":
+                        usdCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: United States Dollar (USD)");
+                        break;
+                    case "gbp":
+                    case "british pound sterling":
+                        gbpCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: British Pound Sterling (GBP)");
+                        break;
+                    case "eur":
+                    case "euro":
+                        euroCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Euro (EUR)");
+                        break;
+                    case "aud":
+                    case "australian dollar":
+                        audCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Australian Dollar (AUD)");
+                        break;
+                    case "cad":
+                    case "canadian dollar":
+                        cadCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Canadian Dollar (CAD)");
+                        break;
+                    case "sgd":
+                    case "singapore dollar":
+                        sgdCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Singapore Dollar (SGD)");
+                        break;
+                    case "jpy":
+                    case "japanese yen":
+                        jpyCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Japanese Yen (JPY)");
+                        break;
+                    case "aed":
+                    case "united arab emirates dirham":
+                        aedCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: UAE Dirham (AED)");
+                        break;
+                    case "nzd":
+                    case "new zealand dollar":
+                        nzdCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: New Zealand Dollar (NZD)");
+                        break;
+                    case "chf":
+                    case "swiss franc":
+                        chfCurrency.click();
+                        test.get().log(Status.PASS, "Currency selected: Swiss Franc (CHF)");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid currency name: " + currency);
+                }
+
+                // Capture screenshot after selecting currency
+                TakeSnap.captureScreenshot();
+                Thread.sleep(1000);
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Failed to select currency: " + currency + ". Error: " + e.getMessage());
+                throw e;
             }
-            // Optional screenshot and wait
-            TakeSnap.captureScreenshot();
-            Thread.sleep(1000);
         }
+
 
         public void minAmountValidation() {
             Assert.assertTrue(minAmountErrorMessage.isDisplayed());
@@ -407,24 +426,34 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void defaultCurrencies() {
+            try {
+                // Validate INR (Local Currency)
+                Assert.assertTrue(getCurrencyCode("INR").isDisplayed(), "INR Code is not displayed");
+                test.get().log(Status.PASS, "Indian Currency Code: " + getCurrencyCode("INR").getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencyCode("INR").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Indian Currency Code: " + getCurrencyCode("INR").getText() + "' is displayed correctly");
+                Assert.assertTrue(getCurrencyFlag("INR").isDisplayed(), "INR Flag is not displayed");
+                test.get().log(Status.PASS, "Indian Currency Flag is displayed correctly");
 
-            Assert.assertTrue(getCurrencyFlag("INR").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Indian Currency Flag' is displayed correctly");
+                WebElement inrSymbol = getCurrencySymbol("₹");
+                Assert.assertTrue(inrSymbol.isDisplayed(), "INR Symbol is not displayed");
+                test.get().log(Status.PASS, "Indian Currency Symbol: " + inrSymbol.getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencySymbol("₹").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Indian Currency Symbol: " + getCurrencySymbol("₹").getText() + "' is displayed correctly");
+                // Validate USD (Default Foreign Currency)
+                Assert.assertTrue(getCurrencyCode("USD").isDisplayed(), "USD Code is not displayed");
+                test.get().log(Status.PASS, "Default Foreign Currency Code: " + getCurrencyCode("USD").getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencyCode("USD").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Default Foreign Currency Code: " + getCurrencyCode("USD").getText() + "' is displayed correctly");
+                Assert.assertTrue(getCurrencyFlag("USD").isDisplayed(), "USD Flag is not displayed");
+                test.get().log(Status.PASS, "Default Foreign Currency Flag is displayed correctly");
 
-            Assert.assertTrue(getCurrencyFlag("USD").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Default Foreign Currency Flag' is displayed correctly");
+                WebElement usdSymbol = getCurrencySymbol("$");
+                Assert.assertTrue(usdSymbol.isDisplayed(), "USD Symbol is not displayed");
+                test.get().log(Status.PASS, "Default Foreign Currency Symbol: " + usdSymbol.getText() + " is displayed correctly");
 
-            Assert.assertTrue(getCurrencySymbol("$").isDisplayed());
-            test.get().log(Status.PASS, "Success message: 'Default Foreign Currency Symbol: " + getCurrencySymbol("$").getText() + "' is displayed correctly");
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Currency display validation failed: " + e.getMessage());
+                e.printStackTrace();
+                Assert.fail("Currency validation failed due to exception: " + e.getMessage());
+            }
         }
 
         public void selectForeignCurrency(String code) {
@@ -992,25 +1021,35 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void selectPurposeOfTransfer(String purpose) throws InterruptedException {
-            switch (purpose.toLowerCase()) {
-                case "overseas education - university fees":
-                    purposeUniversityFees.click();
-                    break;
-                case "overseas education - living expenses":
-                    purposeLivingExpenses.click();
-                    break;
-                case "family maintenance":
-                    purposeFamilyMaintenance.click();
-                    break;
-                case "personal gift or donation":
-                    purposeGiftDonation.click();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid purpose of transfer: " + purpose);
+            try {
+                switch (purpose.toLowerCase()) {
+                    case "overseas education - university fees":
+                        purposeUniversityFees.click();
+                        test.get().log(Status.PASS, "selected Purpose: overseas education - university fees");
+                        break;
+                    case "overseas education - living expenses":
+                        purposeLivingExpenses.click();
+                        test.get().log(Status.PASS, "selected Purpose: overseas education - living expenses ");
+                        break;
+                    case "family maintenance":
+                        purposeFamilyMaintenance.click();
+                        test.get().log(Status.PASS, "selected Purpose: family maintenance");
+                        break;
+                    case "personal gift or donation":
+                        purposeGiftDonation.click();
+                        test.get().log(Status.PASS, "selected Purpose: personal gift or donation");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid purpose of transfer: " + purpose);
+                }
+                TakeSnap.captureScreenshot();
+                Thread.sleep(1000); // Consider using WebDriverWait instead of Thread.sleep
             }
-            TakeSnap.captureScreenshot();
-            Thread.sleep(1000); // Consider using WebDriverWait instead of Thread.sleep
+         catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to select currency: " + purpose + ". Error: " + e.getMessage());
+            throw e;
         }
+    }
 
 
         public void confirmButton() {
@@ -1134,10 +1173,10 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void completePayment() throws InterruptedException {
-            TakeSnap.captureScreenshot();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOf(tranDetails));
             test.get().log(Status.PASS, "Label: Please upload your documents is displayed correctly");
+            TakeSnap.captureScreenshot();
             completePayment.click();
             Thread.sleep(1000);
         }
@@ -1153,7 +1192,7 @@ import static extentReport.ExtentReportManager.test;
         public void validateBankStatement() throws InterruptedException {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOf(bankAEDStatement));
-            test.get().log(Status.PASS, "Label: Please upload your documents is displayed correctly");
+            test.get().log(Status.PASS, "Label:bankAEDStatement is displayed correctly");
             wait.until(ExpectedConditions.visibilityOf(ad1AEDContent));
             test.get().log(Status.PASS, "Label: txt is displayed correctly");
         }
@@ -1204,6 +1243,7 @@ import static extentReport.ExtentReportManager.test;
         public void clickSelectCurrency() throws InterruptedException {
             selectCurrency.click();
             Thread.sleep(1000);
+            TakeSnap.captureScreenshot();
         }
 
 
@@ -1414,8 +1454,23 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void transactionScreen() {
-            Assert.assertTrue(transactionScreen.isDisplayed());
-            test.get().log(Status.PASS, "Label: '" + transactionScreen.getText() + "' is displayed correctly");
+            try {
+                Assert.assertTrue(transactionScreen.isDisplayed(), "Transaction screen is not displayed");
+                String screenLabel = transactionScreen.getText().trim();
+
+                if (!screenLabel.isEmpty()) {
+                    test.get().log(Status.PASS, "Label: '" + screenLabel + "' is displayed correctly");
+                } else {
+                    test.get().log(Status.WARNING, "Transaction screen is visible but label text is empty");
+                }
+
+                TakeSnap.captureScreenshot();
+
+            } catch (AssertionError e) {
+                test.get().log(Status.FAIL, "Transaction screen is not displayed.");
+                TakeSnap.captureScreenshot();
+                throw e; // re-throw for TestNG/JUnit to mark as failed
+            }
         }
 
         public void enterRecipientDetailsAndContinue(String nameRecipient, String addNewRecipient, String pinCode, String city, String state, String country, String phone, String email) throws InterruptedException {
@@ -2013,6 +2068,7 @@ import static extentReport.ExtentReportManager.test;
 
         public void validateNetRemittance() throws InterruptedException {
             try {
+                Thread.sleep(400);
                 TakeSnap.captureScreenshot();
 
                 // Extract INR Amount

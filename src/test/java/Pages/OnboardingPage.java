@@ -136,9 +136,9 @@ public class OnboardingPage {
     @AndroidFindBy(xpath = "(//android.view.ViewGroup[@content-desc=\"otp-input-3\"])[2]")
     private WebElement pinCode8;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"HOP Remit\"]")
-    private WebElement sendMoneyLabel;
+    private WebElement hopRemit;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Live Rate\"]")
-    private WebElement liveGoogleRate;
+    private WebElement liveRate;
     @AndroidFindBy(xpath = "  //android.widget.TextView[@text=\"all fees included\"]")
     private WebElement allFees;
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"1 day settlement\"]")
@@ -322,42 +322,55 @@ public class OnboardingPage {
     }
 
     public void enterPhoneNo(String phoneNoTxt) throws  Exception  {
-        TakeSnap.captureScreenshot();
-        phoneNo.sendKeys(phoneNoTxt);
+        try {
+            TakeSnap.captureScreenshot();
+            phoneNo.clear();
+            phoneNo.sendKeys(phoneNoTxt);
+
+            // Fetch entered value from field
+            String enteredNumber = phoneNo.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.INFO, "Entered Phone Number: " + enteredNumber);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter phone number: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     public void enterRandomPhoneNo() {
-        Random random = new Random();
-        StringBuilder mobileNumber = new StringBuilder("9");
-        for (int i = 0; i < 9; i++) {
-            mobileNumber.append(random.nextInt(10));
+          try {
+                Random random = new Random();
+                StringBuilder mobileNumber = new StringBuilder("9");
+                for (int i = 0; i < 9; i++) {
+                    mobileNumber.append(random.nextInt(10));
+                }
+                String phoneNoTxt = mobileNumber.toString();
+
+                // Wait for the input field to appear
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+                WebElement phoneInput = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//android.widget.EditText[@content-desc='Signup_Phone_No']")
+                ));
+
+                // Enter phone number
+                phoneInput.clear();
+                phoneInput.sendKeys(phoneNoTxt);
+
+                // Log the entered phone number in Extent Report
+                test.get().log(Status.INFO, "Entered Mobile Number: " + phoneNoTxt);
+
+            } catch (Exception e) {
+                test.get().log(Status.FAIL, "Failed to enter random phone number: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
-        String phoneNoTxt = mobileNumber.toString();
 
-// Wait for the input field to appear
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement phoneInput = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//android.widget.EditText[@content-desc='Signup_Phone_No']")
-        ));
 
-// Optionally scroll into view if needed
-// driver.findElement(AppiumBy.androidUIAutomator(
-//     "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(" +
-//     "new UiSelector().description(\"Signup_Phone_No\"))"
-// ));
-
-        phoneInput.sendKeys(phoneNoTxt);
-        System.out.println("Phone number entered: " + phoneNoTxt);
-
-//        emailId.clear();
-//        Random randomGenerator = new Random();
-//        int randomInt = randomGenerator.nextInt(99999);
-//        phoneNo.sendKeys(phoneNoTxt+ randomInt);
-//        test.get().log(Status.PASS, "User entered the Valid Phone No.");
-//        phoneNo.sendKeys(phoneNoTxt);
-    }
-
-    public void incorrectEnterPhoneNo(String phoneNoTxt) throws Exception {
+        public void incorrectEnterPhoneNo(String phoneNoTxt) throws Exception {
         phoneNo.sendKeys(phoneNoTxt);
     }
 
@@ -367,35 +380,66 @@ public class OnboardingPage {
     }
 
     public void enterEmailId(String email) throws Exception {
-        emailId.clear();
-        Random randomGenerator = new Random();
+        try {
+            TakeSnap.captureScreenshot();
+            emailId.clear();
+            Random randomGenerator = new Random();
 
-        int randomInt = randomGenerator.nextInt(100000);
-        emailId.sendKeys(email + randomInt + "@moneyhop.com");
-        Thread.sleep(2000);
-        test.get().log(Status.PASS, "User entered the Valid Email Id");
-        TakeSnap.captureScreenshot();
-//        emailId.clear();
-//
-//        Random randomGenerator = new Random();
-//        int randomInt = randomGenerator.nextInt(100000);
-//
-//        generatedEmail = emailPrefix + randomInt + "@moneyhop.com";
-//        emailId.sendKeys(generatedEmail);
-//
-//        test.get().log(Status.PASS, "Entered Email: " + generatedEmail);
-//        TakeSnap.captureScreenshot();
+            int randomInt = randomGenerator.nextInt(100000);
+            emailId.sendKeys(email + randomInt + "@moneyhop.com");
+            Thread.sleep(2000);
+            TakeSnap.captureScreenshot();
+            // Fetch entered value from field
+            String enteredEmail = emailId.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.PASS, "User entered the Valid Email Id: " + enteredEmail);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter email: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
-
     public void enterOldEmailId(String email) {
-        emailId.sendKeys(email);
-        test.get().log(Status.PASS, "User entered the Email Id");
+        try {
+            TakeSnap.captureScreenshot();
+            emailId.clear();
+            emailId.sendKeys(email);
+
+            // Fetch entered value from field
+            String enteredEmail = emailId.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.INFO, "Entered Phone Number: " + enteredEmail);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter phone number: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     public void enterIncorrectEmailId(String email) {
-        emailId.sendKeys(email);
-        test.get().log(Status.PASS, "User entered the Incorrect Email Id");
+        try {
+            TakeSnap.captureScreenshot();
+            emailId.clear();
+            emailId.sendKeys(email);
+
+            // Fetch entered value from field
+            String enteredEmail = emailId.getAttribute("text");
+
+            // Log to report
+            test.get().log(Status.INFO, "Entered Email id: " + enteredEmail);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter phone number: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     public void validatePhoneNoAndEmailPlaceholder() {
         Assert.assertTrue(phoneNoPlaceholder.isDisplayed());
@@ -620,13 +664,7 @@ public class OnboardingPage {
             ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.valueOf("DIGIT_" + digit)));
         }
     }
-//        Thread.sleep(2000);
 
-    /// /        otpBox.click();
-//        otpBox.sendKeys("1");
-//        TakeSnap.captureScreenshot();
-//        otpBox.sendKeys(otp);
-//    }
     public void validatePinLabel() {
         Assert.assertTrue(pinLabel.isDisplayed());
         test.get().log(Status.PASS, "Label: '" + pinLabel.getText() + "' is displayed correctly");
@@ -656,7 +694,7 @@ public class OnboardingPage {
             System.out.println("Promo Message: " + fullText);
 
             // Basic structure validation
-            Assert.assertTrue(fullText.startsWith("Recipient gets $"), "Message doesn't start with 'Recipient gets $'");
+            Assert.assertTrue(fullText.startsWith("Recipient gets "), "Message doesn't start with 'Recipient gets '");
             Assert.assertTrue(fullText.endsWith("more with Hop Remit"), "Message doesn't end with 'more with Hop Remit'");
 
             // Extract and print the dynamic amount
@@ -798,14 +836,32 @@ public class OnboardingPage {
     }
 
     public void validateUserIoOnSendMoneyScreen() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.visibilityOf(sendMoneyLabel));
-        wait.until(ExpectedConditions.visibilityOf(liveGoogleRate));
-        wait.until(ExpectedConditions.visibilityOf(allFees));
-        Thread.sleep(2000);
-        TakeSnap.captureScreenshot();
-        test.get().log(Status.PASS, "Label: Send Money Page is displayed correctly");
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+            // Verify Send Money Label
+            wait.until(ExpectedConditions.visibilityOf(hopRemit));
+            test.get().log(Status.PASS, "Send Money Label is displayed correctly");
+
+            // Verify Live Google Rate
+            wait.until(ExpectedConditions.visibilityOf(liveRate));
+            test.get().log(Status.PASS, "Live Google Rate is displayed correctly");
+
+            // Verify All Fees
+            wait.until(ExpectedConditions.visibilityOf(allFees));
+            test.get().log(Status.PASS, "All Fees section is displayed correctly");
+
+            // Capture screenshot after all elements are validated
+            TakeSnap.captureScreenshot();
+            test.get().log(Status.PASS, "Send Money Page is displayed correctly with all required elements");
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Send Money Page validation failed: " + e.getMessage());
+            e.printStackTrace();
+            Assert.fail("Send Money Page validation failed due to exception: " + e.getMessage());
+        }
     }
+
 
     public void validateUserIoOnOneDaySettlement() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));

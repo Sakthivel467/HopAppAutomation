@@ -96,12 +96,16 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.validateRemittanceSummary();
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("cad");
-        sendMoneyPage.validateRemittanceSummary();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.validateNetRemittance();
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("eur");
-        sendMoneyPage.validateRemittanceSummary();
+        sendMoneyPage.validateNetRemittance();
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("nzd");
+        sendMoneyPage.validateNetRemittance();
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateTotalFeesDynamically();
         TakeSnap.captureScreenshot();
@@ -147,10 +151,10 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.inrCurrencyTextBox("100000");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("1000000");
         sendMoneyPage.validateNetRemittance();
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd1BankAndConvenienceFee();
@@ -182,9 +186,9 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.validateTotalFeesDynamically();
     }
 
-    @Test(priority = 43)
-    public void TC043_Validate_The_User_Received_AMt_WithoutTCS_ForAD2() throws Exception {
-        before("TC043 -Validate The User Received AMt WithoutTCS ForAD2");
+    @Test(priority = 21)
+    public void TC021_Validate_The_User_Received_AMt_WithoutTCS_ForAD2() throws Exception {
+        before("TC021 -Validate The User Received AMt WithoutTCS ForAD2");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -207,9 +211,9 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 44)
-    public void TC044_Validate_The_User_Received_AMt_WithTCS_ForAD1() throws Exception {
-        before("TC044 -Validate The User Received AMt WithTCS ForAD1");
+    @Test(priority = 22)
+    public void TC022_Validate_The_User_Received_AMt_WithTCS_ForAD1() throws Exception {
+        before("TC022 -Validate The User Received AMt WithTCS ForAD1");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -222,9 +226,9 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("1006000.93");
+        sendMoneyPage.inrCurrencyTextBox("350575.22");
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("cad");
         sendMoneyPage.validateNetRemittance();
@@ -232,9 +236,9 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 45)
-    public void TC045_Create_a_End_to_End_International_Remittance_Transaction_FYC_amount_with_the_Purpose_of_Education_University_Fees_without_TCS_Apply_CouponCode() throws Exception {
-        before("TC045 - Create a End to End International Remittance Transaction FYC amount with the Purpose of Education University Fees without TCS Apply CouponCode");
+    @Test(priority = 23)
+    public void TC023_Create_a_End_to_End_International_Remittance_Transaction_FYC_amount_with_the_Purpose_of_Overseas_EducationLiving_expenses_with_TCS_Apply_CouponCode() throws Exception {
+        before("TC023 - Create a End to End International Remittance Transaction FYC amount with the Purpose of overseas education - living expenses without TCS Apply CouponCode");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -250,8 +254,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("cad");
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
-        sendMoneyPage.toggleSwitch();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
         sendMoneyPage.fcyCurrencyTextBox("4204.33");
         sendMoneyPage.validateNetRemittance();
@@ -262,12 +265,13 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.applyCouponCode("ASHISH500");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.transactionScreen();
+        onboardingPage.clickBackButton();
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 21)
-    public void TC021_Validate_The_Bank_And_Convenience_Fees_And_Total_Feel_ForAD1_WithoutTCS() throws Exception {
-        before("TC021 - Validate The Bank And Convenience Fees And Total Feel ForAD1 WithoutKYC for All Amount Ranges");
+    @Test(priority = 24)
+    public void TC024_Validate_The_Bank_And_Convenience_Fees_And_Total_Feel_ForAD1_WithoutTCS() throws Exception {
+        before("TC024 - Validate The Bank And Convenience Fees And Total Feel ForAD1 WithoutKYC for All Amount Ranges");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -283,7 +287,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("aed");
-        sendMoneyPage.fcyCurrencyTextBox("65000.45");
+        sendMoneyPage.fcyCurrencyTextBox("20000.45");
         sendMoneyPage.validateNetRemittance();
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd1BankAndConvenienceFee();
@@ -291,26 +295,29 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 22)
-    public void TC022_Validate_FYC_Amount_For_New_User() throws Exception {
-        before("TC022 -Validate FYC Amount For New user All Amount Ranges");
+    @Test(priority = 25)
+    public void TC025_Validate_FYC_Amount_For_New_User() throws Exception {
+        before("TC025 -Validate FYC Amount For New user All Amount Ranges");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
 
         onboardingPage.getStarted();
-        onboardingPage.enterPhoneNo("7087087087");
-        onboardingPage.enterOldEmailId("testduplicateemail@moneyhop.co");
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterRandomPhoneNo();
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
-        onboardingPage.enterPin("1918");
+        onboardingPage.validatePinLabel();
+        onboardingPage.enterPin("1234");
+        onboardingPage.validateConfirmPinLabel();
+        onboardingPage.enterConfirmPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        sendMoneyPage.inrCurrencyTextBox("750000");
+        sendMoneyPage.fcyCurrencyTextBox("7500.22");
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("gbp");
         sendMoneyPage.validateNetRemittance();
-        sendMoneyPage.fcyCurrencyTextBox("592829.56");
+        sendMoneyPage.fcyCurrencyTextBox("13044.56");
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("eur");
         sendMoneyPage.validateRemittanceSummary();
@@ -324,9 +331,9 @@ public class SendMoneyTest extends BaseTest {
 
     }
 
-    @Test(priority = 23)
-    public void TC023_TaxAndTransferFee_And_TotalAmount() throws Exception {
-        before("TC023 - Validate Tax & Transfer Fee and Total Amount Calculations");
+    @Test(priority = 26)
+    public void TC026_TaxAndTransfer_Amount_TotalAmount() throws Exception {
+        before("TC026 - Validate Tax & Transfer Fee and Total Amount Calculations");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -352,7 +359,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateTotalFeesDynamically();
         sendMoneyPage.clickSelectCurrency();
-        sendMoneyPage.selectCurrencyByName("cad");
+        sendMoneyPage.selectCurrencyByName("gbp");
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
         sendMoneyPage.confirmButton();
@@ -363,9 +370,9 @@ public class SendMoneyTest extends BaseTest {
 
     }
 
-    @Test(priority = 24)
-    public void TC023_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees_without_TCS_Apply_CouponCode() throws Exception {
-        before("TC024 Create a End to End International Remittance Transaction with the Purpose of Education University Fees without TCS Apply Coupon Code");
+    @Test(priority = 27)
+    public void TC027_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees_without_TCS_Apply_CouponCode() throws Exception {
+        before("TC027 Create a End to End International Remittance Transaction with the Purpose of Education University Fees without TCS Apply Coupon Code");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -396,9 +403,9 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
 
     }
-    @Test(priority = 25)
-    public void TC025_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_without_TCS_Apply_CouponCoin() throws Exception {
-        before("TC025 Create a End to End International Remittance Transaction with the Purpose of Overseas Education Living Expenses without TCS Apply Coupon Coin");
+    @Test(priority = 28)
+    public void TC028_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_without_TCS_Apply_CouponCoin() throws Exception {
+        before("TC028 Create a End to End International Remittance Transaction with the Purpose of Overseas Education Living Expenses without TCS Apply Coupon Coin");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -431,9 +438,9 @@ public class SendMoneyTest extends BaseTest {
     }
 
 
-    @Test(priority = 26)
-    public void TC026_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees_with_TCS() throws Exception {
-        before("TC026 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\" for Old user");
+    @Test(priority = 29)
+    public void TC029_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Education_University_Fees_with_TCS_Payment_Method_UPI() throws Exception {
+        before("TC029 - Create a End to End International Remittance Transaction with the Purpose of \"Education - University Fees\"with TCS Payment Method UPI for Old user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -467,9 +474,9 @@ public class SendMoneyTest extends BaseTest {
 
     }
 
-    @Test(priority =27)
-    public void TC027_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_living_expenses_Fees_with_TCS() throws Exception {
-        before("TC027 - Create a End to End International Remittance Transaction with the Purpose of \"living_expenses_Fees\" for Old User");
+    @Test(priority =30)
+    public void TC030_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_living_expenses_Fees_with_TCS_Payment_Method_NetBank() throws Exception {
+        before("TC030 - Create a End to End International Remittance Transaction with the Purpose of \"living_expenses_Fees\" With TCS Payment Method NetBank for Old User");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -502,9 +509,9 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
 
     }
-    @Test(priority = 28)
-    public void TC028_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Family_Maintenance() throws Exception {
-        before("TC028 - Create a End to End International Remittance Transaction with the Purpose of \"Family_Maintenance\" for Old user");
+    @Test(priority = 31)
+    public void TC031_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Family_Maintenance_Payment_Method_Neft() throws Exception {
+        before("TC031 - Create a End to End International Remittance Transaction with the Purpose of \"Family_Maintenance\" Payment Method Neft for Old user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -538,9 +545,9 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
 
     }
-    @Test(priority = 29)
-    public void TC029_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation() throws Exception {
-        before("TC029 - Create a End to End International Remittance Transaction with the Purpose of \"personal_gift_or_donation\" for Old user");
+    @Test(priority = 32)
+    public void TC032_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation_Payment_Method_Neft() throws Exception {
+        before("TC032 - Create a End to End International Remittance Transaction with the Purpose of \"personal_gift_or_donation\"   Payment Method Neftfor Old user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -576,9 +583,9 @@ public class SendMoneyTest extends BaseTest {
 
     }
 
-    @Test(priority = 30)
-    public void TC030_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation_Prime_User() throws Exception {
-        before("TC030 - Create a End to End International Remittance Transaction with the Purpose of \"personal_gift_or_donation\" for Old user");
+    @Test(priority = 33)
+    public void TC033_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_personal_gift_or_donation_Prime_User_Payment_Method_Neft() throws Exception {
+        before("TC033 - Create a End to End International Remittance Transaction with the Purpose of \"personal_gift_or_donation\" Payment Method Neft for Old user");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -611,9 +618,9 @@ public class SendMoneyTest extends BaseTest {
         TakeSnap.captureScreenshot();
 
     }
-    @Test(priority = 31)
-    public void TC031_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow () throws Exception {
-        before("TC031 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" for Old user Recipient_flow");
+    @Test(priority = 34)
+    public void TC034_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow_Payment_Method_Neft() throws Exception {
+        before("TC034 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" Payment Method Neft for Old user Recipient_flow");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -647,9 +654,9 @@ public class SendMoneyTest extends BaseTest {
 
     }
 
-    @Test(priority = 45)
-    public void TC045_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow_AED () throws Exception {
-        before("TC045 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" for Old user Recipient_flow_AED_currency");
+    @Test(priority = 35)
+    public void TC035_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow_AED() throws Exception {
+        before("TC035 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\"  Payment Method Neft for Old user Recipient_flow_AED_currency");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -667,10 +674,12 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.clickSelectCurrency();
         sendMoneyPage.selectCurrencyByName("aed");
-        sendMoneyPage.inrCurrencyTextBox("13792.35");
+        sendMoneyPage.fcyCurrencyTextBox("20000.35");
         onboardingPage.validatePromoMessage();
         sendMoneyPage.validateNetRemittance();
         sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("personal savings");
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();

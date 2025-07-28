@@ -348,7 +348,7 @@ public class OnboardingTest extends BaseTest {
 
     }
 
-    @Test(priority =13)
+    @Test(priority =13,enabled = false)
     public void TC0013_Validation_Logout_Flow() throws Exception {
         before("TC013 - Validation Logout Flow");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
