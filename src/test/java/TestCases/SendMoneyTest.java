@@ -304,7 +304,7 @@ public class SendMoneyTest extends BaseTest {
 
         onboardingPage.getStarted();
         onboardingPage.enterRandomPhoneNo();
-        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
         onboardingPage.validatePinLabel();
@@ -655,8 +655,8 @@ public class SendMoneyTest extends BaseTest {
     }
 
     @Test(priority = 35)
-    public void TC035_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow_AED() throws Exception {
-        before("TC035 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\"  Payment Method Neft for Old user Recipient_flow_AED_currency");
+    public void TC035_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_family_Maintenance_Recipient_flow_AED() throws Exception {
+        before("TC035 - Create a End to End International Remittance Transaction with the Purpose of \"family maintenance\"  Payment Method Neft for Old user Recipient_flow_AED_currency");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
@@ -684,6 +684,125 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.validateBankStatement();
+        sendMoneyPage.docsUploadBackCTA();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.selectPaymentMethod("neft");
+        sendMoneyPage.validateBankDetailsAndClickContinue();
+        sendMoneyPage.transactionScreen();
+        onboardingPage.clickBackButton();
+        TakeSnap.captureScreenshot();
+
+    }
+    @Test(priority = 36)
+    public void TC036_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_University_Fees_Add_NewRecipient_GIC_flow_CADCurrency() throws Exception {
+        before("TC035 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - University Fees\"  Payment Method Neft for Old user Add_NewRecipient GIC flow CADCurrency");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterIncorrectEmailId("sakthivel+330@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.clickSelectCurrency();
+        sendMoneyPage.selectCurrencyByName("cad");
+        sendMoneyPage.fcyCurrencyTextBox("6528.34");
+        onboardingPage.validatePromoMessage();
+        sendMoneyPage.validateNetRemittance();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.addNewRecipient();
+        sendMoneyPage.selectRecipientType("gic");
+        sendMoneyPage.enterRecipientDetailsAndContinue("Subbu","62TestingAddress","M5V3L9","Toronto","Canada","2562782788","testing@gmail.co");
+        sendMoneyPage.enterRecipientBankDetailsAndContinue("CIBCCATT","12341234","12341234","1234");
+        sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.uploadDocs();
+        sendMoneyPage.validateDocs();
+        sendMoneyPage.docsUploadBackCTA();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.selectPaymentMethod("neft");
+        sendMoneyPage.validateBankDetailsAndClickContinue();
+        sendMoneyPage.transactionScreen();
+        onboardingPage.clickBackButton();
+        TakeSnap.captureScreenshot();
+
+    }
+    @Test(priority = 37)
+    public void TC037_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Add_NewRecipient_Flywire_flow_AUDCurrency() throws Exception {
+        before("TC037 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\"  Payment Method Neft for Old user Add NewRecipient Flywir AUDCurrency");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterIncorrectEmailId("sakthivel+330@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.clickSelectCurrency();
+        sendMoneyPage.selectCurrencyByName("aud");
+        sendMoneyPage.fcyCurrencyTextBox("25389.24");
+        onboardingPage.validatePromoMessage();
+        sendMoneyPage.validateNetRemittance();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.addNewRecipient();
+        sendMoneyPage.selectRecipientType("flywire");
+        sendMoneyPage.enterRecipientDetailsAndContinue("Subbu","62TestingAddress","M5V3L9","Toronto","Canada","2562782788","testing@gmail.co");
+        sendMoneyPage.enterRecipientBankDetailsAndContinue("SBININBB123","12341234","12341234","1234");
+        sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.uploadDocs();
+        sendMoneyPage.docsUploadBackCTA();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.netBanks();
+        sendMoneyPage.addNewBank();
+        TakeSnap.captureScreenshot();
+
+
+    }
+    @Test(priority = 38)
+    public void TC038_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Add_NewRecipient_Flywire_flow_AUDCurrency() throws Exception {
+        before("TC038 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\"  Payment Method Neft for Old user Add NewRecipient Flywir AUDCurrency");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterIncorrectEmailId("sakthivel+330@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.clickSelectCurrency();
+        sendMoneyPage.selectCurrencyByName("aud");
+        sendMoneyPage.inrCurrencyTextBox("90000.24");
+        sendMoneyPage.validateNetRemittance();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.addNewRecipient();
+        sendMoneyPage.selectRecipientType("institution");
+        sendMoneyPage.enterRecipientDetailsAndContinue("Hardik","62TestingAddress","A5V3U9","Toronto","Australiya","2562782788","testing@gmail.co");
+        sendMoneyPage.enterRecipientBankDetailsAndContinue("SBININBB123","12341234","12341234","1234");
+        sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.proceedToPayment();
+        sendMoneyPage.uploadDocs();
         sendMoneyPage.docsUploadBackCTA();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
