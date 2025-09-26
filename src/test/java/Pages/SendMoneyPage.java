@@ -23,6 +23,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import io.appium.java_client.android.AndroidDriver;
+
+import java.time.Instant;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -241,8 +243,8 @@ import static extentReport.ExtentReportManager.test;
         private WebElement pinCodeField;
         @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_City']")
         private WebElement cityField;
-        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_State']")
-        private WebElement stateField;
+//        @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_State']")
+//        private WebElement stateField;
         @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc='AddRecipient_Country']")
         private WebElement countryField;
         @AndroidFindBy(xpath = "//android.widget.EditText[@resource-id='AddRecipient_PhoneNumber']")
@@ -270,12 +272,17 @@ import static extentReport.ExtentReportManager.test;
         private WebElement tranDetails;
         @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"UploadSupportDocs_Bank statement (last 6 months)_Title\"]\n")
         private WebElement bankAEDStatement;
+        @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"UploadSupportDocs_GIC Letter_Title\"]\n")
+        private WebElement validateDocs;
         @AndroidFindBy(xpath = "//android.widget.TextView[@resource-id=\"Beneficiary ID - Upload any identity document of the recipient. Ex - ' passport, foreign driving license, etc\"]\n")
         private WebElement ad1AEDContent;
         @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"UploadSupportDocs_Header_Back_Icon\"]/com.horcrux.svg.SvgView/com.horcrux.svg.GroupView/com.horcrux.svg.PathView\n")
         private WebElement docsUploadBackCTA;
+        @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[5]/android.widget.EditText\n")
+        private WebElement transitCode;
 
         public void docsUploadBackCTA() throws InterruptedException {
+            TakeSnap.captureScreenshot();
             Thread.sleep(1000);
             docsUploadBackCTA.click();
         }
@@ -1118,15 +1125,18 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void warningContinue() throws InterruptedException {
-            warningContinue.click();
-            Thread.sleep(1000);
+            try {
+                if (warningContinue != null && warningContinue.isDisplayed()) {
+                    warningContinue.click();
+                    Thread.sleep(1000); // optional
+                } else {
+                    System.out.println("Warning Continue button not visible.");
+                }
+            } catch (NoSuchElementException e) {
+                // Element not present in DOM
+                System.out.println("Warning Continue button not present.");
+            }
         }
-
-        //        public void selectSourceOfFunds() throws InterruptedException{
-//            selectSourceOfFunds.click();
-//            Thread.sleep(1000);
-//            TakeSnap.captureScreenshot();
-//        }
         public void selectSourceOfFunds(String source) throws InterruptedException {
             // Click the dropdown or field to open Source of Funds options
             selectSourceOfFunds.click();
@@ -1187,6 +1197,11 @@ import static extentReport.ExtentReportManager.test;
             TakeSnap.captureScreenshot();
             uploadDocs.click();
             Thread.sleep(1000);
+        }
+        public void validateDocs() throws InterruptedException {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(validateDocs));
+            test.get().log(Status.PASS, "Label:GIC Letter is displayed correctly");
         }
 
         public void validateBankStatement() throws InterruptedException {
@@ -1473,28 +1488,27 @@ import static extentReport.ExtentReportManager.test;
             }
         }
 
-        public void enterRecipientDetailsAndContinue(String nameRecipient, String addNewRecipient, String pinCode, String city, String state, String country, String phone, String email) throws InterruptedException {
+        public void enterRecipientDetailsAndContinue(String nameRecipient, String addNewRecipient, String pinCode, String city, String country, String phone, String email) throws InterruptedException {
             // Fill all fields
             recipientName.sendKeys(nameRecipient);
             recipientAddress.sendKeys(addNewRecipient);
             pinCodeField.sendKeys(pinCode);
             cityField.sendKeys(city);
-            stateField.sendKeys(state);
             countryField.sendKeys(country);
             phoneField.sendKeys(phone);
             emailField.sendKeys(email);
 
             // Hide keyboard
-            driver.network();
+//            driver.network();
 
             // Take screenshot
             TakeSnap.captureScreenshot();
 
             // Click Continue
-            continueButton.click();
+            accContinueButton.click();
         }
 
-        public void enterRecipientBankDetailsAndContinue(String swiftIban, String accountNumber, String confirmAccountNumber) throws InterruptedException {
+        public void enterRecipientBankDetailsAndContinue(String swiftIban, String accountNumber, String confirmAccountNumber,String transritCode) throws InterruptedException {
             swiftIbanField.sendKeys(swiftIban);
             // Click Verify
             accVerifyButton.click();
@@ -1502,9 +1516,18 @@ import static extentReport.ExtentReportManager.test;
 
             bankAccountField.sendKeys(accountNumber);
             confirmBankAccountField.sendKeys(confirmAccountNumber);
+            try {
 
-            // Optionally hide keyboard
-            driver.network();
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+                wait.until(ExpectedConditions.visibilityOfAllElements(transitCode));
+
+                if (transitCode.isDisplayed()) {
+                    transitCode.sendKeys(transritCode);
+                    System.out.println("Confirm Account Number entered successfully.");
+                }
+            } catch (TimeoutException e) {
+                System.out.println("Confirm Account Number field not visible, proceeding without it.");
+            }
 
             // Take screenshot (if needed)
             TakeSnap.captureScreenshot();

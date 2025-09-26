@@ -262,7 +262,7 @@ public class OnboardingTest extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.fcyCurrencyTextBox("870.99");
+        sendMoneyPage.fcyCurrencyTextBox("604.99");
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
