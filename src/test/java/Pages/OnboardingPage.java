@@ -321,7 +321,7 @@ public class OnboardingPage {
         test.get().log(Status.INFO, "Enter your phone number and emaill: " + labelPhoneNoAndEmail.getText());
     }
 
-    public void enterPhoneNo(String phoneNoTxt) throws  Exception  {
+    public void enterPhoneNo(String phoneNoTxt) throws Exception {
         try {
             TakeSnap.captureScreenshot();
             phoneNo.clear();
@@ -342,35 +342,35 @@ public class OnboardingPage {
 
 
     public void enterRandomPhoneNo() {
-          try {
-                Random random = new Random();
-                StringBuilder mobileNumber = new StringBuilder("9");
-                for (int i = 0; i < 9; i++) {
-                    mobileNumber.append(random.nextInt(10));
-                }
-                String phoneNoTxt = mobileNumber.toString();
-
-                // Wait for the input field to appear
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-                WebElement phoneInput = wait.until(ExpectedConditions.presenceOfElementLocated(
-                        By.xpath("//android.widget.EditText[@content-desc='Signup_Phone_No']")
-                ));
-
-                // Enter phone number
-                phoneInput.clear();
-                phoneInput.sendKeys(phoneNoTxt);
-
-                // Log the entered phone number in Extent Report
-                test.get().log(Status.INFO, "Entered Mobile Number: " + phoneNoTxt);
-
-            } catch (Exception e) {
-                test.get().log(Status.FAIL, "Failed to enter random phone number: " + e.getMessage());
-                e.printStackTrace();
+        try {
+            Random random = new Random();
+            StringBuilder mobileNumber = new StringBuilder("9");
+            for (int i = 0; i < 9; i++) {
+                mobileNumber.append(random.nextInt(10));
             }
+            String phoneNoTxt = mobileNumber.toString();
+
+            // Wait for the input field to appear
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            WebElement phoneInput = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//android.widget.EditText[@content-desc='Signup_Phone_No']")
+            ));
+
+            // Enter phone number
+            phoneInput.clear();
+            phoneInput.sendKeys(phoneNoTxt);
+
+            // Log the entered phone number in Extent Report
+            test.get().log(Status.INFO, "Entered Mobile Number: " + phoneNoTxt);
+
+        } catch (Exception e) {
+            test.get().log(Status.FAIL, "Failed to enter random phone number: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
 
 
-        public void incorrectEnterPhoneNo(String phoneNoTxt) throws Exception {
+    public void incorrectEnterPhoneNo(String phoneNoTxt) throws Exception {
         phoneNo.sendKeys(phoneNoTxt);
     }
 
@@ -996,9 +996,6 @@ public class OnboardingPage {
     }
 
 
-
-
-
     public void scrollFullPage() {
         boolean canScrollMore = true;
 
@@ -1032,6 +1029,7 @@ public class OnboardingPage {
         Assert.assertTrue(textElement2.isDisplayed(), "Expected text 2 is not displayed!");
         System.out.println(" Text 2 validated: " + textElement2.getText());
     }
+
     public void validateRemittanceInfoTexts() {
         // Text 1: Validation
         String expectedText1 = "Self transfers are not allowed. Only close blood relatives (Parents and Siblings) can send money under this purpose.";

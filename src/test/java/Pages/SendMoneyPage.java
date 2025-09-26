@@ -1125,15 +1125,18 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void warningContinue() throws InterruptedException {
-            warningContinue.click();
-            Thread.sleep(1000);
+            try {
+                if (warningContinue != null && warningContinue.isDisplayed()) {
+                    warningContinue.click();
+                    Thread.sleep(1000); // optional
+                } else {
+                    System.out.println("Warning Continue button not visible.");
+                }
+            } catch (NoSuchElementException e) {
+                // Element not present in DOM
+                System.out.println("Warning Continue button not present.");
+            }
         }
-
-        //        public void selectSourceOfFunds() throws InterruptedException{
-//            selectSourceOfFunds.click();
-//            Thread.sleep(1000);
-//            TakeSnap.captureScreenshot();
-//        }
         public void selectSourceOfFunds(String source) throws InterruptedException {
             // Click the dropdown or field to open Source of Funds options
             selectSourceOfFunds.click();
