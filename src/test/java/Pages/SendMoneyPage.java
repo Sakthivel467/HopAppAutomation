@@ -9,11 +9,8 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
-import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -22,16 +19,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import io.appium.java_client.android.AndroidDriver;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import io.appium.java_client.AppiumBy;
-import org.openqa.selenium.WebElement;
-
-
 
 
 import Utils.*;
@@ -41,9 +32,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static Utils.AndroidUtils.*;
 import static extentReport.ExtentReportManager.test;
@@ -280,6 +268,9 @@ import static extentReport.ExtentReportManager.test;
         private WebElement docsUploadBackCTA;
         @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[5]/android.widget.EditText\n")
         private WebElement transitCode;
+        @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"I agree to the roles, responsibilities, and timelines governing the transaction.\"]/android.view.ViewGroup")
+        private WebElement redioButton;
+
 
         public void docsUploadBackCTA() throws InterruptedException {
             TakeSnap.captureScreenshot();
@@ -1174,7 +1165,29 @@ import static extentReport.ExtentReportManager.test;
             TakeSnap.captureScreenshot();
             Thread.sleep(1000);
         }
+        public void scrollPage() throws InterruptedException {
+            Thread.sleep(2000);
+            redioButton.click();
+            System.out.println("✅ Radio button clicked successfully!");
+        }
+        public void swipeVertical() {
+            int screenHeight = driver.manage().window().getSize().getHeight();
+            int screenWidth = driver.manage().window().getSize().getWidth();
 
+            int startX = screenWidth / 2;
+            int startY = (int) (screenHeight * 0.8);
+            int endY = (int) (screenHeight * 0.3);
+
+            TouchAction action = new TouchAction((PerformsTouchActions) driver);
+            action
+                    .press(PointOption.point(startX, startY))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+                    .moveTo(PointOption.point(startX, endY))
+                    .release()
+                    .perform();
+
+            System.out.println("✅ Page scrolled successfully");
+        }
 
         public void proceedToPayment() throws InterruptedException {
             TakeSnap.captureScreenshot();
