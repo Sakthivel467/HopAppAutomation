@@ -1,6 +1,7 @@
 package Pages;
 
 import com.aventstack.extentreports.Status;
+import com.google.common.collect.ImmutableMap;
 import extentReport.Constants;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -12,6 +13,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import Utils.CommonFunctions;
 import Utils.TakeSnap;
@@ -403,7 +406,7 @@ public class KycPage {
 //        TakeSnap.captureScreenshot();
     }
 
-    public void uploadRandomImage() throws IOException, InterruptedException{
+    public void uploadRandomImage() throws IOException, InterruptedException {
         // Set implicit wait
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         TakeSnap.captureScreenshot();
@@ -452,21 +455,22 @@ public class KycPage {
 //        TakeSnap.captureScreenshot();
 
 
-    public void submitButton(){
+    public void submitButton() {
         submitButton.click();
     }
 
-    public void confirmPanDetails(){
+    public void confirmPanDetails() {
         Assert.assertTrue(panVerificationLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+panVerificationLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + panVerificationLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(confirmPanDetails.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+confirmPanDetails.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + confirmPanDetails.getText() + "' is displayed correctly");
 
-        Assert.assertEquals(panNoTextbox.getText(),"IXQPS1780A");
-        test.get().log(Status.PASS,"Info: '"+panNoTextbox.getText()+"' is displayed correctly");
+        Assert.assertEquals(panNoTextbox.getText(), "IXQPS1780A");
+        test.get().log(Status.PASS, "Info: '" + panNoTextbox.getText() + "' is displayed correctly");
         TakeSnap.captureScreenshot();
     }
+
     public void editPanDetails() throws InterruptedException {
         // Click the edit button
         editDetailsButton.click();
@@ -493,24 +497,26 @@ public class KycPage {
         panConfirm.click();
     }
 
-    public void documentVerificationSuccess(){
+    public void documentVerificationSuccess() {
         comFun.wait(documentVerifiedLabel);
 
         Assert.assertTrue(documentVerifiedLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+documentVerifiedLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + documentVerifiedLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(successLabelDescription.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+successLabelDescription.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + successLabelDescription.getText() + "' is displayed correctly");
         TakeSnap.captureScreenshot();
     }
 
-    public void setYesItsMeButton(){
+    public void setYesItsMeButton() {
         yesItsMeButton.click();
-        test.get().log(Status.PASS,"User clicked on Yes, It's me Button");
+        test.get().log(Status.PASS, "User clicked on Yes, It's me Button");
     }
-    public void clickSecDos(){
+
+    public void clickSecDos() {
         clickSec.click();
     }
+
     public void selectKycDocumentType(String docType) throws InterruptedException {
         switch (docType.toLowerCase()) {
             case "driving license":
@@ -527,71 +533,73 @@ public class KycPage {
     }
 
 
-    public void PassPort() throws InterruptedException{
+    public void PassPort() throws InterruptedException {
         Thread.sleep(2000);
         passPort.click();
     }
-    public void FrontImageUploadClick() throws InterruptedException{
+
+    public void FrontImageUploadClick() throws InterruptedException {
         Thread.sleep(2000);
         passPortFD.click();
     }
-    public void BackImageUploadClick() throws InterruptedException{
+
+    public void BackImageUploadClick() throws InterruptedException {
         Thread.sleep(2000);
         passPortBD.click();
     }
 
     public void verifyLabelAndLogoSecondaryDoc() {
         Assert.assertTrue(selectAddressProofLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+selectAddressProofLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + selectAddressProofLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(aadhaarLogo.isDisplayed());
         Assert.assertTrue(aadhaarLabel.isDisplayed());
         Assert.assertTrue(aadhaarArrow.isDisplayed());
-        test.get().log(Status.PASS,"Info: Aadhaar Logo, Label and Arrow is displayed correctly");
+        test.get().log(Status.PASS, "Info: Aadhaar Logo, Label and Arrow is displayed correctly");
 
         Assert.assertTrue(passportLogo.isDisplayed());
         Assert.assertTrue(passportLabel.isDisplayed());
         Assert.assertTrue(passportArrow.isDisplayed());
-        test.get().log(Status.PASS,"Info: Indian Passport Logo, Label and Arrow is displayed correctly");
+        test.get().log(Status.PASS, "Info: Indian Passport Logo, Label and Arrow is displayed correctly");
 
         Assert.assertTrue(driverLicenseLogo.isDisplayed());
         Assert.assertTrue(driverLicenseLabel.isDisplayed());
         Assert.assertTrue(driverLicenseArrow.isDisplayed());
-        test.get().log(Status.PASS,"Info: Driver License Logo, Label and Arrow is displayed correctly");
+        test.get().log(Status.PASS, "Info: Driver License Logo, Label and Arrow is displayed correctly");
 
         Assert.assertTrue(voterLogo.isDisplayed());
         Assert.assertTrue(voterLabel.isDisplayed());
         Assert.assertTrue(voterArrow.isDisplayed());
-        test.get().log(Status.PASS,"Info: Voter Id Logo, Label and Arrow is displayed correctly");
+        test.get().log(Status.PASS, "Info: Voter Id Logo, Label and Arrow is displayed correctly");
         TakeSnap.captureScreenshot();
     }
 
-    public void uploadAadhaarBanner(){
+    public void uploadAadhaarBanner() {
         TakeSnap.captureScreenshot();
         aadhaarLabel.click();
 
         comFun.wait(aadhaarDescriptionLabel);
         TakeSnap.captureScreenshot();
         Assert.assertTrue(uploadAadhaarLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+uploadAadhaarLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + uploadAadhaarLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(aadhaarDescriptionLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+aadhaarDescriptionLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + aadhaarDescriptionLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(aadhaarBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Aadhaar Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Aadhaar Banner is displayed correctly");
 
         Assert.assertTrue(aadhaarFirstLabelBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Aadhaar First Label Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Aadhaar First Label Banner is displayed correctly");
 
         Assert.assertTrue(aadhaarFirstLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+aadhaarFirstLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + aadhaarFirstLabel.getText() + "' is displayed correctly");
 
         Assert.assertTrue(aadhaarSecondLabelBanner.isDisplayed());
-        test.get().log(Status.PASS,"Info: Aadhaar Second Label Banner is displayed correctly");
+        test.get().log(Status.PASS, "Info: Aadhaar Second Label Banner is displayed correctly");
 
         Assert.assertTrue(aadhaarSecondLabel.isDisplayed());
-        test.get().log(Status.PASS,"Label: '"+aadhaarSecondLabel.getText()+"' is displayed correctly");
+        test.get().log(Status.PASS, "Label: '" + aadhaarSecondLabel.getText() + "' is displayed correctly");
     }
 
     public void uploadFrontAadhaar() throws IOException {
@@ -668,6 +676,7 @@ public class KycPage {
 //        test.get().log(Status.PASS, "Label: Aadhaar Back Side Uploaded Successfully");
 //        TakeSnap.captureScreenshot();
     }
+
     public void uploadBackAadhaar() throws IOException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         TakeSnap.captureScreenshot();
@@ -738,6 +747,7 @@ public class KycPage {
         panConfirm.click();
         TakeSnap.captureScreenshot();
     }
+
     public void uploadFrontVoterId() throws IOException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         TakeSnap.captureScreenshot();
@@ -758,26 +768,27 @@ public class KycPage {
         // Open file picker in app
         uploadPanCardOption.click();
     }
+
     public void uploadBackLicenseId() throws IOException {
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            TakeSnap.captureScreenshot();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        TakeSnap.captureScreenshot();
 
-            // Load passport.jpg from resources (classpath-safe)
-            URL resource = getClass().getClassLoader().getResource("SupriyaDLFront.jpg");
-            if (resource == null) {
-                throw new FileNotFoundException("SupriyaDLFront.jpg not found in resources!");
-            }
-            File file = new File(resource.getFile());
-
-            // Push file to Android device (simulator or real device)
-            if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
-                AndroidDriver driver1 = (AndroidDriver) driver;
-                driver1.pushFile("/sdcard/Download/SupriyaDLFront.jpg", file);
-            }
-
-            // Open file picker in app
-            uploadPanCardOption.click();
+        // Load passport.jpg from resources (classpath-safe)
+        URL resource = getClass().getClassLoader().getResource("SupriyaDLFront.jpg");
+        if (resource == null) {
+            throw new FileNotFoundException("SupriyaDLFront.jpg not found in resources!");
         }
+        File file = new File(resource.getFile());
+
+        // Push file to Android device (simulator or real device)
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("Android")) {
+            AndroidDriver driver1 = (AndroidDriver) driver;
+            driver1.pushFile("/sdcard/Download/SupriyaDLFront.jpg", file);
+        }
+
+        // Open file picker in app
+        uploadPanCardOption.click();
+    }
 
     public void uploadFrontLicenseId() throws IOException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -834,7 +845,7 @@ public class KycPage {
         TakeSnap.captureScreenshot();
 
         submitPhotoButton.click();
-        test.get().log(Status.INFO,"Info: User clicked on Submit photo button");
+        test.get().log(Status.INFO, "Info: User clicked on Submit photo button");
         comFun.wait(frontSideUploaded);
         TakeSnap.captureScreenshot();
         test.get().log(Status.INFO,"Info: User is able to view Back side of the Uploaded Aadhaar");

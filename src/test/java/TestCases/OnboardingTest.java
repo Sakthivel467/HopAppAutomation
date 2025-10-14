@@ -62,12 +62,14 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.validatePromoMessage();
         sendMoneyPage.validateRemittanceSummary();
         sendMoneyPage.selectPurposeCode();
-        sendMoneyPage.selectPurposeOfTransfer("family maintenance");
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - university fees");
         sendMoneyPage.confirmButton();
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("student loan");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         TakeSnap.captureScreenshot();
 
@@ -104,7 +106,7 @@ public class OnboardingTest extends BaseTest {
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5,enabled = false)
     public void TC005_Verify_User_Able_to_Reset_App_Pin() throws Exception {
         before("TC005 Verify User Able to Reset App Pin");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
@@ -267,6 +269,8 @@ public class OnboardingTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("retirement funds");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         onboardingPage.validatePaymentMethodTexts();

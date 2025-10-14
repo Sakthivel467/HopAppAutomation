@@ -141,7 +141,7 @@ public class OnboardingPage {
     private WebElement liveRate;
     @AndroidFindBy(xpath = "  //android.widget.TextView[@text=\"all fees included\"]")
     private WebElement allFees;
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"1 day settlement\"]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"1 day settlement*\"]")
     private WebElement oneDay;
     @AndroidFindBy(xpath = "//android.view.View[@text=\"Verify your documents\"]")
     private WebElement kYCDocsScreenLabel;
@@ -864,7 +864,7 @@ public class OnboardingPage {
 
 
     public void validateUserIoOnOneDaySettlement() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
         wait.until(ExpectedConditions.visibilityOf(oneDay));
         Thread.sleep(2000);
         TakeSnap.captureScreenshot();

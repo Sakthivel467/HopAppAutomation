@@ -263,6 +263,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("salary or wages");
         sendMoneyPage.applyCouponCode("ASHISH500");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.transactionScreen();
         onboardingPage.clickBackButton();
@@ -357,6 +359,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.warningContinue();
         sendMoneyPage.applyCouponCode("ASHISH500");
         sendMoneyPage.selectSourceOfFunds("salary or wages");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.transactionScreen();
         TakeSnap.captureScreenshot();
@@ -387,6 +391,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.warningContinue();
         sendMoneyPage.applyCouponCode("ASHISH500");
         sendMoneyPage.selectSourceOfFunds("salary or wages");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.transactionScreen();
         TakeSnap.captureScreenshot();
@@ -420,6 +426,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.warningContinue();
         sendMoneyPage.redeemHopCoins("200");
         sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.transactionScreen();
         TakeSnap.captureScreenshot();
@@ -456,6 +464,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -493,6 +502,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.netBanks();
@@ -529,6 +540,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.warningContinue();
         sendMoneyPage.applyCouponCode("ASHISH500");
         sendMoneyPage.selectSourceOfFunds("salary or wages");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.transactionScreen();
         TakeSnap.captureScreenshot();
@@ -562,6 +575,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -598,6 +612,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -635,6 +650,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -669,6 +685,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.validateNetRemittance();
         sendMoneyPage.setSendMoneyButton();
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
@@ -706,6 +724,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.clickFirstAvailableRecipient();
         sendMoneyPage.warningContinue();
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.validateBankStatement();
@@ -747,6 +766,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.enterRecipientDetailsAndContinue("Subbu","62TestingAddress","M5V3L9","Toronto","Canada","2562782788","testing@gmail.co");
         sendMoneyPage.enterRecipientBankDetailsAndContinue("CIBCCATT","12341234","12341234","1234");
         sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.validateDocs();
@@ -788,6 +809,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.enterRecipientDetailsAndContinue("Subbu","62TestingAddress","M5V3L9","Toronto","Canada","2562782788","testing@gmail.co");
         sendMoneyPage.enterRecipientBankDetailsAndContinue("SBININBB123","12341234","12341234","1234");
         sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.docsUploadBackCTA();
@@ -826,6 +849,8 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.enterRecipientDetailsAndContinue("Hardik","62TestingAddress","A5V3U9","Toronto","Australiya","2562782788","testing@gmail.co");
         sendMoneyPage.enterRecipientBankDetailsAndContinue("SBININBB123","12341234","12341234","1234");
         sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.docsUploadBackCTA();
@@ -866,6 +891,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.enterRecipientDetailsAndContinue("Hardik","62TestingAddress","A5V3U9","Toronto","Australiya","2562782788","testing@gmail.co");
         sendMoneyPage.enterRecipientBankDetailsAndContinue("SBININBB123","12341234","12341234","1234");
         sendMoneyPage.selectSourceOfFunds("investments");
+        sendMoneyPage.scrollPage();
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.docsUploadBackCTA();
