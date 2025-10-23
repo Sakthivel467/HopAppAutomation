@@ -132,7 +132,6 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("1500000");
         sendMoneyPage.validateNetRemittance();
-        sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd2BankAndConvenienceFee();
         sendMoneyPage.validateTotalFeesDynamically();
     }
@@ -156,7 +155,6 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
         sendMoneyPage.validateNetRemittance();
-        sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd1BankAndConvenienceFee();
         sendMoneyPage.validateTotalFeesDynamically();
     }
@@ -181,7 +179,6 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.confirmButton();
         sendMoneyPage.inrCurrencyTextBox("1100000");
         sendMoneyPage.validateNetRemittance();
-        sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd2BankAndConvenienceFee();
         sendMoneyPage.validateTotalFeesDynamically();
     }
@@ -291,7 +288,6 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectCurrencyByName("aed");
         sendMoneyPage.fcyCurrencyTextBox("20000.45");
         sendMoneyPage.validateNetRemittance();
-        sendMoneyPage.expandTaxAndTransferFee();
         sendMoneyPage.validateAd1BankAndConvenienceFee();
         sendMoneyPage.validateTotalFeesDynamically();
         TakeSnap.captureScreenshot();
@@ -895,6 +891,48 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.proceedToPayment();
         sendMoneyPage.uploadDocs();
         sendMoneyPage.docsUploadBackCTA();
+        sendMoneyPage.completePayment();
+        sendMoneyPage.selectPaymentMethod("neft");
+        sendMoneyPage.validateBankDetailsAndClickContinue();
+        sendMoneyPage.transactionScreen();
+        onboardingPage.clickBackButton();
+        TakeSnap.captureScreenshot();
+
+    }
+
+    @Test(priority = 41)
+    public void TC041_Create_a_End_to_End_International_Remittance_Transaction_with_the_Purpose_of_Overseas_Education_Living_Expenses_Recipient_flow_Payment_Method_Neft() throws Exception {
+        before("TC035 - Create a End to End International Remittance Transaction with the Purpose of \"overseas education - living expenses\" Payment Method Neft for Old user Recipient_flow");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("8886663330");
+        onboardingPage.enterIncorrectEmailId("sakthivel+330@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        sendMoneyPage.clickRecipientSvgIcon();
+        sendMoneyPage.addNewRecipient();
+        sendMoneyPage.selectRecipientType("institution");
+        sendMoneyPage.enterRecipientDetailsAndContinue("Subbu","62TestingAddress","A5V3U9","Toronto","Australiya","2562782788","testing@gmail.co");
+        sendMoneyPage.enterRecipientBankDetailsAndContinue("SBININBB123","12341234","12341234","1234");
+        sendMoneyPage.clickFirstAvailableRecipient();
+        sendMoneyPage.recipientSendMoneyButton();
+        sendMoneyPage.selectPurposeCode();
+        sendMoneyPage.selectPurposeOfTransfer("overseas education - living expenses");
+        sendMoneyPage.confirmButton();
+        sendMoneyPage.inrCurrencyTextBox("150000");
+        onboardingPage.validatePromoMessage();
+        sendMoneyPage.validateNetRemittance();
+        sendMoneyPage.setSendMoneyButton();
+        sendMoneyPage.selectSourceOfFunds("personal savings");
+        sendMoneyPage.swipeVertical();
+        sendMoneyPage.scrollPage();
+        sendMoneyPage.proceedToPayment();
         sendMoneyPage.completePayment();
         sendMoneyPage.selectPaymentMethod("neft");
         sendMoneyPage.validateBankDetailsAndClickContinue();

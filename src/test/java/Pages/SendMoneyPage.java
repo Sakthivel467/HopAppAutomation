@@ -1186,7 +1186,7 @@ import static extentReport.ExtentReportManager.test;
                     .release()
                     .perform();
 
-            System.out.println("✅ Page scrolled successfully");
+            System.out.println(" Page scrolled successfully");
         }
 
         public void proceedToPayment() throws InterruptedException {
@@ -1681,16 +1681,26 @@ import static extentReport.ExtentReportManager.test;
         public void validateAd2BankAndConvenienceFee() {
             try {
                 TakeSnap.captureScreenshot();
-                // Step 1: Get the entered amount and fees from UI
-                String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
+                // Step 1: Get and store entered amount (You Send) **before clicking anything**
+                String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText()); // Save once
+                double youSendAmount = Double.parseDouble(youSendAmountText);
+
+                // Log saved amount for reference
+                test.get().log(Status.INFO, "You Send Amount (Saved): " + youSendAmount);
+
+                // Step 2: Click to expand Tax and Transfer Fee section
+                Thread.sleep(1000);
+                taxAndTransferFee.click();
+
+                // Step 3: Get Bank Fee and Convenience Fee text after expanding
                 String bankFeeText = bankFerFeeAmount.getText(); // e.g., "1,250 INR"
                 String conFeeText = convenienceFeeAmount.getText(); // e.g., "350 INR"
 
-                double youSendAmount = Double.parseDouble(youSendAmountText);
+                // Convert to numeric (remove commas and currency like INR)
                 double actualBankFee = Double.parseDouble(cleanFeeText(bankFeeText));
-                double actualConFee = Double.parseDouble(cleanFeeText(conFeeText));
+                double actualConFee  = Double.parseDouble(cleanFeeText(conFeeText));
 
-                // Step 2: Calculate expected Bank Fee
+                // Step 4: Calculate Expected Bank Fee using stored value
                 double expectedBankFee = 0;
                 if (youSendAmount <= 79999) {
                     expectedBankFee = 750;
@@ -1706,7 +1716,7 @@ import static extentReport.ExtentReportManager.test;
                     expectedBankFee = 1500;
                 }
 
-                // Step 3: Calculate expected Convenience Fee
+                // Step 5: Calculate Expected Convenience Fee using stored value
                 double expectedConFee = 0;
                 if (youSendAmount <= 79999) {
                     expectedConFee = 0;
@@ -1721,27 +1731,30 @@ import static extentReport.ExtentReportManager.test;
                 } else if (youSendAmount <= 3000000) {
                     expectedConFee = 1250;
                 }
-                TakeSnap.captureScreenshot();
-                // Step 4: Validate both fees
+
+                // Step 6: Validate Bank Fee
                 if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
-                    test.get().log(Status.PASS, "Bank Fee validated successfully AD2: " + actualBankFee);
+                    test.get().log(Status.PASS, "Bank Fee validated successfully. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
                 } else {
                     test.get().log(Status.FAIL, "Bank Fee mismatch. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
                 }
 
+                // Step 7: Validate Convenience Fee
                 if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
-                    test.get().log(Status.PASS, "Convenience Fee validated successfully AD2: " + actualConFee);
+                    test.get().log(Status.PASS, "Convenience Fee validated successfully. Expected: " + expectedConFee + ", Actual: " + actualConFee);
                 } else {
                     test.get().log(Status.FAIL, "Convenience Fee mismatch. Expected: " + expectedConFee + ", Actual: " + actualConFee);
                 }
 
-                // Step 5: Capture screenshot
+                // Step 8: Capture final screenshot
                 TakeSnap.captureScreenshot();
+
             } catch (Exception e) {
                 test.get().log(Status.FAIL, "Error while validating fees: " + e.getMessage());
                 TakeSnap.captureScreenshot();
             }
         }
+
 
         // Utility Method to clean text like "1,250 INR" => "1250"
         public String cleanFeeText(String text) {
@@ -1749,64 +1762,47 @@ import static extentReport.ExtentReportManager.test;
         }
 
         public void validateAd1BankAndConvenienceFee() {
-                try {
+            try {
+                    // Step 1: Capture screenshot
                     TakeSnap.captureScreenshot();
 
-                    // Step 1: Get the entered amount and fees from UI
+                    // Step 2: Get and store entered amount (You Send) BEFORE clicking/expanding UI
                     String youSendAmountText = comFun.removeDelimiter(inrCurrencyTextbox.getText());
-                    String bankFeeText = bankFerFeeAmount.getText(); // e.g., "1,250 INR"
-                    String conFeeText = convenienceFeeAmount.getText(); // e.g., "350 INR"
-
                     double youSendAmount = Double.parseDouble(youSendAmountText);
+
+                    // Log saved amount
+                    test.get().log(Status.INFO, "You Send Amount (Saved): " + youSendAmount);
+
+                    // Step 3: Click to expand Tax and Transfer Fee section
+                    Thread.sleep(1000);
+                    taxAndTransferFee.click();
+
+                    // Step 4: Get actual Bank Fee and Convenience Fee after expanding
+                    String bankFeeText = bankFerFeeAmount.getText();        // e.g., "590 INR"
+                    String conFeeText = convenienceFeeAmount.getText();    // e.g., "0 INR"
+
                     double actualBankFee = Double.parseDouble(cleanFeeText(bankFeeText));
                     double actualConFee = Double.parseDouble(cleanFeeText(conFeeText));
 
-                    // Step 2: Calculate expected Bank Fee (same logic as AD2)
-                    double expectedBankFee = 0;
-                    if (youSendAmount <= 79999) {
-                        expectedBankFee = 590;
-                    } else if (youSendAmount <= 199999) {
-                        expectedBankFee = 590;
-                    } else if (youSendAmount <= 399999) {
-                        expectedBankFee = 590;
-                    } else if (youSendAmount <= 599999) {
-                        expectedBankFee = 590;
-                    } else if (youSendAmount <= 999999) {
-                        expectedBankFee = 590;
-                    } else if (youSendAmount <= 3000000) {
-                        expectedBankFee = 590;
-                    }
-
-                    // Step 3: Calculate expected Convenience Fee (same logic as AD2)
+                    // Step 5: Define expected Bank Fee and Convenience Fee for AD1
+                    double expectedBankFee = 590;
                     double expectedConFee = 0;
-                    if (youSendAmount <= 79999) {
-                        expectedConFee = 0;
-                    } else if (youSendAmount <= 199999) {
-                        expectedConFee = 0;
-                    } else if (youSendAmount <= 399999) {
-                        expectedConFee = 0;
-                    } else if (youSendAmount <= 599999) {
-                        expectedConFee = 0;
-                    } else if (youSendAmount <= 999999) {
-                        expectedConFee = 0;
-                    } else if (youSendAmount <= 3000000) {
-                        expectedConFee = 0;
-                    }
 
-                    // Step 4: Validate Bank Fee
+                    // Step 6: Validate Bank Fee
                     if (Math.abs(actualBankFee - expectedBankFee) <= 0.5) {
                         test.get().log(Status.PASS, "Bank Fee validated successfully for AD1: " + actualBankFee);
                     } else {
                         test.get().log(Status.FAIL, "Bank Fee mismatch for AD1. Expected: " + expectedBankFee + ", Actual: " + actualBankFee);
                     }
 
-                    // Step 5: Validate Convenience Fee
+                    // Step 7: Validate Convenience Fee
                     if (Math.abs(actualConFee - expectedConFee) <= 0.5) {
                         test.get().log(Status.PASS, "Convenience Fee validated successfully for AD1: " + actualConFee);
                     } else {
                         test.get().log(Status.FAIL, "Convenience Fee mismatch for AD1. Expected: " + expectedConFee + ", Actual: " + actualConFee);
                     }
 
+                    // Step 8: Capture final screenshot
                     TakeSnap.captureScreenshot();
 
                 } catch (Exception e) {
@@ -1814,7 +1810,6 @@ import static extentReport.ExtentReportManager.test;
                     TakeSnap.captureScreenshot();
                 }
             }
-
 
             public void validateIBRChangesOnTargetCurrencySelection(String fullCurrencyName, String expectedCurrencyCode) throws InterruptedException {
             // Step 1: Capture Initial IBR
@@ -2104,7 +2099,7 @@ import static extentReport.ExtentReportManager.test;
 
         public void validateNetRemittance() throws InterruptedException {
             try {
-                Thread.sleep(400);
+                Thread.sleep(3000);
                 TakeSnap.captureScreenshot();
 
                 // Extract INR Amount
