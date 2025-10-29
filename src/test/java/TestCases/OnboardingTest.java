@@ -106,7 +106,7 @@ public class OnboardingTest extends BaseTest {
         TakeSnap.captureScreenshot();
     }
 
-    @Test(priority = 5,enabled = false)
+    @Test(priority = 5)
     public void TC005_Verify_User_Able_to_Reset_App_Pin() throws Exception {
         before("TC005 Verify User Able to Reset App Pin");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
@@ -302,7 +302,7 @@ public class OnboardingTest extends BaseTest {
     }
 
 
-    @Test(priority = 40)
+    @Test(priority = 41)
     public void TC041_Validate_IBR_Rate_Target_Currency_Selection() throws Exception {
         before("TC0041-Validate IBR Rate Currency for the International Remittance");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
@@ -352,13 +352,56 @@ public class OnboardingTest extends BaseTest {
 
     }
 
-    @Test(priority =13,enabled = false)
-    public void TC0013_Validation_Logout_Flow() throws Exception {
-        before("TC013 - Validation Logout Flow");
+    @Test(priority =13)
+    public void TC0013_Validation_AppReset_Pin() throws Exception {
+        before("TC013 - Validation AppReset Pin Flow");
         if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
             onboardingPage.dismissButton();
         }
 
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7888333848");
+        onboardingPage.enterIncorrectEmailId("sakthivel+848@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.clickSettingButton();
+        sendMoneyPage.swipeVertical();
+        onboardingPage.appPinReset();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.enterConfirmPin("1234");
+        TakeSnap.captureScreenshot();
+        onboardingPage.settingPageValidation();
+
+    }
+
+    @Test(priority =43)
+    public void TC0043_Validation_Logout_Flow() throws Exception {
+        before("TC043 - Validation Logout Flow");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.validateLabelPhoneNoAndEmail();
+        onboardingPage.enterRandomPhoneNo();
+        onboardingPage.enterEmailId("testkyc");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validatePinLabel();
+        onboardingPage.enterPin("1234");
+        onboardingPage.validateConfirmPinLabel();
+        onboardingPage.enterConfirmPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.clickSettingButton();
+        sendMoneyPage.swipeVertical();
+        onboardingPage.clickLogout();
+        onboardingPage.selectLogoutConfirmation("yes");
+        TakeSnap.captureScreenshot();
         onboardingPage.getStarted();
         onboardingPage.enterPhoneNo("7773335550");
         onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
@@ -368,13 +411,30 @@ public class OnboardingTest extends BaseTest {
         onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
-        onboardingPage.clickSettingButton();
-        onboardingPage.clickLogout();
-        onboardingPage.selectLogoutConfirmation("no");
-        onboardingPage.clickLogout();
-        onboardingPage.selectLogoutConfirmation("yes");
-        TakeSnap.captureScreenshot();
+    }
 
+    @Test(priority =44)
+    public void TC0044_Validation_AppReset_Pin_Failure_Flow() throws Exception {
+        before("TC044 - Validation AppReset Pin Failure Flow");
+        if (Constants.PLATFORM_NAME.equalsIgnoreCase("ios")) {
+            onboardingPage.dismissButton();
+        }
+
+        onboardingPage.getStarted();
+        onboardingPage.enterPhoneNo("7888333848");
+        onboardingPage.enterIncorrectEmailId("sakthivel+848@moneyhop.co");
+        onboardingPage.continueButton();
+        onboardingPage.enterOtp("123456");
+        onboardingPage.validateEnterPinLabel();
+        onboardingPage.oldUserEnterPin("1234");
+        onboardingPage.skipGuide();
+        onboardingPage.validateUserIoOnSendMoneyScreen();
+        onboardingPage.clickSettingButton();
+        sendMoneyPage.swipeVertical();
+        onboardingPage.appPinReset();
+        onboardingPage.oldUserEnterPin("1232");
+        onboardingPage.enterConfirmPin("1234");
+        TakeSnap.captureScreenshot();
 
     }
 }
