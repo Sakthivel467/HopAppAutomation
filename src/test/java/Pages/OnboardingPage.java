@@ -236,6 +236,45 @@ public class OnboardingPage {
     private WebElement ibnVerifyButton;
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='RecipientAccount1_Continue_Button']")
     private WebElement ibaContinueButton;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Support\"]")
+    private WebElement supportButton;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Grievance Policy\"]")
+    private WebElement grievance;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"A customer can register a complaint via the respective channels and the details are provided in the escalation matrix below. When submitting a complaint, customers are generally required to provide their essential details to ensure efficient processing. The information typically includes their identification, contact details, and a description of the issue. This may involve their name, a relevant account or reference number, address, phone number, email, and specifics regarding the nature of the complaint. Additionally, details related to any associated partners may be required to facilitate resolution.\"]")
+    private WebElement grievancePolicyText;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Unobanc Private Limited\"]")
+    private WebElement grievancePolicyText1;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"REMIT X\"]")
+    private WebElement grievancePolicyText2;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"PRITHVI FOREX\"]")
+    private WebElement grievancePolicyText3;
+    @AndroidFindBy(xpath = "//com.horcrux.svg.PathView\n")
+    private WebElement backBtn;
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Browse FAQs\"]")
+    private WebElement browseFAQs;
+
+
+    public void settingPageValidation() throws InterruptedException {
+        Thread.sleep(1000);
+        supportButton.click();
+        TakeSnap.captureScreenshot();
+        Thread.sleep(1000);
+        grievance.click();
+        TakeSnap.captureScreenshot();
+        Assert.assertTrue(grievancePolicyText.isDisplayed());
+        test.get().log(Status.PASS, "grievancePolicyText : " + grievancePolicyText.getText());
+        Assert.assertTrue(grievancePolicyText1.isDisplayed());
+        test.get().log(Status.PASS, "grievancePolicyText : " + grievancePolicyText1.getText());
+        Assert.assertTrue(grievancePolicyText2.isDisplayed());
+        test.get().log(Status.PASS, "grievancePolicyText : " + grievancePolicyText2.getText());
+        Assert.assertTrue(grievancePolicyText3.isDisplayed());
+        test.get().log(Status.PASS, "grievancePolicyText : " + grievancePolicyText3.getText());
+        Thread.sleep(1000);
+        backBtn.click();
+        Thread.sleep(500);
+        browseFAQs.click();
+        TakeSnap.captureScreenshot();
+    }
 
 
     public void dismissButton() throws Exception {
@@ -401,6 +440,7 @@ public class OnboardingPage {
             throw e;
         }
     }
+
     public void enterOldEmailId(String email) {
         try {
             TakeSnap.captureScreenshot();
@@ -596,7 +636,8 @@ public class OnboardingPage {
 //            test.get().log(Status.PASS, "User clicked the Continue Button");
 //        }
     }
-    public void clickSettingButton()  {
+
+    public void clickSettingButton() {
         clickSettingButton.click();
     }
 
@@ -965,19 +1006,20 @@ public class OnboardingPage {
         tranBackButton.click();
     }
 
-    public void clickLogout() throws InterruptedException {
+    public void appPinReset() throws InterruptedException {
         // Click on the Logout button
         WebElement logoutButton = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Reset App Pin\"]"));
         logoutButton.click();
         // Wait for the confirmation modal
         Thread.sleep(1000); // Optional - better to use WebDriverWait if needed
     }
+
     public void selectLogoutConfirmation(String option) {
         switch (option.toLowerCase()) {
             case "yes":
             case "confirm":
             case "logout":
-                WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='Logout_Modal_Test_Yes']"));
+                WebElement yesBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_Yes\"]"));
                 yesBtn.click();
                 System.out.println("Logout confirmed.");
                 break;
@@ -985,7 +1027,7 @@ public class OnboardingPage {
             case "no":
             case "cancel":
             case "stay":
-                WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='Logout_Modal_Test_No']"));
+                WebElement noBtn = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Logout_Modal_Test_No\"]"));
                 noBtn.click();
                 System.out.println(" Logout cancelled.");
                 break;
@@ -1083,6 +1125,7 @@ public class OnboardingPage {
         Assert.assertTrue(text3.isDisplayed(), " NOSTRO charges text not displayed!");
         System.out.println(" Validated: " + text3.getText());
     }
+
     public void validatePaymentMethodTexts() {
         // 1. Validate UPI text
         String expectedText1 = "UPI";
@@ -1109,6 +1152,14 @@ public class OnboardingPage {
         System.out.println("Validated: " + text4.getText());
     }
 
+    public void clickLogout() throws InterruptedException {
+        // Click on the Logout button
+        WebElement logoutButton = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Logout\"]"));
+        logoutButton.click();
+        // Wait for the confirmation modal
+        Thread.sleep(1000); // Optional - better to use WebDriverWait if needed
+
+
+    }
 
 }
-

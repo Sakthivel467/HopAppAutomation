@@ -405,7 +405,7 @@ public class SendMoneyTest extends BaseTest {
         onboardingPage.enterIncorrectEmailId("sakthivel+550@moneyhop.co");
         onboardingPage.continueButton();
         onboardingPage.enterOtp("123456");
-        onboardingPage.oldUserEnterPin("1111");
+        onboardingPage.oldUserEnterPin("1234");
         onboardingPage.skipGuide();
         onboardingPage.validateUserIoOnSendMoneyScreen();
         sendMoneyPage.validateNetRemittance();
@@ -564,7 +564,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("family maintenance");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.fcyCurrencyTextBox("5890.59");
+        sendMoneyPage.fcyCurrencyTextBox("1890.59");
         onboardingPage.validatePromoMessage();
         sendMoneyPage.validateNetRemittance();
         sendMoneyPage.setSendMoneyButton();
@@ -639,7 +639,7 @@ public class SendMoneyTest extends BaseTest {
         sendMoneyPage.selectPurposeCode();
         sendMoneyPage.selectPurposeOfTransfer("personal gift or donation");
         sendMoneyPage.confirmButton();
-        sendMoneyPage.inrCurrencyTextBox("999000.88");
+        sendMoneyPage.inrCurrencyTextBox("100000.88");
         onboardingPage.validatePromoMessage();
         sendMoneyPage.validateNetRemittance();
         sendMoneyPage.setSendMoneyButton();
